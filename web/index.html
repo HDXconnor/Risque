@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+	<html ng-app="loginApp">
+		<head>
+
+			<!--
+			Capstone Project
+			Designed by: Group 1
+			Date: 28/07/2014
+			Filename: index.html
+			Supporting Files: style.css, 
+			-->
+
+			<title> group 1 capstone </title>
+			
+            <link rel="stylesheet" type="text/css" href="css/master.css" />
+            <link rel="stylesheet" type="text/css" href="css/style.css" />
+            
+            <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+            <script type="text/javascript" src="js/login.js"></script>
+        
+        </head>
+
+		<body>
+			
+            <h1> Group 1 Capstone </h1>
+            <div id="login-image"  ng-controller="loginController as login">
+                <div>
+                    <img src="images/login-title.gif" alt="login"/>
+                    <div id="login-box">
+				        <form id="login-form">
+                            <input type="text" class="input-type" name="username" placeholder="username or email">
+                            <input type="password" class="input-type" name="password" placeholder="password">
+                            <button id="google-button" type="button"> google+ </button>
+                            <button id="login-button" type="submit" ng-click="login.setUser()"> submit </button>
+                            <a href =gameFrame.html> Jump in </a>
+                        </form>
+                    </div>
+                </div>	
+            </div>
+		</body>

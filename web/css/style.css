@@ -1,0 +1,148 @@
+/*
+	Capstone Project
+	Designed by: Group 1
+	Date: 28/07/2014
+	Filename: style.css
+*/
+#frame
+{
+    width: 80%;
+    margin: 0 auto;
+}
+
+#left-bar, #map, #right-bar
+{
+    float: left;
+}
+
+#map
+{
+    width: 50%;
+    height: 50%;
+}
+
+#left-bar, #right-bar
+{
+    width: 25%;
+}
+
+.display-box
+{
+    background-color: #ddd;
+    margin-bottom: 10px;
+    padding: 5px;
+    min-height: 88px;
+}
+h3
+{
+    margin-bottom: 5px;
+    text-align: center;
+}
+.pretty-button
+{
+    width: 100%;
+    display: inline-block;
+    background-color: #ffffff;
+    border: none;
+}
+#attack1, #attack2, #attack3, #attackF
+{
+    background-color: #ff1e25;
+}
+body
+{
+    background-color: #999;
+}
+
+
+h1
+{
+    font-family: Garamond,serif;
+    font-weight: 200;
+    font-variant:normal;
+    text-align: center;
+}
+
+#login-image
+{
+    background-color: transparent;
+    width: 455px;
+    margin: 0 auto;
+}
+
+#login-box
+{
+    background-color: #fff;
+    margin:inherit;
+}
+
+#login-form
+{
+    text-align: center;
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.input-type
+{
+    width: 411px;
+    margin-top: 10px;
+}
+
+#create-game #join-game
+{
+    width: 135px;
+    display: block;
+    margin-top: 10px;
+    background-color: #afb3aa;
+    border: solid;
+}
+
+#google-button, #login-button, #facebook-button
+{
+    width: 135px;
+    display: inline-block;
+    margin-top: 10px;
+    background-color: transparent;
+    border: none;
+}
+
+#google-button
+{
+    background-color: #d34836;
+}
+
+#login-button
+{
+    background-color: #66FF33;
+}
+
+#facebook-button
+{
+    background-color: #3B5998;
+}
+
+#player0 {
+    color: #007AFF;
+}
+
+#player1 {
+    color: #FF3B30;
+}
+
+#player2 {
+    color: #87FC70;
+}
+
+#player3 {
+    color: #ff5400;
+}
+
+#player4 {
+    color: #4A4A4A  ;
+}
+
+#player5 {
+    color: #6f3ed6;
+}
