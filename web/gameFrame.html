@@ -8,23 +8,22 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 
-<body>
-<div id="frame">
+<body> <div id="frame">
 <h1><strong>Paleozoic Trans-Continental World Domination</strong></h1>
 <div id="left-bar" ng-controller="GameController as game" >
 
     <div id="player-state" class="display-box">
         <h3> Players </h3>
         <div>
-            <p id={{game.playerString}}{{player.PlayerOrder}} ng-repeat="player in game.playerList">{{player.DisplayName}}</p>
+            <p  ng-repeat="player in players">{{player.DisplayName}}</p>
         </div>
     </div>
 
     <div id="game-state" class="display-box">
         <h3> Current Info</h3>
-        <p>Current Player: {{game.currentPlayer}}</p>
-        <p>Current Phase: {{game.current.Phase}}</p>
-        <p ng-show = "game.current.Phase == 'Deploy'">Troops to Deploy: {{game.current.TroopsToDeploy}}</p>
+        <p>Current Player: {{currentPlayer}}</p>
+        <p>Current Phase: {{phase}}</p>
+        <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{game.current.TroopsToDeploy}}</p>
     </div>
 
     <button id="endphase" class="pretty-button" type="button" ng-click="game.endphase()"> End Phase</button>
@@ -35,7 +34,7 @@
 
 
 <div id="right-bar" ng-controller="MapController as mc">
-    <div ng-hide="mc.atkBoxes()">
+    <div ng-hide="atkBoxes()">
         <div id="attack-box" class="display-box">
             <h3>Attacking Country</h3>
         </div>
