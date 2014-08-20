@@ -2,20 +2,20 @@
 
     var app = angular.module("gameApp", []);
     var popUp = null;
-//    //allows popcontroller and mapcontroller to reference the same variable cause fuck this
-//    app.service("sharedProperties", function(){
-//        var popUp = false;
-//
-//        return{
-//            getPopup:function(){
-//                return popUp;
-//            },
-//            setPopup:function(value){
-//                popUp = value;
-//                console.log(value)
-//            }
-//        }
-//    })
+    //allows popcontroller and mapcontroller to reference the same variable cause fuck this
+    app.service("sharedProperties", function(){
+        var popUp = false;
+
+        return{
+            getPopup:function(){
+                return popUp;
+            },
+            setPopup:function(value){
+                popUp = value;
+                console.log(value)
+            }
+        }
+    })
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
         $http.get('test.json').success(function (data) {
@@ -70,16 +70,7 @@
         this.map = map;
         this.countries = mapList;
 
-        this.deployBoxes=function(){
-            if($scope.phase == "Deploy"){
-                return $scope.isHidden;
-            }
-            else {
-                return true;
-            }
-        }
-
-        $scope.atkBoxes = function(){
+        this.atkBoxes = function(){
             if ($scope.phase == "Attack") {
                 return $scope.isHidden;
             }
