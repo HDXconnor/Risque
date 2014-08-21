@@ -1,0 +1,17 @@
+21st August:
+
+To get which player owns a country:
+
+Before:
+Game->Board->Countries->PlayerOrder
+
+After:
+Game->Board->Countries->Owner
+
+To get the number of troops the current player has left to deploy:
+
+Before:
+Game->Gamestate->TroopsToDeploy
+
+After:
+Game->Players[Game->Gamestate->CurrentPlayer]->TroopsToDeploy
