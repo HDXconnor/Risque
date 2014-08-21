@@ -255,7 +255,7 @@
             }
         ],
         "GameState": {
-            "Phase": "CountryPick",
+            "Phase": "Setup",
             "CurrentPlayer": 0,
             "Turn": 0
         },
@@ -286,20 +286,6 @@
                 "PlayerOrder": 3,
                 "TroopsToDeploy": 0,
                 "DisplayName": "Johannes",
-                "PlayerImage": "image.jpg"
-            },
-            {
-                "PlayerID": "005",
-                "PlayerOrder": 4,
-                "TroopsToDeploy": 0,
-                "DisplayName": "Simeon",
-                "PlayerImage": "image.jpg"
-            },
-            {
-                "PlayerID": "006",
-                "PlayerOrder": 5,
-                "TroopsToDeploy": 0,
-                "DisplayName": "Tristan",
                 "PlayerImage": "image.jpg"
             }
         ]
