@@ -1,32 +1,40 @@
 (function () {
 
-    var app = angular.module("gameApp", []);
+    var app = angular.module("gameApp", []).config(function($httpProvider){
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    });
+    var evtSource = new EventSource("http://192.168.20.27:8080/Risque/GameServlet");
+
+
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
-        $http.get('test.json').success(function (data) {
-            $rootScope.data = data;
-            $rootScope.game = data.Game;
-            $rootScope.board = data.Game.Board;
-            $rootScope.gameState=data.Game.GameState;
-            $rootScope.players = data.Game.Players;
-            $rootScope.currentPlayer=data.Game.GameState.CurrentPlayer;
-            $rootScope.phase=data.Game.GameState.Phase;
-            angular.forEach($rootScope.board, function(index) {
+
+
+        evtSource.addEventListener("gamestate", function(e) {
+            var obj = JSON.parse(e.data);
+
+            $rootScope.data = obj;
+            $rootScope.game = obj.Game;
+            $rootScope.board = obj.Game.Board;
+            $rootScope.gameState = obj.Game.GameState;
+            $rootScope.players = obj.Game.Players;
+            $rootScope.currentPlayer = obj.Game.GameState.CurrentPlayer;
+            $rootScope.phase = obj.Game.GameState.Phase;
+            $rootScope.countryCount = obj.Game.Board.length;
+            angular.forEach($rootScope.board, function (index) {
                 countryOwner[index.Owner].push(mapList[index.CountryID]);
             });
             colour();
-        })
+        },false);
+//        $http.get('test.json').success(function (data) {
+//
+//        });
     }]);
+
+
     app.controller("GameController", ['$rootScope','$http', function ($rootScope, $http) {
-        var countryCount = 42;
         this.endphase = function() {
             // Deploy -> Attack -> Move
-            this.setupCountries = function(){
-                if(countryCount = 42){
-                    return countryCount;
-                }
-                countryCount = countryCount-1;
-                return countryCount;
-            }
+
 
             if ($rootScope.phase == "Setup"|| $rootScope.phase == "Deploy") $rootScope.phase = "Attack";
             else if ($rootScope.phase == "Attack") $rootScope.phase = "Move";
@@ -39,7 +47,7 @@
             }
         }
     }])
-    app.controller("MapController",["$rootScope", function($rootScope) {
+    app.controller("MapController",["$rootScope", '$http', function($rootScope, $http) {
         $rootScope.isHidden = false;
         $rootScope.countryID = "tom";
         $rootScope.playerOrder = "";
@@ -49,7 +57,14 @@
         $rootScope.playerName = "default";
         this.map = map;
         this.countries = mapList;
-
+        this.setupCountries = function(){
+            if($rootScope.countryCount = 42){
+                $rootScope.countryCount -=1;
+                return $rootScope.countryCount+1;
+            }
+            $rootScope.countryCount -=1;
+            return $rootScope.countryCount;
+        }
         this.atkBoxes = function(){
             if ($rootScope.phase == "Attack") {
                 console.log("HELLO" + $rootScope.phase);
@@ -76,8 +91,8 @@
             }
         }
         angular.forEach(mapList, function(index) {
+            $rootScope.thisCountryID = index.node.id;
             index[0].addEventListener("mouseover", function(){
-                $rootScope.thisCountryID = index.node.id;
                 angular.forEach($rootScope.board, function(index) {
                     if($rootScope.thisCountryID==index.CountryID){
                         $rootScope.countryName = index.CountryName;
@@ -100,6 +115,11 @@
 
             index[0].addEventListener("click", function() {
                 index.animate(defaultCountry, animationSpeed);
+                var temp = { "CountryClicked" : $rootScope.thisCountryID, "CurrentPlayer" : $rootScope.currentPlayer };
+                console.log(temp)
+                $http.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+                //console.log($http);
+                $http.post('http://192.168.20.27:8080/Risque/GameServlet', temp).success(function () {});
             }, true);
         });
 
