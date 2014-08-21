@@ -61,13 +61,14 @@ public class GameServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
-        //response.setContentType("text/event-stream"); // SSE
+        //response.setContentType("application/json");
+        response.setContentType("text/event-stream"); // SSE
+        response.setCharacterEncoding("UTF-8");
         
         response.setHeader("Access-Control-Allow-Origin", "*");
         try (PrintWriter out = response.getWriter()) {
-            out.print(game.getGameJSON());
-            //if (game.updated()) out.write("event: chat\ndata: " +game.getGameJSON() + "\n\n"); // SSE
+            //out.print(game.getGameJSON());
+            if (game.updated()) out.write("event: gamestate\ndata: " +game.getGameJSON() + "\n\n"); // SSE
         } catch (JSONException e) {
         }
     }
@@ -82,7 +83,9 @@ public class GameServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        System.out.println("hello");
+        
     }
 
     /**

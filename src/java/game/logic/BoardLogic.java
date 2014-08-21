@@ -12,7 +12,7 @@ import game.data.CountriesData;
  *
  * @author Simeon
  */
-public class CheckNeighbour {
+public class BoardLogic {
     
     public static boolean isNeighbour(String country1, String country2) {
         return CountriesData.neighboursMap.get(country1).contains(country2);
