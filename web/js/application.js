@@ -1,45 +1,23 @@
 (function () {
 
     var app = angular.module("gameApp", []);
-    var popUp = null;
-    //allows popcontroller and mapcontroller to reference the same variable cause fuck this
-    app.service("sharedProperties", function(){
-        var popUp = false;
-
-        return{
-            getPopup:function(){
-                return popUp;
-            },
-            setPopup:function(value){
-                popUp = value;
-                console.log(value)
-            }
-        }
-    })
-
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
         $http.get('test.json').success(function (data) {
-
-            JSONData.info = data;
-            JSONData.playerList = JSONData.info.Game.Players;
-
-            JSONData.current = JSONData.info.Game.Gamestate;
-            var playerLength = JSONData.playerList.length;
-            for (var playerLocation = 0; playerLocation < playerLength; playerLocation++)
-                if (JSONData.current.CurrentPlayer == JSONData.playerList[playerLocation].PlayerOrder) {
-                    JSONData.currentPlayer = JSONData.playerList[playerLocation].DisplayName;
-                }
-
-            JSONData.board = JSONData.info.Game.Board.Countries;
-            angular.forEach(JSONData.board, function(index) {
-                countryOwner["order" + index.PlayerOrder].push(mapList[index.CountryID]);
+            $rootScope.data = data;
+            $rootScope.game = data.Game;
+            $rootScope.board = data.Game.Board;
+            $rootScope.gameState=data.Game.GameState;
+            $rootScope.players = data.Game.Players;
+            $rootScope.currentPlayer=data.Game.GameState.CurrentPlayer;
+            $rootScope.phase=data.Game.GameState.Phase;
+            angular.forEach($rootScope.board, function(index) {
+                countryOwner[index.Owner].push(mapList[index.CountryID]);
             });
             colour();
-
         })
     }]);
 
-    app.controller("GameController", ['$http', function ($http) {
+    app.controller("GameController", ['$scope','$http', function ($scope,$http) {
 
         JSONData = this;
         JSONData.info = [];
@@ -51,40 +29,22 @@
 
         this.endphase = function() {
             // Deploy -> Attack -> Move
-            if (JSONData.current.Phase == "Deploy") JSONData.current.Phase = "Attack";
-            else if (JSONData.current.Phase == "Attack") JSONData.current.Phase = "Move";
-            else if (JSONData.current.Phase == "Move") {
-                moveTroops();
-                JSONData.current.Phase = "Deploy";
+            if ($scope.phase == "CountryPick"|| $scope.phase == "Deploy") $scope.phase = "Attack";
+            else if ($scope.phase == "Attack") $scope.phase = "Move";
+            else if ($scope.phase == "Move") {
+//                moveTroops();
+                $scope.phase = "Deploy";
                 // increment currentplayer, mod number of players
-                JSONData.current.CurrentPlayer = (JSONData.current.CurrentPlayer + 1) % JSONData.playerList.length;
-                JSONData.currentPlayer = JSONData.playerList[JSONData.current.CurrentPlayer].DisplayName;
+                $scope.currentPlayer = ($scope.currentPlayer + 1) % $scope.players.length;
+                $scope.currentPlayer = $scope.players[$scope.currentPlayer].PlayerOrder;
             }
         }
-
-        this.create = function () {
-            $http.get('test.json').success(function (data) {
-                JSONData.info = data;
-                JSONData.playerList = JSONData.info.Game.Players;
-                JSONData.current = JSONData.info.Game.Gamestate;
-                var playerLength = JSONData.playerList.length;
-                for (var playerLocation = 0; playerLocation < playerLength; playerLocation++)
-                    if (JSONData.current.CurrentPlayer == JSONData.playerList[playerLocation].PlayerOrder) {
-                        JSONData.currentPlayer = JSONData.playerList[playerLocation].DisplayName;}
-                JSONData.board = JSONData.info.Game.Board.Countries;
-                angular.forEach(JSONData.board, function(index) {
-                    countryOwner["order" + index.PlayerOrder].push(mapList[index.CountryID]);
-                });
-                colour();
-            })
-        }
-
     }])
 
 
-    app.controller("MapController",["$scope", function($scope, sharedProperties) {
+    app.controller("MapController",["$scope", function($scope) {
+        $scope.canClick=true;
         $scope.isHidden = false;
-
         $scope.countryID = "tom";
         $scope.playerOrder = "";
         $scope.troops = 0;
@@ -94,17 +54,8 @@
         this.map = map;
         this.countries = mapList;
 
-        this.deployBoxes=function(){
-            if(JSONData.current.Phase == "Deploy"){
-                return $scope.isHidden;
-            }
-            else {
-                return true;
-            }
-        }
-
         this.atkBoxes = function(){
-            if (JSONData.current.Phase == "Attack") {
+            if ($scope.phase == "Attack") {
                 return $scope.isHidden;
             }
             else {
@@ -112,7 +63,7 @@
             }
         }
         this.deployBoxes = function(){
-            if (JSONData.current.Phase == "Deploy") {
+            if ($scope.phase == "Deploy") {
                 return $scope.isHidden;
             }
             else {
@@ -120,87 +71,70 @@
             }
         }
         this.reinfBoxes = function(){
-            if (JSONData.current.Phase == "Move") {
+            if ($scope.phase == "Move") {
                 return $scope.isHidden;
             }
             else {
                 return true;
             }
         }
-
-        this.setPlayerAttacker=function(){
-        }
         angular.forEach(mapList, function(index) {
             index[0].addEventListener("mouseover", function(){
-//                    get countries default colour and keep it there
 
-                $scope.countryID = index.node.id;
-                angular.forEach(JSONData.info.Game.Board.Countries, function(index) {
-                    if($scope.countryID==index.CountryID){
-                        $scope.countryName = index.CountryName;
-                        $scope.playerOrder = index.PlayerOrder;
-                        $scope.troops = index.Troops;
-                        angular.forEach(JSONData.playerList, function(player) {
-                            if ($scope.playerOrder == player.PlayerOrder) {
-                                $scope.playerName = player.DisplayName;
-                            }
-                        });
-                    }
-
-                });
-                colour();
-            }, true);
+//                $scope.countryID = index.node.id;
+//                angular.forEach(JSONData.info.Game.Board.Countries, function(index) {
+//                    if($scope.countryID==index.CountryID){
+//                        $scope.countryName = index.CountryName;
+//                        $scope.playerOrder = index.PlayerOrder;
+//                        $scope.troops = index.Troops;
+//                        angular.forEach(JSONData.playerList, function(player) {
+//                            if ($scope.playerOrder == player.PlayerOrder) {
+//                                $scope.playerName = player.DisplayName;
+//                            }
+//                        });
+//                    }
+//
+//                });
+//                colour();
+            }
+                , true);
 
             index[0].addEventListener("mouseout", function(){
                 index.animate(4, animationSpeed);
             }, true);
 
-            index[0].addEventListener("click", function(){
-                $scope.countryID = index.node.id;
+            index[0].addEventListener("click", function() {
                 index.animate(defaultCountry, animationSpeed);
             }, true);
         });
 
     }]);
 
-
-    function findCountry(id) {
-        for (index in countryOwner) {
-            //if (countryOwner[index][0].node.id == id)
-
-            if (countryOwner[index].length > 0) {
-                if (countryOwner[index][0].node.id == id) return countryOwner[index];
-            }
-
-        }
-
-    }
-
-
     function colour() {
         for (index in countryOwner) {
 
-            //if (countryOwner[index].length > 0) console.log(countryOwner[index][0].node.id);
-
             angular.forEach(countryOwner[index], function (shape) {
 
-                if (index == "order0") {
+                if (index == "0") {
                     shape.attr(blueCountry);
                 }
-                if (index == "order1") {
+                if (index == "1") {
                     shape.attr(redCountry);
                 }
-                if (index == "order2") {
+                if (index == "2") {
                     shape.attr(greenCountry);
                 }
-                if (index == "order3") {
+                if (index == "3") {
                     shape.attr(yellowCountry);
                 }
-                if (index == "order4") {
+                if (index == "4") {
                     shape.attr(pinkCountry);
                 }
-                if (index == "order5") {
+                if (index == "5") {
                     shape.attr(brownCountry);
+                }
+                if(index == "-1"){
+                    shape.attr(blackCountry);
                 }
             });
         };
@@ -227,12 +161,13 @@
 
     var JSONData = [];
     var countryOwner = [];
-    countryOwner["order0"] = [];
-    countryOwner["order1"] = [];
-    countryOwner["order2"] = [];
-    countryOwner["order3"] = [];
-    countryOwner["order4"] = [];
-    countryOwner["order5"] = [];
+    countryOwner["-1"] = [];
+    countryOwner["0"] = [];
+    countryOwner["1"] = [];
+    countryOwner["2"] = [];
+    countryOwner["3"] = [];
+    countryOwner["4"] = [];
+    countryOwner["5"] = [];
 
     var MapWidth = 900;
     var MapHeight = 900;
@@ -246,6 +181,13 @@
         cursor: "pointer"
     };
 
+    var blackCountry = {
+        fill: "black",
+        stroke: "#aaa",
+        "stroke-width": 1,
+        "stroke-linejoin": "round",
+        cursor: "pointer"
+    };
 
     var redCountry = {
         fill: "#FF3B30",
