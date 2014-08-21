@@ -1,22 +1,6 @@
 (function () {
 
     var app = angular.module("gameApp", []);
-    var popUp = null;
-    //allows popcontroller and mapcontroller to reference the same variable cause fuck this
-    app.service("sharedProperties", function(){
-        var popUp = false;
-
-        return{
-            getPopup:function(){
-                return popUp;
-            },
-            setPopup:function(value){
-                popUp = value;
-                console.log(value)
-            }
-        }
-    })
-
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
         $http.get('test.json').success(function (data) {
             $rootScope.data = data;
