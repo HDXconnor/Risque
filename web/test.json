@@ -4,37 +4,37 @@
             {
                 "CountryID": "AS11",
                 "Troops": 0,
-                "Owner": -1,
+                "Owner": 0,
                 "CountryName": "India"
             },
             {
                 "CountryID": "AS10",
                 "Troops": 0,
-                "Owner": -1,
+                "Owner": 1,
                 "CountryName": "Middle East"
             },
             {
                 "CountryID": "NA01",
                 "Troops": 0,
-                "Owner": -1,
+                "Owner": 2,
                 "CountryName": "Alaska"
             },
             {
                 "CountryID": "EU01",
                 "Troops": 0,
-                "Owner": -1,
+                "Owner": 3,
                 "CountryName": "Ukraine"
             },
             {
                 "CountryID": "NA02",
                 "Troops": 0,
-                "Owner": -1,
+                "Owner": 4,
                 "CountryName": "Northwest Territory"
             },
             {
                 "CountryID": "EU02",
                 "Troops": 0,
-                "Owner": -1,
+                "Owner": 5,
                 "CountryName": "Northern Europe"
             },
             {
@@ -51,8 +51,8 @@
             },
             {
                 "CountryID": "NA04",
-                "Troops": 0,
-                "Owner": -1,
+                "Troops": 8,
+                "Owner": 5,
                 "CountryName": "Quebec"
             },
             {
@@ -255,11 +255,18 @@
             }
         ],
         "GameState": {
-            "Phase": "CountryPick",
+            "Phase": "Setup",
             "CurrentPlayer": 0,
             "Turn": 0
         },
         "Players": [
+            {
+                "PlayerID": "000",
+                "PlayerOrder": -1,
+                "TroopsToDeploy": 0,
+                "DisplayName": "Whatever",
+                "PlayerImage": "image.jpg"
+            },
             {
                 "PlayerID": "001",
                 "PlayerOrder": 0,
@@ -286,20 +293,6 @@
                 "PlayerOrder": 3,
                 "TroopsToDeploy": 0,
                 "DisplayName": "Johannes",
-                "PlayerImage": "image.jpg"
-            },
-            {
-                "PlayerID": "005",
-                "PlayerOrder": 4,
-                "TroopsToDeploy": 0,
-                "DisplayName": "Simeon",
-                "PlayerImage": "image.jpg"
-            },
-            {
-                "PlayerID": "006",
-                "PlayerOrder": 5,
-                "TroopsToDeploy": 0,
-                "DisplayName": "Tristan",
                 "PlayerImage": "image.jpg"
             }
         ]

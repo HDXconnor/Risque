@@ -16,63 +16,60 @@
             colour();
         })
     }]);
-
-    app.controller("GameController", ['$scope','$http', function ($scope,$http) {
-
-        JSONData = this;
-        JSONData.info = [];
-        JSONData.playerList = [];
-        JSONData.current = [];
-        JSONData.board = [];
-
-        this.playerString = "player";
-
+    app.controller("GameController", ['$rootScope','$http', function ($rootScope, $http) {
+        var countryCount = 42;
         this.endphase = function() {
             // Deploy -> Attack -> Move
-            if ($scope.phase == "CountryPick"|| $scope.phase == "Deploy") $scope.phase = "Attack";
-            else if ($scope.phase == "Attack") $scope.phase = "Move";
-            else if ($scope.phase == "Move") {
+            this.setupCountries = function(){
+                if(countryCount = 42){
+                    return countryCount;
+                }
+                countryCount = countryCount-1;
+                return countryCount;
+            }
+
+            if ($rootScope.phase == "Setup"|| $rootScope.phase == "Deploy") $rootScope.phase = "Attack";
+            else if ($rootScope.phase == "Attack") $rootScope.phase = "Move";
+            else if ($rootScope.phase == "Move") {
 //                moveTroops();
-                $scope.phase = "Deploy";
+                $rootScope.phase = "Deploy";
                 // increment currentplayer, mod number of players
-                $scope.currentPlayer = ($scope.currentPlayer + 1) % $scope.players.length;
-                $scope.currentPlayer = $scope.players[$scope.currentPlayer].PlayerOrder;
+                $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
+                $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
             }
         }
     }])
-
-
-    app.controller("MapController",["$scope", function($scope) {
-        $scope.canClick=true;
-        $scope.isHidden = false;
-        $scope.countryID = "tom";
-        $scope.playerOrder = "";
-        $scope.troops = 0;
-        $scope.countryName = "default";
-        $scope.playerOrder = "nothing";
-        $scope.playerName = "default";
+    app.controller("MapController",["$rootScope", function($rootScope) {
+        $rootScope.isHidden = false;
+        $rootScope.countryID = "tom";
+        $rootScope.playerOrder = "";
+        $rootScope.troops = 0;
+        $rootScope.countryName = "default";
+        $rootScope.playerOrder = "nothing";
+        $rootScope.playerName = "default";
         this.map = map;
         this.countries = mapList;
 
         this.atkBoxes = function(){
-            if ($scope.phase == "Attack") {
-                return $scope.isHidden;
+            if ($rootScope.phase == "Attack") {
+                console.log("HELLO" + $rootScope.phase);
+                return $rootScope.isHidden;
             }
             else {
                 return true;
             }
         }
         this.deployBoxes = function(){
-            if ($scope.phase == "Deploy") {
-                return $scope.isHidden;
+            if ($rootScope.phase == "Deploy") {
+                return $rootScope.isHidden;
             }
             else {
                 return true;
             }
         }
         this.reinfBoxes = function(){
-            if ($scope.phase == "Move") {
-                return $scope.isHidden;
+            if ($rootScope.phase == "Move") {
+                return $rootScope.isHidden;
             }
             else {
                 return true;
@@ -80,22 +77,20 @@
         }
         angular.forEach(mapList, function(index) {
             index[0].addEventListener("mouseover", function(){
-
-//                $scope.countryID = index.node.id;
-//                angular.forEach(JSONData.info.Game.Board.Countries, function(index) {
-//                    if($scope.countryID==index.CountryID){
-//                        $scope.countryName = index.CountryName;
-//                        $scope.playerOrder = index.PlayerOrder;
-//                        $scope.troops = index.Troops;
-//                        angular.forEach(JSONData.playerList, function(player) {
-//                            if ($scope.playerOrder == player.PlayerOrder) {
-//                                $scope.playerName = player.DisplayName;
-//                            }
-//                        });
-//                    }
-//
-//                });
-//                colour();
+                $rootScope.thisCountryID = index.node.id;
+                angular.forEach($rootScope.board, function(index) {
+                    if($rootScope.thisCountryID==index.CountryID){
+                        $rootScope.countryName = index.CountryName;
+                        $rootScope.owner = index.Owner;
+                        $rootScope.troops = index.Troops;
+                    }
+                    angular.forEach($rootScope.players, function(player) {
+                        if ($rootScope.owner == player.PlayerOrder) {
+                            $rootScope.playerName = player.DisplayName;
+                        }
+                    });
+                });
+                colour();
             }
                 , true);
 
@@ -141,7 +136,7 @@
     }
 
     function moveTroops(troops, id1, id2) {
-        angular.forEach(JSONData.info.Game.Board.Countries, function(index) {
+        angular.forEach($rootScope.board, function(index) {
             if (index.CountryID == id1) {
                 index.Troops = index.Troops - troops;
             }
@@ -152,14 +147,12 @@
     }
 
     function deploy(troops, id1) {
-        angular.forEach(JSONData.info.Game.Board.Countries, function(index) {
+        angular.forEach($rootScope.board, function(index) {
             if (index.CountryID == id1) {
                 index.Troops = index.Troops + troops;
             }
         });
     }
-
-    var JSONData = [];
     var countryOwner = [];
     countryOwner["-1"] = [];
     countryOwner["0"] = [];

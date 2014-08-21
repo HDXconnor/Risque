@@ -20,18 +20,17 @@
     </div>
 
     <div id="game-state" class="display-box">
-        <h3> Current Info</h3>
-        <p>Current Player: {{currentPlayer}}</p>
+        <h3>{{phase}} Phase</h3>
+        <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
+        <p ng-hide="phase=='Setup'">Current Player: {{currentPlayer}}</p>
         <p>Current Phase: {{phase}}</p>
         <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{game.current.TroopsToDeploy}}</p>
     </div>
 
     <button id="endphase" class="pretty-button" type="button" ng-click="game.endphase()"> End Phase</button>
-
 </div>
 
 <div id="map" ng-controller="MapController as map" ng-click="map.setPopup()" ng-mouseover="map.setPlayerAttacker()" ></div>
-
 
 <div id="right-bar" ng-controller="MapController as mc">
     <div ng-hide="mc.atkBoxes()">
@@ -40,16 +39,9 @@
         </div>
         <div id="defense-box" class="display-box">
             <h3>Defending Country</h3>
-            <p>
-                {{countryName}}
-            </p>
-            <p>
-                {{playerName}}
-            </p>
-            <p>
-                {{troops}}
-            </p>
-
+                <p>{{countryName}}</p>
+                <p>{{playerName}}</p>
+                <p>{{troops}}</p>
     </div>
     <div>
         <button id="attack1" class="pretty-button" type="button"><strong>Attack with 1 Troop</strong></button>
@@ -62,15 +54,9 @@
     <div ng-hide="mc.deployBoxes()">
         <div id="deploy-box" class="display-box">
             <h3>Deploy Troops</h3>
-            <p>
-                {{countryName}}
-            </p>
-            <p>
-                {{playerName}}
-            </p>
-            <p>
-                {{troops}}
-            </p>
+                <p>{{countryName}}</p>
+                <p>{{playerName}}</p>
+                <p>{{troops}}</p>
 
         </div>
         <div>
@@ -84,33 +70,18 @@
     <div ng-hide="mc.reinfBoxes()">
         <div id="reinf-from" class="display-box">
             <h3>Reinforce From</h3>
-            <p>
-                {{countryName}}
-            </p>
-            <p>
-                {{playerName}}
-            </p>
-            <p>
-                {{troops}}
-            </p>
-
+                <p>{{countryName}}</p>
+                <p>{{playerName}}</p>
+                <p>{{troops}}</p>
         </div>
         <div id="reinf-to" class="display-box">
             <h3>Reinforce To</h3>
-            <p>
-                {{countryName}}
-            </p>
-            <p>
-                {{playerName}}
-            </p>
-            <p>
-                {{troops}}
-            </p>
-
+                <p>{{countryName}}</p>
+                <p>{{playerName}}</p>
+                <p>{{troops}}</p>
         </div>
         <div>
             <button id="reinf" class="pretty-button" type="button"><strong>Move x Troops</strong></button>
-
         </div>
     </div>
 </div>
