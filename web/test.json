@@ -4,37 +4,37 @@
             {
                 "CountryID": "AS11",
                 "Troops": 0,
-                "Owner": 0,
+                "Owner": -1,
                 "CountryName": "India"
             },
             {
                 "CountryID": "AS10",
                 "Troops": 0,
-                "Owner": 1,
+                "Owner": -1,
                 "CountryName": "Middle East"
             },
             {
                 "CountryID": "NA01",
                 "Troops": 0,
-                "Owner": 2,
+                "Owner": -1,
                 "CountryName": "Alaska"
             },
             {
                 "CountryID": "EU01",
                 "Troops": 0,
-                "Owner": 3,
+                "Owner": -1,
                 "CountryName": "Ukraine"
             },
             {
                 "CountryID": "NA02",
                 "Troops": 0,
-                "Owner": 4,
+                "Owner": -1,
                 "CountryName": "Northwest Territory"
             },
             {
                 "CountryID": "EU02",
                 "Troops": 0,
-                "Owner": 5,
+                "Owner": -1,
                 "CountryName": "Northern Europe"
             },
             {
@@ -52,7 +52,7 @@
             {
                 "CountryID": "NA04",
                 "Troops": 8,
-                "Owner": 5,
+                "Owner": -1,
                 "CountryName": "Quebec"
             },
             {
@@ -257,7 +257,8 @@
         "GameState": {
             "Phase": "Setup",
             "CurrentPlayer": 0,
-            "Turn": 0
+            "Turn": 0,
+            "Unassigned": 42
         },
         "Players": [
             {
