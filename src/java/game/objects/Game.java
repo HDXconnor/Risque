@@ -17,13 +17,13 @@ import org.json.JSONObject;
 
 public class Game {
     private final PlayerList players;
-    private final GameState gameState;
     private final Board board;
+    private final GameState gameState;
     
     public Game(PlayerList players) {
         this.players = players;
-        this.gameState = new GameState();
         this.board = new Board();
+        this.gameState = new GameState(board); // board is a parameter here for the GameState field "Unassigned". TODO - find a better way of doing this
     }
 
     public PlayerList getPlayers() {
@@ -36,6 +36,10 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+    
+    public boolean updated() {
+        return true; //TODO
     }
     
     public JSONObject getGameJSON() throws JSONException {

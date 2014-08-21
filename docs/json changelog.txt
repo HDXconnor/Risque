@@ -15,3 +15,11 @@ Game->Gamestate->TroopsToDeploy
 
 After:
 Game->Players[Game->Gamestate->CurrentPlayer]->TroopsToDeploy
+
+To get the number of unassigned countries on the board:
+
+Before:
+Did not exist
+
+After:
+Game->GameState->Unassigned

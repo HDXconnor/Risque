@@ -11,13 +11,11 @@ package game.objects;
  * @author Simeon
  */
 public class Phase {
-    public static final int DEPLOYPHASE = 0;
-    public static final int ATTACKPHASE = 1;
-    public static final int REINFORCEPHASE = 2;
-    public int currentPhase;
+    public static final String[] PHASES = {"Deploy", "Attack", "Move"};
+    private int currentPhase;
     
     public Phase() {
-        this.currentPhase = DEPLOYPHASE;
+        this.currentPhase = 0;
     }
     
     public int getPhase() {

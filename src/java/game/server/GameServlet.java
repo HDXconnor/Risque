@@ -62,12 +62,12 @@ public class GameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
+        //response.setContentType("text/event-stream"); // SSE
+        
         response.setHeader("Access-Control-Allow-Origin", "*");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            //game.getBoard().getCountry("AF01").setOwner(1);
             out.print(game.getGameJSON());
-            
+            //if (game.updated()) out.write("event: chat\ndata: " +game.getGameJSON() + "\n\n"); // SSE
         } catch (JSONException e) {
         }
     }
@@ -81,8 +81,7 @@ public class GameServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
 
