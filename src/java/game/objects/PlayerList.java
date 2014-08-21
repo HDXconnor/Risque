@@ -40,7 +40,7 @@ public class PlayerList {
         JSONArray arr = new JSONArray();
         for (int key:players.keySet()) {
             JSONObject json = new JSONObject();
-            json.put("PlayerID", "00"+(key+1));
+            json.put("PlayerID", "TEMP_ID_00"+(key+1));
             json.put("DisplayName", players.get(key).getName());
             json.put("PlayerOrder", key);
             json.put("TroopsToDeploy", players.get(key).getTroopsToDeploy());

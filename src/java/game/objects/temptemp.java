@@ -6,7 +6,10 @@
 
 package game.objects;
 
+import game.data.CountriesData;
 import game.logic.Dice;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -16,10 +19,14 @@ import game.logic.Dice;
 public class temptemp {
     
     public static void main(String[] args) throws Exception {
-//        PlayerList p = new PlayerList("a", "b", "c", "d", "e", "f");
-//        Game g = new Game(p);
-//        System.out.println(g.getGameJSON());
-        AttackOutcome ao = Dice.Roll(3, 2);
+        PlayerList p = new PlayerList("a", "b", "c", "d", "e", "f");
+        Game g = new Game(p);
+
+        System.out.println(g.getGameJSON());
+//        AttackOutcome ao = Dice.Roll(3, 2);
+//        System.out.println(CountriesData.neighboursMap.get("AS01").contains("AS02"));
+
+        
 
 
     }

@@ -15,12 +15,14 @@ public class GameState {
     private int currentPlayer;
     private int turn;
     private final Phase phase;
+    private final Board board;
     
-    public GameState() {
+    public GameState(Board board) {
         this.gameStarted = false;
         this.currentPlayer = 0;
         this.turn = 0;
         this.phase = new Phase();
+        this.board = board;
     }
     
     public void startGame() {
@@ -43,7 +45,9 @@ public class GameState {
         JSONObject json = new JSONObject();
         json.put("CurrentPlayer", currentPlayer);
         json.put("Turn", turn);
-        json.put("Phase", "dummylol");
+        // If gameStarted == true, this will put the current phase. Otherwise, it will put "Setup"
+        json.put("Phase", gameStarted ? Phase.PHASES[phase.getPhase()] : "Setup");
+        json.put("Unassigned", board.getUnassigned());
         return json;
     }
 

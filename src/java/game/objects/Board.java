@@ -36,12 +36,13 @@ public class Board {
         return countries.get(id);
     }
     
-    // check if every country has an owner => game can then start. otherwise, continue picking phase
-    public boolean boardInitialised() {
+    // iterate through countries and counts the number of countries who have no owner, i.e. owner: -1
+    public int getUnassigned() {
+        int unassigned = 0;
         for (Country c:countries.values()) {
-            if (c.getOwner() < 0) return false;
+            if (c.getOwner() < 0) unassigned++;
         }
-        return true;
+        return unassigned;
     }
     
     public JSONArray getBoardJSON() throws JSONException {
