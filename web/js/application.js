@@ -1,22 +1,6 @@
 (function () {
 
     var app = angular.module("gameApp", []);
-    var popUp = null;
-    //allows popcontroller and mapcontroller to reference the same variable cause fuck this
-    app.service("sharedProperties", function(){
-        var popUp = false;
-
-        return{
-            getPopup:function(){
-                return popUp;
-            },
-            setPopup:function(value){
-                popUp = value;
-                console.log(value)
-            }
-        }
-    })
-
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
         $http.get('test.json').success(function (data) {
             $rootScope.data = data;
@@ -32,17 +16,7 @@
             colour();
         })
     }]);
-
     app.controller("GameController", ['$scope','$http', function ($scope,$http) {
-
-        JSONData = this;
-        JSONData.info = [];
-        JSONData.playerList = [];
-        JSONData.current = [];
-        JSONData.board = [];
-
-        this.playerString = "player";
-
         this.endphase = function() {
             // Deploy -> Attack -> Move
             if ($scope.phase == "CountryPick"|| $scope.phase == "Deploy") $scope.phase = "Attack";
@@ -59,7 +33,6 @@
 
 
     app.controller("MapController",["$scope", function($scope) {
-        $scope.canClick=true;
         $scope.isHidden = false;
         $scope.countryID = "tom";
         $scope.playerOrder = "";
@@ -96,22 +69,20 @@
         }
         angular.forEach(mapList, function(index) {
             index[0].addEventListener("mouseover", function(){
-
-//                $scope.countryID = index.node.id;
-//                angular.forEach(JSONData.info.Game.Board.Countries, function(index) {
-//                    if($scope.countryID==index.CountryID){
-//                        $scope.countryName = index.CountryName;
-//                        $scope.playerOrder = index.PlayerOrder;
-//                        $scope.troops = index.Troops;
-//                        angular.forEach(JSONData.playerList, function(player) {
-//                            if ($scope.playerOrder == player.PlayerOrder) {
-//                                $scope.playerName = player.DisplayName;
-//                            }
-//                        });
-//                    }
-//
-//                });
-//                colour();
+                $scope.thisCountryID = index.node.id;
+                angular.forEach($scope.board, function(index) {
+                    if($scope.thisCountryID==index.CountryID){
+                        $scope.countryName = index.CountryName;
+                        $scope.owner = index.Owner;
+                        $scope.troops = index.Troops;
+                    }
+                    angular.forEach($scope.players, function(player) {
+                        if ($scope.owner == player.PlayerOrder) {
+                            $scope.playerName = player.DisplayName;
+                        }
+                    });
+                });
+                colour();
             }
                 , true);
 
@@ -157,7 +128,7 @@
     }
 
     function moveTroops(troops, id1, id2) {
-        angular.forEach(JSONData.info.Game.Board.Countries, function(index) {
+        angular.forEach($scope.board, function(index) {
             if (index.CountryID == id1) {
                 index.Troops = index.Troops - troops;
             }
@@ -168,14 +139,12 @@
     }
 
     function deploy(troops, id1) {
-        angular.forEach(JSONData.info.Game.Board.Countries, function(index) {
+        angular.forEach(J$scope.board, function(index) {
             if (index.CountryID == id1) {
                 index.Troops = index.Troops + troops;
             }
         });
     }
-
-    var JSONData = [];
     var countryOwner = [];
     countryOwner["-1"] = [];
     countryOwner["0"] = [];
