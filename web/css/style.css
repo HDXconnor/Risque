@@ -72,8 +72,8 @@ h1
 
 #login-box
 {
-    background-color: #fff;
-    margin:inherit;
+    margin: 0 auto;
+    width: 40%;
 }
 
 #login-form
@@ -86,7 +86,7 @@ h1
 
 .input-type
 {
-    width: 411px;
+    width: 80%;
     margin-top: 10px;
 }
 

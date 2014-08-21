@@ -8,82 +8,98 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 
-<body> <div id="frame">
-<h1><strong>Paleozoic Trans-Continental World Domination</strong></h1>
-<div id="left-bar" ng-controller="GameController as game" >
+<body>
+<div id="frame">
+    <h1><strong>Paleozoic Trans-Continental World Domination</strong></h1>
+    <div id="login-box" class="display-box" ng-show="player == null">
+        <form id="login-form">
+            <input type="text" class="input-type" name="username" placeholder="username">
+            <!--<input type="password" class="input-type" name="password" placeholder="password">-->
+            <button id="login-button" type="button"  ng-click="setUser()"> get Started </button>
 
-    <div id="player-state" class="display-box">
-        <h3> Players </h3>
-        <div>
-            <p  ng-repeat="player in players">{{player.DisplayName}}</p>
-        </div>
+        </form>
     </div>
 
-    <div id="game-state" class="display-box">
-        <h3>{{phase}} Phase</h3>
-        <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
-        <p ng-hide="phase=='Setup'">Current Player: {{currentPlayer}}</p>
-        <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{game.current.TroopsToDeploy}}</p>
-    </div>
-
-    <button id="endphase" class="pretty-button" type="button" ng-click="game.endphase()"> End Phase</button>
-</div>
-
-<div id="map" ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>
-
-<div id="right-bar" ng-controller="MapController as mc">
-    <div ng-hide="mc.atkBoxes()">
-        <div id="attack-box" class="display-box">
-            <h3>Attacking Country</h3>
-        </div>
-        <div id="defense-box" class="display-box">
-            <h3>Defending Country</h3>
-                <p>{{countryName}}</p>
-                <p>{{playerName}}</p>
-                <p>{{troops}}</p>
-    </div>
-    <div>
-        <button id="attack1" class="pretty-button" type="button"><strong>Attack with 1 Troop</strong></button>
-        <button id="attack2" class="pretty-button" type="button"><strong>Attack with 2 Troop</strong></button>
-        <button id="attack3" class="pretty-button" type="button"><strong>Attack with 3 Troop</strong></button>
-        <button id="attackF" class="pretty-button" type="button"><strong>Attack till Resolved</strong></button>
+    <div id="game-lobby">
 
     </div>
-    </div>
-    <div ng-hide="mc.deployBoxes()">
-        <div id="deploy-box" class="display-box">
-            <h3>Deploy Troops</h3>
-                <p>{{countryName}}</p>
-                <p>{{playerName}}</p>
-                <p>{{troops}}</p>
 
+    <div id="game-frame">
+        <div id="left-bar" ng-controller="GameController as game" >
+
+            <div id="player-state" class="display-box">
+                <h3> Players </h3>
+                <div>
+                    <p  ng-repeat="player in players">{{player.DisplayName}}</p>
+                </div>
+            </div>
+
+            <div id="game-state" class="display-box">
+                <h3>{{phase}} Phase</h3>
+                <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
+                <p ng-hide="phase=='Setup'">Current Player: {{currentPlayer}}</p>
+                <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{game.current.TroopsToDeploy}}</p>
+            </div>
+
+            <button id="endphase" class="pretty-button" type="button" ng-click="game.endphase()"> End Phase</button>
         </div>
-        <div>
-            <button id="deploy1" class="pretty-button" type="button"><strong>Deploy 1 Troop</strong></button>
-            <button id="deploy2" class="pretty-button" type="button"><strong>Deploy 2 Troop</strong></button>
-            <button id="deploy3" class="pretty-button" type="button"><strong>Deploy 3 Troop</strong></button>
+
+        <div id="map" ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>
+
+        <div id="right-bar" ng-controller="MapController as mc">
+            <div ng-hide="mc.atkBoxes()">
+                <div id="attack-box" class="display-box">
+                    <h3>Attacking Country</h3>
+                </div>
+                <div id="defense-box" class="display-box">
+                    <h3>Defending Country</h3>
+                    <p>{{countryName}}</p>
+                    <p>{{playerName}}</p>
+                    <p>{{troops}}</p>
+                </div>
+                <div>
+                    <button id="attack1" class="pretty-button" type="button"><strong>Attack with 1 Troop</strong></button>
+                    <button id="attack2" class="pretty-button" type="button"><strong>Attack with 2 Troop</strong></button>
+                    <button id="attack3" class="pretty-button" type="button"><strong>Attack with 3 Troop</strong></button>
+                    <button id="attackF" class="pretty-button" type="button"><strong>Attack till Resolved</strong></button>
+
+                </div>
+            </div>
+            <div ng-hide="mc.deployBoxes()">
+                <div id="deploy-box" class="display-box">
+                    <h3>Deploy Troops</h3>
+                    <p>{{countryName}}</p>
+                    <p>{{playerName}}</p>
+                    <p>{{troops}}</p>
+
+                </div>
+                <div>
+                    <button id="deploy1" class="pretty-button" type="button"><strong>Deploy 1 Troop</strong></button>
+                    <button id="deploy2" class="pretty-button" type="button"><strong>Deploy 2 Troop</strong></button>
+                    <button id="deploy3" class="pretty-button" type="button"><strong>Deploy 3 Troop</strong></button>
 
 
+                </div>
+            </div>
+            <div ng-hide="mc.reinfBoxes()">
+                <div id="reinf-from" class="display-box">
+                    <h3>Reinforce From</h3>
+                    <p>{{countryName}}</p>
+                    <p>{{playerName}}</p>
+                    <p>{{troops}}</p>
+                </div>
+                <div id="reinf-to" class="display-box">
+                    <h3>Reinforce To</h3>
+                    <p>{{countryName}}</p>
+                    <p>{{playerName}}</p>
+                    <p>{{troops}}</p>
+                </div>
+                <div>
+                    <button id="reinf" class="pretty-button" type="button"><strong>Move x Troops</strong></button>
+                </div>
+            </div>
         </div>
     </div>
-    <div ng-hide="mc.reinfBoxes()">
-        <div id="reinf-from" class="display-box">
-            <h3>Reinforce From</h3>
-                <p>{{countryName}}</p>
-                <p>{{playerName}}</p>
-                <p>{{troops}}</p>
-        </div>
-        <div id="reinf-to" class="display-box">
-            <h3>Reinforce To</h3>
-                <p>{{countryName}}</p>
-                <p>{{playerName}}</p>
-                <p>{{troops}}</p>
-        </div>
-        <div>
-            <button id="reinf" class="pretty-button" type="button"><strong>Move x Troops</strong></button>
-        </div>
-    </div>
-</div>
 </div>
 <script type="text/javascript" src = "js/raphael-min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
