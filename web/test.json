@@ -1,305 +1,307 @@
 {
-    "Game" :
-    {
-        "Players" : [
+    "Game": {
+        "Board": [
             {
-                "PlayerID" : "001",
-                "DisplayName" : "Anthony",
-                "PlayerOrder" : 0,
-                "PlayerImage" : "image.jpg"
+                "CountryID": "AS11",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "India"
             },
             {
-                "PlayerID" : "002",
-                "DisplayName" : "Ben",
-                "PlayerOrder" : 1,
-                "PlayerImage" : "image.jpg"
+                "CountryID": "AS10",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Middle East"
             },
             {
-                "PlayerID" : "003",
-                "DisplayName" : "Connor",
-                "PlayerOrder" : 2,
-                "PlayerImage" : "image.jpg"
+                "CountryID": "NA01",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Alaska"
             },
             {
-                "PlayerID" : "004",
-                "DisplayName" : "Johannes",
-                "PlayerOrder" : 3,
-                "PlayerImage" : "image.jpg"
+                "CountryID": "EU01",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Ukraine"
             },
             {
-                "PlayerID" : "005",
-                "DisplayName" : "Simeon",
-                "PlayerOrder" : 4,
-                "PlayerImage" : "image.jpg"
+                "CountryID": "NA02",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Northwest Territory"
             },
             {
-                "PlayerID" : "006",
-                "DisplayName" : "Tristan",
-                "PlayerOrder" : 5,
-                "PlayerImage" : "image.jpg"
-            }],
-
-        "Gamestate" : {
-            "CurrentPlayer" : 2,
-            "Turn" : 5,
-            "Phase" : "Deploy",
-            "TroopsToDeploy" : 5
+                "CountryID": "EU02",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Northern Europe"
+            },
+            {
+                "CountryID": "NA03",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Greenland"
+            },
+            {
+                "CountryID": "EU03",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Scandanavia"
+            },
+            {
+                "CountryID": "NA04",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Quebec"
+            },
+            {
+                "CountryID": "EU04",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Great Britain"
+            },
+            {
+                "CountryID": "EU05",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Western Europe"
+            },
+            {
+                "CountryID": "EU06",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Southern Europe"
+            },
+            {
+                "CountryID": "NA09",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Central America"
+            },
+            {
+                "CountryID": "NA05",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Ontario"
+            },
+            {
+                "CountryID": "NA06",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Alberta"
+            },
+            {
+                "CountryID": "NA07",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Western United States"
+            },
+            {
+                "CountryID": "NA08",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Eastern United States"
+            },
+            {
+                "CountryID": "AS08",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Siberia"
+            },
+            {
+                "CountryID": "AS09",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Afghanistan"
+            },
+            {
+                "CountryID": "AS06",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Siam"
+            },
+            {
+                "CountryID": "AS07",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Ural"
+            },
+            {
+                "CountryID": "AS04",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Mongolia"
+            },
+            {
+                "CountryID": "AS05",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "China"
+            },
+            {
+                "CountryID": "SA01",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Venezuela"
+            },
+            {
+                "CountryID": "AS02",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Irkutsk"
+            },
+            {
+                "CountryID": "AS03",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Ykutsk"
+            },
+            {
+                "CountryID": "AS01",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Kamchatka"
+            },
+            {
+                "CountryID": "AN03",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Wilkes Land"
+            },
+            {
+                "CountryID": "AN04",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Marie Byrd Land"
+            },
+            {
+                "CountryID": "AN01",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Queen Maud Land"
+            },
+            {
+                "CountryID": "OC01",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Indonisia"
+            },
+            {
+                "CountryID": "AN02",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "South Pole"
+            },
+            {
+                "CountryID": "OC02",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "East Australia"
+            },
+            {
+                "CountryID": "OC03",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "West Australia"
+            },
+            {
+                "CountryID": "AF05",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "South Africa"
+            },
+            {
+                "CountryID": "SA04",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Argentina"
+            },
+            {
+                "CountryID": "AF03",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "East Africa"
+            },
+            {
+                "CountryID": "SA02",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Brazil"
+            },
+            {
+                "CountryID": "AF04",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Congo"
+            },
+            {
+                "CountryID": "SA03",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Peru"
+            },
+            {
+                "CountryID": "AF01",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "Egypt"
+            },
+            {
+                "CountryID": "AF02",
+                "Troops": 0,
+                "Owner": -1,
+                "CountryName": "North Africa"
+            }
+        ],
+        "GameState": {
+            "Phase": "CountryPick",
+            "CurrentPlayer": 0,
+            "Turn": 0
         },
-
-        "Board" : {
-            "Countries": [
-                {
-                    "CountryID" : "AS01",
-                    "CountryName" : "Kamchatka",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },                    {
-                    "CountryID" : "AS02",
-                    "CountryName" : "Irkutsk",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS03",
-                    "CountryName" : "Ykutsk",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS04",
-                    "CountryName" : "Mongolia",
-                    "PlayerOrder": 5,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS05",
-                    "CountryName" : "China",
-                    "PlayerOrder": 5,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS06",
-                    "CountryName" : "Siam",
-                    "PlayerOrder": 5,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS07",
-                    "CountryName" : "Ural",
-                    "PlayerOrder": 5,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS08",
-                    "CountryName" : "Siberia",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS09",
-                    "CountryName" : "Afganistan",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS10",
-                    "CountryName" : "Middle East",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AS11",
-                    "CountryName" : "India",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "EU01",
-                    "CountryName" : "Ukraine",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "EU02",
-                    "CountryName" : "Northern Europe",
-                    "PlayerOrder": 0,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "EU03",
-                    "CountryName" : "Scandanavia",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "EU04",
-                    "CountryName" : "Great Britain",
-                    "PlayerOrder": 2,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "EU05",
-                    "CountryName" : "Western Europe",
-                    "PlayerOrder": 3,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "EU06",
-                    "CountryName" : "Southern Europe",
-                    "PlayerOrder": 3,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AF01",
-                    "CountryName" : "Egypt",
-                    "PlayerOrder": 2,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AF02",
-                    "CountryName" : "North Africa",
-                    "PlayerOrder": 2,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AF03",
-                    "CountryName" : "East Africa",
-                    "PlayerOrder": 4,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AF04",
-                    "CountryName" : "Congo",
-                    "PlayerOrder": 4,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AF05",
-                    "CountryName" : "South Africa",
-                    "PlayerOrder": 0,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "OC01",
-                    "CountryName" : "Indonesia",
-                    "PlayerOrder": 5,
-                    "Troops": 4
-                },
-                {
-                    "CountryID" : "OC02",
-                    "CountryName" : "East Australia",
-                    "PlayerOrder": 0,
-                    "Troops": 5
-                },
-                {
-                    "CountryID" : "OC03",
-                    "CountryName" : "West Australia",
-                    "PlayerOrder": 2,
-                    "Troops": 6
-                },
-                {
-                    "CountryID" : "AN01",
-                    "CountryName" : "Queen Maud Land",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "AN02",
-                    "CountryName" : "South Pole",
-                    "PlayerOrder": 3,
-                    "Troops": 10
-                },
-                {
-                    "CountryID" : "AN03",
-                    "CountryName" : "Wilkes Land",
-                    "PlayerOrder": 0,
-                    "Troops": 8
-                },
-                {
-                    "CountryID" : "AN04",
-                    "CountryName" : "Marie Byrd Land",
-                    "PlayerOrder": 5,
-                    "Troops": 3
-                },
-                {
-                    "CountryID" : "SA01",
-                    "CountryName" : "Venezuela",
-                    "PlayerOrder": 0,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "SA02",
-                    "CountryName" : "Brazil",
-                    "PlayerOrder": 4,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "SA03",
-                    "CountryName" : "Peru",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "SA04",
-                    "CountryName" : "Argentina",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA01",
-                    "CountryName" : "Alaska",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA02",
-                    "CountryName" : "Northwest Territory",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA03",
-                    "CountryName" : "Greenland",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA04",
-                    "CountryName" : "Quebec",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA05",
-                    "CountryName" : "Ontario",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA06",
-                    "CountryName" : "Alberta",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA07",
-                    "CountryName" : "Western United States",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA08",
-                    "CountryName" : "Eastern United States",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                },
-                {
-                    "CountryID" : "NA09",
-                    "CountryName" : "Central America",
-                    "PlayerOrder": 1,
-                    "Troops": 12
-                }
-            ]
-        }
+        "Players": [
+            {
+                "PlayerID": "001",
+                "PlayerOrder": 0,
+                "TroopsToDeploy": 0,
+                "DisplayName": "Anthony",
+                "PlayerImage": "image.jpg"
+            },
+            {
+                "PlayerID": "002",
+                "PlayerOrder": 1,
+                "TroopsToDeploy": 0,
+                "DisplayName": "Ben",
+                "PlayerImage": "image.jpg"
+            },
+            {
+                "PlayerID": "003",
+                "PlayerOrder": 2,
+                "TroopsToDeploy": 0,
+                "DisplayName": "Connor",
+                "PlayerImage": "image.jpg"
+            },
+            {
+                "PlayerID": "004",
+                "PlayerOrder": 3,
+                "TroopsToDeploy": 0,
+                "DisplayName": "Johannes",
+                "PlayerImage": "image.jpg"
+            },
+            {
+                "PlayerID": "005",
+                "PlayerOrder": 4,
+                "TroopsToDeploy": 0,
+                "DisplayName": "Simeon",
+                "PlayerImage": "image.jpg"
+            },
+            {
+                "PlayerID": "006",
+                "PlayerOrder": 5,
+                "TroopsToDeploy": 0,
+                "DisplayName": "Tristan",
+                "PlayerImage": "image.jpg"
+            }
+        ]
     }
 }
