@@ -23,14 +23,13 @@
         <h3>{{phase}} Phase</h3>
         <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
         <p ng-hide="phase=='Setup'">Current Player: {{currentPlayer}}</p>
-        <p>Current Phase: {{phase}}</p>
         <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{game.current.TroopsToDeploy}}</p>
     </div>
 
     <button id="endphase" class="pretty-button" type="button" ng-click="game.endphase()"> End Phase</button>
 </div>
 
-<div id="map" ng-controller="MapController as map" ng-click="map.setPopup()" ng-mouseover="map.setPlayerAttacker()" ></div>
+<div id="map" ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>
 
 <div id="right-bar" ng-controller="MapController as mc">
     <div ng-hide="mc.atkBoxes()">
