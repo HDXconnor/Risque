@@ -7,6 +7,7 @@
 package game.logic;
 
 import game.objects.AttackOutcome;
+import game.objects.exceptions.DiceException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -20,9 +21,13 @@ public class Dice {
 
     private static final Random rng = new Random();
 
-    public static AttackOutcome Roll(int numberOfAttackerDice, int numberOfDefenderDice) { 
-        int attackerTroopsLost = 0;
-        int defenderTroopsLost = 0;
+    public static AttackOutcome Roll(int numberOfAttackerDice, int numberOfDefenderDice) throws DiceException {
+        
+        // Attacker must have 1, 2, or 3 dice. Defender must have 1 or 2 dice.
+        if (numberOfAttackerDice < 1 || numberOfAttackerDice > 3 || numberOfDefenderDice < 1 || numberOfDefenderDice > 2) throw new DiceException("Invalid number of dice");
+        
+        int troopsLostByAttacker = 0;
+        int troopsLostByDefender = 0;
         ArrayList<Integer> attackerDice = new ArrayList();
         ArrayList<Integer> defenderDice = new ArrayList();
         
@@ -36,23 +41,18 @@ public class Dice {
         
         Collections.sort(attackerDice, Collections.reverseOrder());
         Collections.sort(defenderDice, Collections.reverseOrder());
-
-        System.out.println("Attacker dice rolls: " + attackerDice);
-        System.out.println("Defender dice rolls: " + defenderDice);
         
         int checks = Math.min(attackerDice.size(), defenderDice.size());
         
         for (int i = 0; i < checks; i++) {
             if (attackerDice.get(i) > defenderDice.get(i)) {
-                defenderTroopsLost++;
+                troopsLostByDefender++;
             } else {
-                attackerTroopsLost++;
+                troopsLostByAttacker++;
             }
         }
-        
-        System.out.println("Outcome: Attacker lost " + attackerTroopsLost + ", defender lost " + defenderTroopsLost);
 
-        return new AttackOutcome(attackerTroopsLost, defenderTroopsLost);
+        return new AttackOutcome(troopsLostByAttacker, troopsLostByDefender, attackerDice, defenderDice);
     }
     
 }

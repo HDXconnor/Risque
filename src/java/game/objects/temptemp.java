@@ -8,8 +8,6 @@ package game.objects;
 
 import game.data.CountriesData;
 import game.logic.Dice;
-import java.util.Map;
-import java.util.Set;
 
 
 /**
@@ -19,12 +17,12 @@ import java.util.Set;
 public class temptemp {
     
     public static void main(String[] args) throws Exception {
-        PlayerList p = new PlayerList("a", "b", "c", "d", "e", "f");
-        Game g = new Game(p);
-
-        System.out.println(g.getGameJSON());
-//        AttackOutcome ao = Dice.Roll(3, 2);
-//        System.out.println(CountriesData.neighboursMap.get("AS01").contains("AS02"));
+//        PlayerList p = new PlayerList("a", "b", "c", "d", "e", "f");
+//        Game g = new Game(p);
+//        System.out.println(g.getGameJSON());
+        
+        AttackOutcome ao = Dice.Roll(3, 2);
+        System.out.println("Attacker rolled " + ao.getAttackerDice() + " and lost " + ao.getTroopsLostByAttacker() + " troops.\nDefender rolled " + ao.getDefenderDice() + " and lost " + ao.getTroopsLostByDefender() + " troops.");
 
         
 

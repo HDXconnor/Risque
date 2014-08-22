@@ -10,13 +10,14 @@ package game.objects.exceptions;
  *
  * @author Simeon
  */
-public class TroopsException extends Exception {
+public class DiceException extends Exception {
     
-    public TroopsException() {
+    public DiceException() {
         super();
     }
     
-    public TroopsException(String message) {
+    public DiceException(String message) {
         super(message);
     }
+    
 }

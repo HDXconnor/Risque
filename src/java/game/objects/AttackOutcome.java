@@ -5,6 +5,8 @@
  */
 package game.objects;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Simeon
@@ -13,10 +15,14 @@ public class AttackOutcome {
 
     private final int troopsLostByAttacker;
     private final int troopsLostByDefender;
+    private final ArrayList<Integer> attackerDice;
+    private final ArrayList<Integer> defenderDice;
 
-    public AttackOutcome(int a, int d) {
-        this.troopsLostByAttacker = a;
-        this.troopsLostByDefender = d;
+    public AttackOutcome(int troopsLostByAttacker, int troopsLostByDefender, ArrayList<Integer> attackerDice, ArrayList<Integer> defenderDice) {
+        this.troopsLostByAttacker = troopsLostByAttacker;
+        this.troopsLostByDefender = troopsLostByDefender;
+        this.attackerDice = attackerDice;
+        this.defenderDice = defenderDice;
     }
 
     public int getTroopsLostByAttacker() {
@@ -25,6 +31,14 @@ public class AttackOutcome {
 
     public int getTroopsLostByDefender() {
         return troopsLostByDefender;
+    }
+
+    public ArrayList<Integer> getAttackerDice() {
+        return attackerDice;
+    }
+
+    public ArrayList<Integer> getDefenderDice() {
+        return defenderDice;
     }
 
 }

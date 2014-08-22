@@ -3,7 +3,7 @@
     var app = angular.module("gameApp", []).config(function($httpProvider){
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
-    var evtSource = new EventSource("http://192.168.20.27:8080/Risque/GameServlet");
+    var evtSource = new EventSource("GameServlet");
 
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
@@ -119,7 +119,7 @@
                 console.log(temp)
                 $http.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
                 //console.log($http);
-                $http.post('http://192.168.20.27:8080/Risque/GameServlet', temp).success(function () {});
+                $http.post('GameServlet', temp).success(function () {});
             }, true);
         });
 
