@@ -115,11 +115,10 @@
 
             index[0].addEventListener("click", function() {
                 index.animate(defaultCountry, animationSpeed);
-                var temp = { "CountryClicked" : $rootScope.thisCountryID, "CurrentPlayer" : $rootScope.currentPlayer };
-                console.log(temp)
-                $http.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-                //console.log($http);
-                $http.post('GameServlet', temp).success(function () {});
+                var temp = JSON.stringify({CountryClicked : $rootScope.thisCountryID, CurrentPlayer : $rootScope.currentPlayer});
+                
+                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
+                $http.post('GameServlet', "clicked="+temp).success(function () {});
             }, true);
         });
 

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -83,8 +84,14 @@ public class GameServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        System.out.println("hello");
+        
+        try {
+            JSONObject clicked = new JSONObject(request.getParameter("clicked"));
+            System.out.println(clicked);
+        } catch (JSONException e) {
+        
+        }
+        
         
     }
 
