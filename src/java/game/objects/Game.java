@@ -19,11 +19,13 @@ public class Game {
     private final PlayerList players;
     private final Board board;
     private final GameState gameState;
+    private final Phase phase;
     
     public Game(PlayerList players) {
         this.players = players;
         this.board = new Board();
         this.gameState = new GameState(board); // board is a parameter here for the GameState field "Unassigned". TODO - find a better way of doing this
+        this.phase = gameState.getPhase();
     }
 
     public PlayerList getPlayers() {
@@ -40,6 +42,20 @@ public class Game {
     
     public boolean updated() {
         return true; //TODO
+    }
+    
+    public void endPhase() {
+        switch (phase.getPhase()) {
+            case "Setup":
+                gameState.startGame();
+                break;
+            case "Move":
+                gameState.endTurn();
+                break;
+            default:
+                break;
+        }
+        phase.nextPhase();
     }
     
     public JSONObject getGameJSON() throws JSONException {

@@ -6,23 +6,48 @@
 
 package game.objects;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  *
  * @author Simeon
  */
 public class Phase {
-    public static final String[] PHASES = {"Deploy", "Attack", "Move"};
-    private int currentPhase;
+
+    private String currentPhase;
+    public static final String SETUP = "Setup";
+    public static final String DEPLOY = "Deploy";
+    public static final String ATTACK = "Attack";
+    public static final String MOVE = "Move";
     
     public Phase() {
-        this.currentPhase = 0;
+        this.currentPhase = SETUP;
     }
     
-    public int getPhase() {
+    public String getPhase() {
         return currentPhase;
     }
     
     public void nextPhase() {
-        currentPhase = (currentPhase + 1) % 3;
+        switch (currentPhase) {
+            case SETUP:
+                this.currentPhase = DEPLOY;
+                break;
+            case DEPLOY:
+                this.currentPhase = ATTACK;
+                break;
+            case ATTACK:
+                this.currentPhase = MOVE;
+                break;
+            case MOVE:
+                this.currentPhase = DEPLOY;
+                break;
+            default:
+                break;
+        }
     }
+    
+    
+    
 }

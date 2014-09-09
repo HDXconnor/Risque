@@ -33,11 +33,8 @@ public class GameState {
         return gameStarted;
     }
     
-    public void nextTurn() {
+    public void endTurn() {
         this.turn++;
-    }
-    
-    public void nextPlayer() {
         this.currentPlayer = (this.currentPlayer + 1) % 6;
     }
     
@@ -45,10 +42,14 @@ public class GameState {
         JSONObject json = new JSONObject();
         json.put("CurrentPlayer", currentPlayer);
         json.put("Turn", turn);
-        // If gameStarted == true, this will put the current phase. Otherwise, it will put "Setup"
-        json.put("Phase", gameStarted ? Phase.PHASES[phase.getPhase()] : "Setup");
+        if (gameStarted) json.put("Phase", phase.getPhase());
+        else json.put("Phase", Phase.SETUP);
         json.put("Unassigned", board.getUnassigned());
         return json;
+    }
+
+    public Phase getPhase() {
+        return phase;
     }
 
 }

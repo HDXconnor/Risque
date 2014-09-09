@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 /**
  *
@@ -86,6 +87,7 @@ public class GameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         try {
+            
             JSONObject clicked = new JSONObject(request.getParameter("clicked"));
             System.out.println(clicked);
         } catch (JSONException e) {
