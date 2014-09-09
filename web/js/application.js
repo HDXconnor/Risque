@@ -172,6 +172,23 @@
             }
         });
     }
+    
+    function writeCookie(key, value) {
+        console.log('Cookies');
+        document.cookie = key + "=" + value + "; ";
+    }
+    
+    function readCookie() {
+        var x = document.cookie;
+        var keyArray = x.split("; ")
+        return keyArray;
+    }
+    
+    function appendCookie() {
+        var x = document.cookie;
+        document.cookie = x + key + "=" + value + "; ";
+    }
+    
     var countryOwner = [];
     countryOwner["-1"] = [];
     countryOwner["0"] = [];
