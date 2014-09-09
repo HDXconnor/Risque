@@ -17,12 +17,15 @@ import game.logic.Dice;
 public class temptemp {
     
     public static void main(String[] args) throws Exception {
-//        PlayerList p = new PlayerList("a", "b", "c", "d", "e", "f");
-//        Game g = new Game(p);
-//        System.out.println(g.getGameJSON());
+        PlayerList p = new PlayerList("a", "b", "c", "d", "e", "f");
+        Game g = new Game(p);
+        for (int i=0; i < 20; i++) {
+            System.out.println(g.getGameJSON());
+            g.endPhase();
+        }
         
-        AttackOutcome ao = Dice.Roll(3, 2);
-        System.out.println("Attacker rolled " + ao.getAttackerDice() + " and lost " + ao.getTroopsLostByAttacker() + " troops.\nDefender rolled " + ao.getDefenderDice() + " and lost " + ao.getTroopsLostByDefender() + " troops.");
+//        AttackOutcome ao = Dice.Roll(3, 2);
+//        System.out.println("Attacker rolled " + ao.getAttackerDice() + " and lost " + ao.getTroopsLostByAttacker() + " troops.\nDefender rolled " + ao.getDefenderDice() + " and lost " + ao.getTroopsLostByDefender() + " troops.");
 
         
 

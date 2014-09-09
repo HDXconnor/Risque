@@ -132,22 +132,22 @@
                 if (index == "0") {
                     shape.attr(blueCountry);
                 }
-                if (index == "1") {
+                else if (index == "1") {
                     shape.attr(redCountry);
                 }
-                if (index == "2") {
+                else if (index == "2") {
                     shape.attr(greenCountry);
                 }
-                if (index == "3") {
+                else if (index == "3") {
                     shape.attr(yellowCountry);
                 }
-                if (index == "4") {
+                else if (index == "4") {
                     shape.attr(pinkCountry);
                 }
-                if (index == "5") {
+                else if (index == "5") {
                     shape.attr(brownCountry);
                 }
-                if(index == "-1"){
+                else if(index == "-1"){ // or just else?
                     shape.attr(blackCountry);
                 }
             });
