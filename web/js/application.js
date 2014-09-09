@@ -184,7 +184,7 @@
         return keyArray;
     }
     
-    function appendCookie() {
+    function appendCookie(key, value) {
         var x = document.cookie;
         document.cookie = x + key + "=" + value + "; ";
     }
