@@ -90,12 +90,15 @@
                 return true;
             }
         }
+        console.log(mapList);
         angular.forEach(mapList, function(index) {
+
             $rootScope.thisCountryID = index.node.id;
             index[0].addEventListener("mouseover", function(){
                 angular.forEach($rootScope.board, function(index) {
                     if($rootScope.thisCountryID==index.CountryID){
                         $rootScope.countryName = index.CountryName;
+                        console.log($rootScope.thisCountryID)
                         $rootScope.owner = index.Owner;
                         $rootScope.troops = index.Troops;
                     }
@@ -112,11 +115,11 @@
             index[0].addEventListener("mouseout", function(){
                 index.animate(4, animationSpeed);
             }, true);
-
+            
             index[0].addEventListener("click", function() {
                 index.animate(defaultCountry, animationSpeed);
-                var temp = JSON.stringify({CountryClicked : $rootScope.thisCountryID, CurrentPlayer : $rootScope.currentPlayer});
-                
+                var temp = JSON.stringify({Command : "Setup", Data : {CountryClicked : $rootScope.thisCountryID, CurrentPlayer : $rootScope.currentPlayer}});
+                console.log(temp);
                 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
                 $http.post('GameServlet', "clicked="+temp).success(function () {});
             }, true);
