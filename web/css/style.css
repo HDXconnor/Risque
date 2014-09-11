@@ -99,12 +99,11 @@ h1
     border: solid;
 }
 
-#google-button, #login-button, #facebook-button
+#google-button, #login-button, #facebook-button, #logout-button
 {
     width: 135px;
     display: inline-block;
     margin-top: 10px;
-    background-color: transparent;
     border: none;
 }
 
@@ -121,6 +120,11 @@ h1
 #facebook-button
 {
     background-color: #3B5998;
+}
+
+#logout-button
+{
+    float: right;
 }
 
 #player0 {
