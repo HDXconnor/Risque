@@ -132,6 +132,7 @@
                 }, true);
 
                 index[0].addEventListener("click", function () {
+                    
                     index.animate(defaultCountry, animationSpeed);
                     var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
                     console.log(temp);
