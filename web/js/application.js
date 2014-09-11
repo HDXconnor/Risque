@@ -25,6 +25,14 @@
                     var username = document.getElementById("login-textbox").value;
                     writeCookie("Username", username);
                 }
+                $rootScope.loginVis = function() {
+                    var cookies = readCookie();
+                    if (cookies[0] != "") {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
@@ -195,10 +203,6 @@
     function appendCookie(key, value) {
         var x = document.cookie;
         document.cookie = x + key + "=" + value + "; ";
-    }
-
-    function sendUpdate() {
-
     }
 
     function webSockConnect() {

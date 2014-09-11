@@ -25,7 +25,7 @@ import org.json.JSONTokener;
  * @author Simeon
  */
 public class GameServlet extends HttpServlet {
-    Game game = new Game(new PlayerList("playerA", "playerB", "playerC", "playerD", "playerE", "playerF"));
+    Game game = new Game(new PlayerList("Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player..."));
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
