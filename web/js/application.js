@@ -1,136 +1,141 @@
-(function () {
+(function() {
 
-    var app = angular.module("gameApp", []).config(function($httpProvider){
+    var app = angular.module("gameApp", []).config(function($httpProvider) {
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
     var evtSource = new EventSource("GameServlet");
+    //var conn = webSockConnect(); This breaks everything
 
 
-    app.run(['$rootScope', '$http', function ($rootScope, $http) {
+    app.run(['$rootScope', '$http', function($rootScope, $http) {
 
 
-        evtSource.addEventListener("gamestate", function(e) {
-            var obj = JSON.parse(e.data);
+            evtSource.addEventListener("gamestate", function(e) {
+                var obj = JSON.parse(e.data);
 
-            $rootScope.data = obj;
-            $rootScope.game = obj.Game;
-            $rootScope.board = obj.Game.Board;
-            $rootScope.gameState = obj.Game.GameState;
-            $rootScope.players = obj.Game.Players;
-            $rootScope.currentPlayer = obj.Game.GameState.CurrentPlayer;
-            $rootScope.phase = obj.Game.GameState.Phase;
-            $rootScope.countryCount = obj.Game.Board.length;
-            angular.forEach($rootScope.board, function (index) {
-                countryOwner[index.Owner].push(mapList[index.CountryID]);
-            });
-            colour();
-        },false);
+                $rootScope.data = obj;
+                $rootScope.game = obj.Game;
+                $rootScope.board = obj.Game.Board;
+                $rootScope.gameState = obj.Game.GameState;
+                $rootScope.players = obj.Game.Players;
+                $rootScope.currentPlayer = obj.Game.GameState.CurrentPlayer;
+                $rootScope.phase = obj.Game.GameState.Phase;
+                $rootScope.countryCount = obj.Game.Board.length;
+                $rootScope.setUser = function() {
+                    var username = document.getElementById("login-textbox").value;
+                    writeCookie("Username", username);
+                }
+                angular.forEach($rootScope.board, function(index) {
+                    countryOwner[index.Owner].push(mapList[index.CountryID]);
+                });
+                colour();
+            }, false);
 //        $http.get('test.json').success(function (data) {
 //
 //        });
-    }]);
+        }]);
 
 
-    app.controller("GameController", ['$rootScope','$http', function ($rootScope, $http) {
-        this.endphase = function() {
-            // Deploy -> Attack -> Move
+    app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
+            this.endphase = function() {
+                // Deploy -> Attack -> Move
 
 
-            if ($rootScope.phase == "Setup"|| $rootScope.phase == "Deploy") $rootScope.phase = "Attack";
-            else if ($rootScope.phase == "Attack") $rootScope.phase = "Move";
-            else if ($rootScope.phase == "Move") {
+                if ($rootScope.phase == "Setup" || $rootScope.phase == "Deploy")
+                    $rootScope.phase = "Attack";
+                else if ($rootScope.phase == "Attack")
+                    $rootScope.phase = "Move";
+                else if ($rootScope.phase == "Move") {
 //                moveTroops();
-                $rootScope.phase = "Deploy";
-                // increment currentplayer, mod number of players
-                $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
-                $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
+                    $rootScope.phase = "Deploy";
+                    // increment currentplayer, mod number of players
+                    $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
+                    $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
+                }
             }
-        }
-    }])
-    app.controller("MapController",["$rootScope", '$http', function($rootScope, $http) {
-        $rootScope.isHidden = false;
-        $rootScope.countryID = "tom";
-        $rootScope.playerOrder = "";
-        $rootScope.troops = 0;
-        $rootScope.countryName = "default";
-        $rootScope.playerOrder = "nothing";
-        $rootScope.playerName = "default";
-        this.map = map;
-        this.countries = mapList;
-        this.setupCountries = function(){
-            if($rootScope.countryCount = 42){
-                $rootScope.countryCount -=1;
-                return $rootScope.countryCount+1;
+        }])
+    app.controller("MapController", ["$rootScope", '$http', function($rootScope, $http) {
+            $rootScope.isHidden = false;
+            $rootScope.countryID = "tom";
+            $rootScope.playerOrder = "";
+            $rootScope.troops = 0;
+            $rootScope.countryName = "default";
+            $rootScope.playerOrder = "nothing";
+            $rootScope.playerName = "default";
+            this.map = map;
+            this.countries = mapList;
+            this.setupCountries = function() {
+                if ($rootScope.countryCount = 42) {
+                    $rootScope.countryCount -= 1;
+                    return $rootScope.countryCount + 1;
+                }
+                $rootScope.countryCount -= 1;
+                return $rootScope.countryCount;
             }
-            $rootScope.countryCount -=1;
-            return $rootScope.countryCount;
-        }
-        this.atkBoxes = function(){
-            if ($rootScope.phase == "Attack") {
-                console.log("HELLO" + $rootScope.phase);
-                return $rootScope.isHidden;
+            this.atkBoxes = function() {
+                if ($rootScope.phase == "Attack") {
+                    console.log("HELLO" + $rootScope.phase);
+                    return $rootScope.isHidden;
+                }
+                else {
+                    return true;
+                }
             }
-            else {
-                return true;
+            this.deployBoxes = function() {
+                if ($rootScope.phase == "Deploy") {
+                    return $rootScope.isHidden;
+                }
+                else {
+                    return true;
+                }
             }
-        }
-        this.deployBoxes = function(){
-            if ($rootScope.phase == "Deploy") {
-                return $rootScope.isHidden;
+            this.reinfBoxes = function() {
+                if ($rootScope.phase == "Move") {
+                    return $rootScope.isHidden;
+                }
+                else {
+                    return true;
+                }
             }
-            else {
-                return true;
-            }
-        }
-        this.reinfBoxes = function(){
-            if ($rootScope.phase == "Move") {
-                return $rootScope.isHidden;
-            }
-            else {
-                return true;
-            }
-        }
-        console.log(mapList);
-        angular.forEach(mapList, function(index) {
-
-            $rootScope.thisCountryID = index.node.id;
-            index[0].addEventListener("mouseover", function(){
-                angular.forEach($rootScope.board, function(index) {
-                    if($rootScope.thisCountryID==index.CountryID){
-                        $rootScope.countryName = index.CountryName;
-                        console.log($rootScope.thisCountryID)
-                        $rootScope.owner = index.Owner;
-                        $rootScope.troops = index.Troops;
-                    }
-                    angular.forEach($rootScope.players, function(player) {
-                        if ($rootScope.owner == player.PlayerOrder) {
-                            $rootScope.playerName = player.DisplayName;
+            angular.forEach(mapList, function(index) {
+                $rootScope.thisCountryID = index.node.id;
+                index[0].addEventListener("mouseover", function() {
+                    angular.forEach($rootScope.board, function(index) {
+                        if ($rootScope.thisCountryID == index.CountryID) {
+                            $rootScope.countryName = index.CountryName;
+                            $rootScope.owner = index.Owner;
+                            $rootScope.troops = index.Troops;
                         }
+                        angular.forEach($rootScope.players, function(player) {
+                            if ($rootScope.owner == player.PlayerOrder) {
+                                $rootScope.playerName = player.DisplayName;
+                            }
+                        });
                     });
-                });
-                colour();
-            }
+                    colour();
+                }
                 , true);
 
-            index[0].addEventListener("mouseout", function(){
-                index.animate(4, animationSpeed);
-            }, true);
-            
-            index[0].addEventListener("click", function() {
-                index.animate(defaultCountry, animationSpeed);
-                var temp = JSON.stringify({Command : "Setup", Data : {CountryClicked : $rootScope.thisCountryID, CurrentPlayer : $rootScope.currentPlayer}});
-                console.log(temp);
-                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
-                $http.post('GameServlet', "clicked="+temp).success(function () {});
-            }, true);
-        });
+                index[0].addEventListener("mouseout", function() {
+                    index.animate(4, animationSpeed);
+                }, true);
 
-    }]);
+                index[0].addEventListener("click", function() {
+                    index.animate(defaultCountry, animationSpeed);
+                    var temp = JSON.stringify({CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer});
+
+                    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
+                    $http.post('GameServlet', "clicked=" + temp).success(function() {
+                    });
+                }, true);
+            });
+
+        }]);
 
     function colour() {
         for (index in countryOwner) {
 
-            angular.forEach(countryOwner[index], function (shape) {
+            angular.forEach(countryOwner[index], function(shape) {
 
                 if (index == "0") {
                     shape.attr(blueCountry);
@@ -150,11 +155,12 @@
                 else if (index == "5") {
                     shape.attr(brownCountry);
                 }
-                else if(index == "-1"){ // or just else?
+                else if (index == "-1") { // or just else?
                     shape.attr(blackCountry);
                 }
             });
-        };
+        }
+        ;
     }
 
     function moveTroops(troops, id1, id2) {
@@ -175,6 +181,50 @@
             }
         });
     }
+
+    function writeCookie(key, value) {
+        document.cookie = key + "=" + value + "; ";
+    }
+
+    function readCookie() {
+        var x = document.cookie;
+        var keyArray = x.split("; ")
+        return keyArray;
+    }
+
+    function appendCookie(key, value) {
+        var x = document.cookie;
+        document.cookie = x + key + "=" + value + "; ";
+    }
+
+    function sendUpdate() {
+
+    }
+
+    function webSockConnect() {
+        var socketURI = "ws://" + document.location.host + "GameSocket";
+        var ws = new WebSocket(socketURI);
+        ws.onmessage = function(evt) {
+            webSockRecv(evt);
+        };
+        ws.onerror = function(evt) {
+            console.log(evt);
+        };
+        return ws;
+    }
+
+    function webSockSend(json) {
+        if (conn.readyState !== 1) {
+            conn.send(json);
+        } else {
+            console.log("Not connected to websocket, cannot send.");
+        }
+    }
+
+    function webSockRecv(evt) {
+        console.log("Server says " + evt.data());
+    }
+
     var countryOwner = [];
     countryOwner["-1"] = [];
     countryOwner["0"] = [];
@@ -256,7 +306,7 @@
         cursor: "pointer"
     };
 
-    var map = new Raphael("map","100%" ,"100%");
+    var map = new Raphael("map", "100%", "100%");
     var mapList = {};
 
     mapList["AS01"] = map.path("M291.607,211.668c-2.727,0.333-10.94,4.667-13.273,7s-11.878,6.08-16.211,7.747c-1.084,0.417-8.289,0.837-9.789,0.587c-2-0.333-1.667-3,0-6s6-7.334,6-11.667s0.666-0.667,2.833-9.501s12.045-14.157,12.5-16.667c1.458-8.041,4.333-14.333,11.5-17.833s11.666,3.166,17.5,1.333s14.5-8.166,15.167-13.333s8.5-12.667,13-18.167s-3-6.834-4.167-9s-1.667-11.5,0-9.333c0,0-3.001-2.833-4.668-2.499s-1.667-2.333-3-5.333s8.334-5,11.667-7s4-9,6.333-9.333s10.667-4.333,13-7.667s1.333-4.334,14.333-6.667s15.333-0.333,18.333,1.667l0,0c0,0,6.585,4.498,2.585,8.748s-16,4.75-19,10.75s-4,5.75,5.25,5.5c0,0-7,8.5-11.625,10.75s-14,10.875-16.125,15.125S331.625,154,327.625,159s-18.375,18.875-23.125,20.5s-13.625,2.625-10.375,8.625s9.625,5.625,3.125,13.75S291.607,211.668,291.607,211.668z");
@@ -389,5 +439,5 @@
         index.attr(defaultCountry);
     });
 
-    map.setViewBox(0,innerHeight/2, window.innerWidth/1.5, window.innerHeight/1.5, true);
+    map.setViewBox(0, innerHeight / 2, window.innerWidth / 1.5, window.innerHeight / 1.5, true);
 })();
