@@ -33,6 +33,9 @@
                         return true;
                     }
                 }
+                $rootScope.delCookie = function() {
+                    document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
+                }
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
