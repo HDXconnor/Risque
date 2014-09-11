@@ -12,6 +12,7 @@ import org.json.JSONObject;
 public class GameState {
     
     private boolean gameStarted;
+    private boolean lobbyClosed;
     private int currentPlayer;
     private int turn;
     private final Phase phase;
@@ -19,6 +20,7 @@ public class GameState {
     
     public GameState(Board board) {
         this.gameStarted = false;
+        this.lobbyClosed = false;
         this.currentPlayer = 0;
         this.turn = 0;
         this.phase = new Phase();
@@ -33,6 +35,14 @@ public class GameState {
         return gameStarted;
     }
     
+    public void closeLobby() {
+        this.lobbyClosed = true;
+    }
+    
+    public boolean lobbyClosed() {
+        return lobbyClosed;
+    }
+    
     public void endTurn() {
         this.turn++;
         this.currentPlayer = (this.currentPlayer + 1) % 6;
@@ -45,6 +55,7 @@ public class GameState {
         if (gameStarted) json.put("Phase", phase.getPhase());
         else json.put("Phase", Phase.SETUP);
         json.put("Unassigned", board.getUnassigned());
+        json.put("LobbyClosed", lobbyClosed());
         return json;
     }
 

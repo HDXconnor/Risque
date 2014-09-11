@@ -46,10 +46,10 @@ public class Game {
     
     public void endPhase() {
         switch (phase.getPhase()) {
-            case "Setup":
+            case Phase.SETUP:
                 gameState.startGame();
                 break;
-            case "Move":
+            case Phase.MOVE:
                 gameState.endTurn();
                 break;
             default:

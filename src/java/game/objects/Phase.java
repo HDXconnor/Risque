@@ -20,6 +20,7 @@ public class Phase {
     public static final String DEPLOY = "Deploy";
     public static final String ATTACK = "Attack";
     public static final String MOVE = "Move";
+    public static final String ENDPHASE = "EndPhase";
     
     public Phase() {
         this.currentPhase = SETUP;

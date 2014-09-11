@@ -128,12 +128,12 @@
                     index.animate(4, animationSpeed);
                 }, true);
 
-                index[0].addEventListener("click", function() {
+                index[0].addEventListener("click", function () {
                     index.animate(defaultCountry, animationSpeed);
-                    var temp = JSON.stringify({CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer});
-
+                    var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                    console.log(temp);
                     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
-                    $http.post('GameServlet', "clicked=" + temp).success(function() {
+                    $http.post('GameServlet', "clicked=" + temp).success(function () {
                     });
                 }, true);
             });

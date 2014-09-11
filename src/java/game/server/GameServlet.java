@@ -6,6 +6,7 @@
 
 package game.server;
 
+import game.logic.Command;
 import game.objects.Game;
 import game.objects.PlayerList;
 import java.io.IOException;
@@ -24,7 +25,7 @@ import org.json.JSONTokener;
  * @author Simeon
  */
 public class GameServlet extends HttpServlet {
-    Game game = new Game(new PlayerList("playerA", "playerB", "playerC", "playerD", "playerE", "playerF"));
+    Game game = new Game(new PlayerList("Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player..."));
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -70,7 +71,9 @@ public class GameServlet extends HttpServlet {
         response.setHeader("Access-Control-Allow-Origin", "*");
         try (PrintWriter out = response.getWriter()) {
             //out.print(game.getGameJSON());
-            if (game.updated()) out.write("event: gamestate\ndata: " +game.getGameJSON() + "\n\n"); // SSE
+            JSONObject json = game.getGameJSON();
+            System.out.println(json);
+            if (game.updated()) out.write("event: gamestate\ndata: " + json + "\n\n"); // SSE
         } catch (JSONException e) {
         }
     }
@@ -85,11 +88,11 @@ public class GameServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
         try {
             
             JSONObject clicked = new JSONObject(request.getParameter("clicked"));
             System.out.println(clicked);
+            Command.parseInput(clicked, game);
         } catch (JSONException e) {
         
         }

@@ -23,3 +23,13 @@ Did not exist
 
 After:
 Game->GameState->Unassigned
+
+
+11th September:
+
+To get whether the lobby has closed
+
+Before:
+Did not exist
+
+After Game->GameState->LobbyClosed

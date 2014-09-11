@@ -7,6 +7,7 @@
 package game.logic;
 
 import game.objects.Game;
+import game.objects.Phase;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +16,7 @@ import org.json.JSONObject;
  * @author Simeon
  */
 public class Command {
+    
     /*
     Commands to support:
     Setup
@@ -31,21 +33,22 @@ public class Command {
         JSONObject data = (JSONObject) json.get("Data");
         
         switch (cmd) {
-            case "Setup":
-                data.get("CountryClicked");
+            case Phase.SETUP:
+                String country = (String) data.get("CountryClicked");
+                int player = (Integer) data.get("CurrentPlayer");
+                game.getBoard().getCountry(country).setOwner(player);
+                break;
+            case Phase.DEPLOY:
                 
                 break;
-            case "Deploy":
+            case Phase.ATTACK:
                 
                 break;
-            case "Attack":
+            case Phase.MOVE:
                 
                 break;
-            case "Move":
-                
-                break;
-            case "EndPhase":
-                game.getGameState().getPhase().nextPhase();
+            case Phase.ENDPHASE:
+                game.endPhase();
                 break;
             default:
                 break;
