@@ -25,6 +25,7 @@ import org.json.JSONObject;
 public class GameServlet extends HttpServlet {
     
     Game game = new Game(new PlayerList("Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player..."));
+    boolean useSSE = true;
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -36,17 +37,24 @@ public class GameServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //response.setContentType("application/json");
-        response.setContentType("text/event-stream"); // SSE
-        response.setCharacterEncoding("UTF-8");
         
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        try (PrintWriter out = response.getWriter()) {
-            //out.print(game.getGameJSON());
-            JSONObject json = game.getGameJSON();
-            System.out.println("GET data sending:   " + json);
-            if (game.updated()) out.write("event: gamestate\ndata: " + json + "\n\n"); // SSE
-        } catch (JSONException e) {
+        if (useSSE) {
+            response.setContentType("text/event-stream");
+            response.setCharacterEncoding("UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                JSONObject json = game.getGameJSON();
+                System.out.println("GET data sending:   " + json);
+                if (game.updated()) out.write("event: gamestate\ndata: " + json + "\n\n"); // SSE requires a blank line: \n\n
+            } catch (JSONException e) {}
+            
+        // keeping the old method around for testing purposes...
+        } else {
+            response.setContentType("application/json");
+            try (PrintWriter out = response.getWriter()) {
+                JSONObject json = game.getGameJSON();
+                out.print(json);
+                System.out.println("GET data sending:   " + json);
+            } catch (JSONException e) {}
         }
     }
 

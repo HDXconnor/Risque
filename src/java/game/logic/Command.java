@@ -16,6 +16,9 @@ import org.json.JSONObject;
  * @author Simeon
  */
 public class Command {
+    private static final String CREATE = "Create";
+    private static final String JOIN = "Join";
+    private static final String QUIT = "Quit";
     
     /*
     Commands to support:
@@ -23,9 +26,10 @@ public class Command {
     Deploy
     Attack
     Move
-    EndTurn (end phase command)
+    EndPhase (end phase command)
     
-    Need to check which player sent the command
+    TODO:
+    Need to check which player sent the command - other players are able to send another players commands currently
     
     */
     public static void parseInput(JSONObject json, Game game) throws JSONException {
@@ -53,6 +57,12 @@ public class Command {
                 break;
             case Phase.ENDPHASE:
                 game.endPhase();
+                break;
+            case CREATE:
+                break;
+            case JOIN:
+                break;
+            case QUIT:
                 break;
             default:
                 break;
