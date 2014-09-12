@@ -9,13 +9,13 @@ package game.objects.exceptions;
  *
  * @author Simeon
  */
-public class DiceException extends Exception {
+public class PlayerException extends Exception {
     
-    public DiceException() {
+    public PlayerException() {
         super();
     }
     
-    public DiceException(String message) {
+    public PlayerException(String message) {
         super(message);
     }
     

@@ -8,6 +8,8 @@ package game.logic;
 
 import game.objects.Game;
 import game.objects.Phase;
+import game.objects.Player;
+import game.objects.exceptions.PlayerException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,6 +63,12 @@ public class Command {
             case CREATE:
                 break;
             case JOIN:
+                String name = (String) data.get("PlayerName");
+                try {
+                    game.getPlayers().joinGame(new Player(name, 20));
+                } catch (PlayerException ex) {
+                    //join game fails, response?
+                }
                 break;
             case QUIT:
                 break;

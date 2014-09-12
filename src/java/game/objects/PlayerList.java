@@ -6,6 +6,7 @@
 
 package game.objects;
 
+import game.objects.exceptions.PlayerException;
 import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +18,10 @@ import org.json.JSONObject;
  */
 public class PlayerList {
     private HashMap<Integer, Player> players;
+    
+    public PlayerList() {
+        players = new HashMap<>();
+    }
         
     public PlayerList(String a, String b, String c, String d, String e, String f) {
         players = new HashMap<>();
@@ -26,6 +31,20 @@ public class PlayerList {
         players.put(3, new Player(d, 20));
         players.put(4, new Player(e, 20));
         players.put(5, new Player(f, 20));
+    }
+    
+    public void joinGame(Player newPlayer) throws PlayerException {
+        if (players.size() >= 6) throw new PlayerException("Games are limited to 6 players!");
+        int nextAvailableSpot = getNextAvailableSpot();
+        if (nextAvailableSpot == -1) throw new PlayerException("Invalid player number!");
+        players.put(nextAvailableSpot, newPlayer);
+    }
+    
+    private int getNextAvailableSpot() {
+        for (int i=0; i<6; i++) {
+            if (players.get(i) == null) return i;
+        }
+        return -1;
     }
     
     public HashMap getPlayers() {

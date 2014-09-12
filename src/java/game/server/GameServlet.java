@@ -24,7 +24,8 @@ import org.json.JSONObject;
  */
 public class GameServlet extends HttpServlet {
     
-    Game game = new Game(new PlayerList("Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player..."));
+    //Game game = new Game(new PlayerList("Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player..."));
+    Game game = new Game(new PlayerList());
     boolean useSSE = true;
 
     /**
