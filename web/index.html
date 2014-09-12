@@ -11,7 +11,6 @@
 <body>
 <div id="frame">
     <h1><strong>Paleozoic Trans-Continental World Domination</strong></h1>
-    <button id="logout-button" class="pretty-button" type="button" ng-hide="loginVis()" ng-click="delCookie()"> Log Out </button>
 
     <div id="login-box" class="display-box" ng-show="loginVis()">
 
@@ -23,9 +22,19 @@
 
     </div>
 
-    <div id="game-lobby">
-        <div>
+    <div id="game-lobby" ng-hide="loginVis()">
+        <div id="lobby-box" class="display-box">
+            <div id="player-box">
+                <h3> Players </h3>
+                <div>
+                    <p  ng-repeat="player in players">{{player.DisplayName}}</p>
+                </div>
+            </div>
+            <div id="chat area">
 
+            </div>
+            <button id="logout-button" class="pretty-button" type="button" ng-hide="loginVis()" ng-click="delCookie()"> Log Out </button>
+            <button id="start-button" class="pretty-button" type="button"> Start Game </button>
         </div>
     </div>
 

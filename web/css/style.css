@@ -26,6 +26,13 @@
     width: 25%;
 }
 
+#lobby-box
+{
+    width: 50%;
+    margin: 0 25%;
+
+}
+
 .display-box
 {
     background-color: #ddd;
@@ -99,7 +106,7 @@ h1
     border: solid;
 }
 
-#google-button, #login-button, #facebook-button, #logout-button
+#google-button, #login-button, #facebook-button, #logout-button, #start-button
 {
     width: 135px;
     display: inline-block;
@@ -123,6 +130,11 @@ h1
 }
 
 #logout-button
+{
+    float: left;
+}
+
+#start-button
 {
     float: right;
 }
