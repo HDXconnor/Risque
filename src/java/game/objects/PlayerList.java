@@ -17,7 +17,7 @@ import org.json.JSONObject;
  * @author Simeon
  */
 public class PlayerList {
-    private HashMap<Integer, Player> players;
+    private final HashMap<Integer, Player> players;
     
     public PlayerList() {
         players = new HashMap<>();

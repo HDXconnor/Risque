@@ -63,7 +63,7 @@ public class Command {
             case CREATE:
                 break;
             case JOIN:
-                String name = (String) data.get("PlayerName");
+                String name = (String) data.get("DisplayName");
                 try {
                     game.getPlayers().joinGame(new Player(name, 20));
                 } catch (PlayerException ex) {

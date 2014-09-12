@@ -8,9 +8,12 @@ package game.server;
 
 import game.logic.Command;
 import game.objects.Game;
+import game.objects.Player;
 import game.objects.PlayerList;
+import game.objects.exceptions.PlayerException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +41,7 @@ public class GameServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+        tempJoinGame(request);
         if (useSSE) {
             response.setContentType("text/event-stream");
             response.setCharacterEncoding("UTF-8");
@@ -79,6 +82,17 @@ public class GameServlet extends HttpServlet {
         }
         
         
+    }
+    
+    public void tempJoinGame(HttpServletRequest request) {
+        String name = request.getCookies()[0].getValue();
+        HashMap<Integer, Player> players = game.getPlayers().getPlayers();
+        for (Player p:players.values()) {
+            if (p.getName().equals(name)) return;
+        }
+        try {
+            game.getPlayers().joinGame(new Player(name, 20));
+        } catch (PlayerException ex) {}
     }
 
     /**
