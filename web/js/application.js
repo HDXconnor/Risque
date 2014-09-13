@@ -113,8 +113,6 @@
                 index[0].addEventListener("mouseover", function() {
                     angular.forEach($rootScope.board, function(index) {
                         if ($rootScope.thisCountryID == index.CountryID) {
-                            console.log(index.CountryID);
-                            console.log($rootScope.thisCountryID);
                             $rootScope.countryName = index.CountryName;
                             $rootScope.owner = index.Owner;
                             $rootScope.troops = index.Troops;
