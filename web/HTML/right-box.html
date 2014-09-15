@@ -1,0 +1,51 @@
+<div id="right-bar" ng-controller="PhaseController as phase">
+<div ng-hide="phase.atkBoxes()">
+    <div id="attack-box" class="display-box">
+        <h3>Attacking Country</h3>
+    </div>
+    <div id="defense-box" class="display-box">
+        <h3>Defending Country</h3>
+        <p>{{countryName}}</p>
+        <p>{{playerName}}</p>
+        <p>{{troops}}</p>
+    </div>
+    <div>
+        <button id="attack1" class="pretty-button" type="button"><strong>Attack with 1 Troop</strong></button>
+        <button id="attack2" class="pretty-button" type="button"><strong>Attack with 2 Troop</strong></button>
+        <button id="attack3" class="pretty-button" type="button"><strong>Attack with 3 Troop</strong></button>
+        <button id="attackF" class="pretty-button" type="button"><strong>Attack till Resolved</strong></button>
+
+    </div>
+</div>
+<div ng-hide="phase.deployBoxes()">
+    <div id="deploy-box" class="display-box">
+        <h3>Deploy Troops</h3>
+        <p>{{countryName}}</p>
+        <p>{{playerName}}</p>
+        <p>{{troops}}</p>
+
+    </div>
+    <div>
+        <button id="deploy1" class="pretty-button" type="button"><strong>Deploy 1 Troop</strong></button>
+        <button id="deploy2" class="pretty-button" type="button"><strong>Deploy 2 Troop</strong></button>
+        <button id="deploy3" class="pretty-button" type="button"><strong>Deploy 3 Troop</strong></button>
+    </div>
+</div>
+<div ng-hide="phase.reinfBoxes()">
+    <div id="reinf-from" class="display-box">
+        <h3>Reinforce From</h3>
+        <p>{{countryName}}</p>
+        <p>{{playerName}}</p>
+        <p>{{troops}}</p>
+    </div>
+    <div id="reinf-to" class="display-box">
+        <h3>Reinforce To</h3>
+        <p>{{countryName}}</p>
+        <p>{{playerName}}</p>
+        <p>{{troops}}</p>
+    </div>
+    <div>
+        <button id="reinf" class="pretty-button" type="button"><strong>Move x Troops</strong></button>
+    </div>
+</div>
+</div>

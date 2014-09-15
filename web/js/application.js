@@ -39,18 +39,28 @@
                 colour();
             }, false);
         }]);
-    app.directive("defenseBox",function(){
+    app.directive("rightBox",function(){
         return{
             restrict: "E",
-            templateUrl: "defense-box.html"
+            templateUrl: "right-box.html"
+        };
+    });
+    app.directive("leftBox",function(){
+        return{
+            restrict: "E",
+            templateUrl: "left-box.html"
+        };
+    });
+    app.directive("gameLobby",function(){
+        return{
+            restrict: "E",
+            templateUrl: "game-lobby.html"
         };
     });
 
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
             this.endphase = function() {
                 // Deploy -> Attack -> Move
-
-
                 if ($rootScope.phase == "Setup" || $rootScope.phase == "Deploy")
                     $rootScope.phase = "Attack";
                 else if ($rootScope.phase == "Attack")
@@ -145,12 +155,10 @@
             });
 
         }]);
-
     function colour() {
         for (index in countryOwner) {
 
             angular.forEach(countryOwner[index], function(shape) {
-
                 if (index == "0") {
                     shape.attr(blueCountry);
                 }
