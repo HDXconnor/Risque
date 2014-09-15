@@ -10,7 +10,6 @@
     app.run(['$rootScope', '$http', function($rootScope, $http) {
             evtSource.addEventListener("gamestate", function(e) {
                 var obj = JSON.parse(e.data);
-
                 $rootScope.data = obj;
                 $rootScope.game = obj.Game;
                 $rootScope.board = obj.Game.Board;
@@ -40,7 +39,12 @@
                 colour();
             }, false);
         }]);
-
+    app.directive("defenseBox",function(){
+        return{
+            restrict: "E",
+            templateUrl: "defense-box.html"
+        };
+    });
 
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
             this.endphase = function() {
