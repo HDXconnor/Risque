@@ -29,7 +29,7 @@ public class GameServlet extends HttpServlet {
     
     //Game game = new Game(new PlayerList("Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player..."));
     Game game = new Game(new PlayerList());
-    boolean useSSE = true;
+    boolean useSSE = false;
 
     /**
      * Handles the HTTP <code>GET</code> method.
