@@ -57,6 +57,13 @@
             templateUrl: "game-lobby.html"
         };
     });
+    app.directive("loginBox",function(){
+        return{
+            restrict: "E",
+            templateUrl: "login-box.html"
+        };
+    });
+
 
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
             this.endphase = function() {
