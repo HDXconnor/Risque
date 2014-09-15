@@ -1,4 +1,4 @@
-<div id="game-lobby" ng-hide="loginVis()">
+<div id="game-lobby" ng-controller="LoginController as login" ng-show="login.loginVis()">
     <div id="lobby-box" class="display-box">
         <div id="player-box">
             <h3> Players </h3>
@@ -9,7 +9,7 @@
         <div id="chat area">
 
         </div>
-        <button id="logout-button" class="pretty-button" type="button" ng-hide="loginVis()" ng-click="delCookie()"> Log Out </button>
+        <button id="logout-button" class="pretty-button" type="button" ng-hide="loginVis()" ng-click="login.delCookie()"> Log Out </button>
         <button id="start-button" class="pretty-button" type="button"> Start Game </button>
     </div>
 </div>

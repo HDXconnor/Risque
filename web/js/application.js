@@ -16,27 +16,29 @@
                 $rootScope.currentPlayer = obj.Game.GameState.CurrentPlayer;
                 $rootScope.phase = obj.Game.GameState.Phase;
                 $rootScope.countryCount = obj.Game.Board.length;
-                $rootScope.setUser = function() {
-                    var username = document.getElementById("login-textbox").value;
-                    writeCookie("Username", username);
-                }
-                $rootScope.loginVis = function() {
-                    var cookies = readCookie();
-                    if (cookies[0] != "") {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-                $rootScope.delCookie = function() {
-                    document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
-                }
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
                 colour();
             }, false);
         }]);
+    app.controller("LoginController", ['$rootScope', '$http', function($rootScope, $http){
+        this.setUser = function() {
+            var username = document.getElementById("login-textbox").value;
+            writeCookie("Username", username);
+        }
+        this.loginVis = function() {
+            var cookies = readCookie();
+            if (cookies[0] != "") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        this.delCookie = function() {
+            document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
+        }
+    }]);
     app.directive("rightBox",function(){
         return{
             restrict: "E",
@@ -57,7 +59,7 @@
     });
     app.directive("loginBox",function(){
         return{
-            restrict: "E",
+            restrict: "AEC",
             templateUrl: "login-box.html"
         };
     });
