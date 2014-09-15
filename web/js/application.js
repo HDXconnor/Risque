@@ -5,8 +5,6 @@
     });
     var evtSource = new EventSource("GameServlet");
     //var conn = webSockConnect(); This breaks everything
-
-
     app.run(['$rootScope', '$http', function($rootScope, $http) {
             evtSource.addEventListener("gamestate", function(e) {
                 var obj = JSON.parse(e.data);
@@ -63,8 +61,6 @@
             templateUrl: "login-box.html"
         };
     });
-
-
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
             this.endphase = function() {
                 // Deploy -> Attack -> Move
@@ -191,7 +187,6 @@
         }
         ;
     }
-
     function moveTroops(troops, id1, id2) {
         angular.forEach($rootScope.board, function(index) {
             if (index.CountryID == id1) {
@@ -202,7 +197,6 @@
             }
         });
     }
-
     function deploy(troops, id1) {
         angular.forEach($rootScope.board, function(index) {
             if (index.CountryID == id1) {
@@ -210,22 +204,18 @@
             }
         });
     }
-
     function writeCookie(key, value) {
         document.cookie = key + "=" + value + "; ";
     }
-
     function readCookie() {
         var x = document.cookie;
         var keyArray = x.split("; ")
         return keyArray;
     }
-
     function appendCookie(key, value) {
         var x = document.cookie;
         document.cookie = x + key + "=" + value + "; ";
     }
-
     function webSockConnect() {
         var socketURI = "ws://" + document.location.host + "GameSocket";
         var ws = new WebSocket(socketURI);
@@ -237,7 +227,6 @@
         };
         return ws;
     }
-
     function webSockSend(json) {
         if (conn.readyState !== 1) {
             conn.send(json);
@@ -245,11 +234,9 @@
             console.log("Not connected to websocket, cannot send.");
         }
     }
-
     function webSockRecv(evt) {
         console.log("Server says " + evt.data());
     }
-
     var countryOwner = [];
     countryOwner["-1"] = [];
     countryOwner["0"] = [];
