@@ -4,8 +4,8 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Risque</title>
-    <link rel="stylesheet" type="text/css" href="css/master.css"/>
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/master.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
 </head>
 
 <body>
@@ -60,16 +60,13 @@
 
         <div id="map" ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>
 
-        <div id="right-bar" ng-controller="MapController as mc">
-            <div ng-hide="mc.atkBoxes()">
+        <div id="right-bar" ng-controller="PhaseController as phase">
+            <div ng-hide="phase.atkBoxes()">
                 <div id="attack-box" class="display-box">
                     <h3>Attacking Country</h3>
                 </div>
                 <div id="defense-box" class="display-box">
-                    <h3>Defending Country</h3>
-                    <p>{{countryName}}</p>
-                    <p>{{playerName}}</p>
-                    <p>{{troops}}</p>
+                    <defense-box></defense-box>
                 </div>
                 <div>
                     <button id="attack1" class="pretty-button" type="button"><strong>Attack with 1 Troop</strong></button>
@@ -79,7 +76,7 @@
 
                 </div>
             </div>
-            <div ng-hide="mc.deployBoxes()">
+            <div ng-hide="phase.deployBoxes()">
                 <div id="deploy-box" class="display-box">
                     <h3>Deploy Troops</h3>
                     <p>{{countryName}}</p>
@@ -95,7 +92,7 @@
 
                 </div>
             </div>
-            <div ng-hide="mc.reinfBoxes()">
+            <div ng-hide="phase.reinfBoxes()">
                 <div id="reinf-from" class="display-box">
                     <h3>Reinforce From</h3>
                     <p>{{countryName}}</p>
@@ -115,10 +112,10 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src = "js/raphael-min.js"></script>
+<script type="text/javascript" src = "../js/raphael-min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
-<script type="text/javascript" src = "js/login.js"></script>
-<script type ="text/javascript" src = "js/application.js"></script>
+<script type="text/javascript" src = "../js/login.js"></script>
+<script type ="text/javascript" src = "../js/application.js"></script>
 
 </body>
 </html>

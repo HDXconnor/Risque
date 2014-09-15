@@ -8,8 +8,6 @@
 
 
     app.run(['$rootScope', '$http', function($rootScope, $http) {
-
-
             evtSource.addEventListener("gamestate", function(e) {
                 var obj = JSON.parse(e.data);
 
@@ -41,9 +39,6 @@
                 });
                 colour();
             }, false);
-//        $http.get('test.json').success(function (data) {
-//
-//        });
         }]);
 
 
@@ -65,6 +60,33 @@
                 }
             }
         }])
+    app.controller("PhaseController", ["$rootScope", '$http', function($rootScope, $http) {
+        this.atkBoxes = function() {
+            if ($rootScope.phase == "Attack") {
+                console.log("HELLO" + $rootScope.phase);
+                return $rootScope.isHidden;
+            }
+            else {
+                return true;
+            }
+        }
+        this.deployBoxes = function() {
+            if ($rootScope.phase == "Deploy") {
+                return $rootScope.isHidden;
+            }
+            else {
+                return true;
+            }
+        }
+        this.reinfBoxes = function() {
+            if ($rootScope.phase == "Move") {
+                return $rootScope.isHidden;
+            }
+            else {
+                return true;
+            }
+        }
+    }]);
     app.controller("MapController", ["$rootScope", '$http', function($rootScope, $http) {
             $rootScope.isHidden = false;
             $rootScope.countryID = "tom";
@@ -83,31 +105,7 @@
                 $rootScope.countryCount -= 1;
                 return $rootScope.countryCount;
             }
-            this.atkBoxes = function() {
-                if ($rootScope.phase == "Attack") {
-                    console.log("HELLO" + $rootScope.phase);
-                    return $rootScope.isHidden;
-                }
-                else {
-                    return true;
-                }
-            }
-            this.deployBoxes = function() {
-                if ($rootScope.phase == "Deploy") {
-                    return $rootScope.isHidden;
-                }
-                else {
-                    return true;
-                }
-            }
-            this.reinfBoxes = function() {
-                if ($rootScope.phase == "Move") {
-                    return $rootScope.isHidden;
-                }
-                else {
-                    return true;
-                }
-            }
+
             angular.forEach(mapList, function(index) {
 
                 index[0].addEventListener("mouseover", function() {
