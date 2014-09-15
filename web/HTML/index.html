@@ -11,21 +11,12 @@
 <body>
 <div id="frame">
     <h1><strong>Paleozoic Trans-Continental World Domination</strong></h1>
-
-    <div id="login-box" class="display-box" ng-show="loginVis()">
-
-        <form id="login-form">
-            <input id="login-textbox" type="text" class="input-type" name="username" placeholder="username">
-            <!--<input type="password" class="input-type" name="password" placeholder="password">-->
-            <button id="login-button" class="pretty-button" type="button"  ng-click="setUser()"> Get Started </button>
-        </form>
-
-    </div>
+    <login-box></login-box>
     <game-lobby></game-lobby>
     <div id="game-frame">
         <left-box></left-box>
         <div id="map" ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>
-         <right-box></right-box>
+        <right-box></right-box>
     </div>
 </div>
 <script type="text/javascript" src = "../js/raphael-min.js"></script>
