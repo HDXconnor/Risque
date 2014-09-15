@@ -42,25 +42,25 @@
     app.directive("rightBox",function(){
         return{
             restrict: "E",
-            templateUrl: "right-box.html"
+            templateUrl: "html/right-box.html"
         };
     });
     app.directive("leftBox",function(){
         return{
             restrict: "E",
-            templateUrl: "left-box.html"
+            templateUrl: "html/left-box.html"
         };
     });
     app.directive("gameLobby",function(){
         return{
             restrict: "E",
-            templateUrl: "game-lobby.html"
+            templateUrl: "html/game-lobby.html"
         };
     });
     app.directive("loginBox",function(){
         return{
             restrict: "AEC",
-            templateUrl: "login-box.html"
+            templateUrl: "html/login-box.html"
         };
     });
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
