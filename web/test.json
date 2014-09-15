@@ -258,7 +258,8 @@
             "Phase": "Setup",
             "CurrentPlayer": 0,
             "Turn": 0,
-            "Unassigned": 42
+            "Unassigned": 42,
+			"LobbyClosed":false
         },
         "Players": [
             {
