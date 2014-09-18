@@ -37,47 +37,53 @@ public class Command {
     public static void parseInput(JSONObject json, Game game) throws JSONException {
         String cmd = (String) json.get("Command");
         JSONObject data = (JSONObject) json.get("Data");
-        String country = (String) data.get("CountryClicked");
-        int player = (Integer) data.get("CurrentPlayer");
 
-        switch (cmd) {
-            case Phase.SETUP:
-                if (game.getBoard().getCountry(country).getOwner() == -1) {
-                    game.getBoard().getCountry(country).setOwner(player);
-                } else {
-                    // country already owned by another player
-                }
-                break;
-            case Phase.DEPLOY:
-                if (game.getBoard().getCountry(country).getOwner() != player) {
-                    // country aint yours bitch
-                } else {
-                    game.getBoard().getCountry(country).setTroops(game.getBoard().getCountry(country).getTroops() + (Integer) data.get("Troops"));
-                }
-                break;
-            case Phase.ATTACK:
+        if (cmd.equals(Phase.SETUP)) {
+            String country = (String) data.get("CountryClicked");
+            int player = (Integer) data.get("CurrentPlayer");
+            if (game.getBoard().getCountry(country).getOwner() == -1) {
+                game.getBoard().getCountry(country).setOwner(player);
+            } else {
+                // country already owned by another player
+            }
+        }
 
-                break;
-            case Phase.MOVE:
+        if (cmd.equals(Phase.DEPLOY)) {
+            String country = (String) data.get("CountryClicked");
+            int player = (Integer) data.get("CurrentPlayer");
+            if (game.getBoard().getCountry(country).getOwner() != player) {
+                // country aint yours bitch
+            } else {
+                game.getBoard().getCountry(country).setTroops(game.getBoard().getCountry(country).getTroops() + (Integer) data.get("Troops"));
+            }
+        }
 
-                break;
-            case Phase.ENDPHASE:
-                game.endPhase();
-                break;
-            case CREATE:
-                break;
-            case JOIN:
-                String name = (String) data.get("DisplayName");
-                try {
-                    game.getPlayers().joinGame(new Player(name, 20));
-                } catch (PlayerException ex) {
-                    //join game fails, response?
-                }
-                break;
-            case QUIT:
-                break;
-            default:
-                break;
+        if (cmd.equals(Phase.ATTACK)) {
+
+        }
+
+        if (cmd.equals(Phase.MOVE)) {
+
+        }
+
+        if (cmd.equals(Phase.ENDPHASE)) {
+            game.endPhase();
+        }
+
+        if (cmd.equals(CREATE)) {
+
+        }
+
+        if (cmd.equals(JOIN)) {
+            String name = (String) data.get("DisplayName");
+            try {
+                game.getPlayers().joinGame(new Player(name, 20));
+            } catch (PlayerException ex) {
+                //join game fails, response?
+            }
+        }
+
+        if (cmd.equals(QUIT)) {
 
         }
 
