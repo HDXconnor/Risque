@@ -8,7 +8,10 @@ package game.logic;
 import game.objects.Game;
 import game.objects.Phase;
 import game.objects.Player;
+import game.objects.AttackOutcome;
 import game.objects.exceptions.PlayerException;
+import game.objects.exceptions.DiceException;
+import game.logic.Dice;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,7 +62,41 @@ public class Command {
         }
 
         if (cmd.equals(Phase.ATTACK)) {
+            int player = (Integer) data.get("CurrentPlayer");
+            String attacker = (String) data.get("AttackingCountry");
+            String defender = (String) data.get("DefendingCountry");
+            if (game.getBoard().getCountry(defender).getOwner() == player) {
+                // can't attack yourself
+            } else {
+                int attackingTroops = game.getBoard().getCountry(attacker).getTroops();
+                int defendingTroops = game.getBoard().getCountry(defender).getTroops();
+                int attackDice, defendDice;
+                AttackOutcome outcome;
+                try {
+                    // For now we attack until resolved
+                    while (attackingTroops != 1 || defendingTroops != 0) {
+                        if (attackingTroops >= 3) {
+                            attackDice = 3;
+                        } else {
+                            attackDice = attackingTroops;
+                        }
+                        if (defendingTroops >= 2) {
+                            defendDice = 3;
+                        } else {
+                            defendDice = defendingTroops;
+                        }
+                        outcome = Dice.Roll(attackDice, defendDice);
+                        attackingTroops -= outcome.getTroopsLostByAttacker();
+                        defendingTroops -= outcome.getTroopsLostByDefender();
+                    }
+                    if (defendingTroops == 0) {
+                        game.getBoard().getCountry(defender).setOwner(player);
+                        game.getBoard().getCountry(defender).setTroops(1);
+                    }
+                } catch (DiceException e) {
 
+                }
+            }
         }
 
         if (cmd.equals(Phase.MOVE)) {
