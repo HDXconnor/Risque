@@ -91,7 +91,8 @@ public class Command {
                     }
                     if (defendingTroops == 0) {
                         game.getBoard().getCountry(defender).setOwner(player);
-                        game.getBoard().getCountry(defender).setTroops(1);
+                        game.getBoard().getCountry(defender).setTroops(attackingTroops);
+                        game.getBoard().getCountry(attacker).setTroops(1);
                     }
                 } catch (DiceException e) {
 
