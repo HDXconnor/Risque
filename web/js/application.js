@@ -4,7 +4,6 @@
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
     var evtSource = new EventSource("GameServlet");
-    //var conn = webSockConnect(); This breaks everything
     app.run(['$rootScope', '$http', function($rootScope, $http) {
             evtSource.addEventListener("gamestate", function(e) {
                 var obj = JSON.parse(e.data);
@@ -150,6 +149,7 @@
 
                 index[0].addEventListener("click", function () {
                     $rootScope.thisCountryID = index.node.id;
+                    $rootScope.currentPlayer = 1;
                     index.animate(defaultCountry, animationSpeed);
                     var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
                     console.log(temp);
