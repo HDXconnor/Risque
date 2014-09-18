@@ -155,6 +155,8 @@
                     console.log(temp);
                     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
                     $http.post('GameServlet', "clicked=" + temp).success(function () {
+                        $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
+                        $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                     });
                 }, true);
             });

@@ -86,7 +86,5 @@ public class Command {
         if (cmd.equals(QUIT)) {
 
         }
-
     }
-
 }
