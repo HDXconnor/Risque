@@ -42,7 +42,7 @@ public class Command {
             case Phase.SETUP:
                 String country = (String) data.get("CountryClicked");
                 int player = (Integer) data.get("CurrentPlayer");
-                if (game.getBoard().getCountry(country).getOwner() == -1) {
+                if (game.getCurrentPlayer() == player && game.getBoard().getCountry(country).getOwner() == -1) {
                     game.getBoard().getCountry(country).setOwner(player);
                 } else {
                     // country already owned by another player

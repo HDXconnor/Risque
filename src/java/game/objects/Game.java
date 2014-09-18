@@ -58,6 +58,14 @@ public class Game {
         phase.nextPhase();
     }
     
+    public Player getCurrentPlayerObject() {
+        return (Player) players.getPlayers().get(gameState.getCurrentPlayer());
+    }
+    
+    public int getCurrentPlayer() {
+        return gameState.getCurrentPlayer();
+    }
+    
     public JSONObject getGameJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("Players", players.getPlayersJSON());

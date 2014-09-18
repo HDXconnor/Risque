@@ -29,7 +29,7 @@ public class GameServlet extends HttpServlet {
     
     //Game game = new Game(new PlayerList("Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player..."));
     Game game = new Game(new PlayerList());
-    boolean useSSE = false;
+    boolean useSSE = true;
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -45,6 +45,7 @@ public class GameServlet extends HttpServlet {
         if (useSSE) {
             response.setContentType("text/event-stream");
             response.setCharacterEncoding("UTF-8");
+            response.setHeader("Connection", "keep-alive");
             try (PrintWriter out = response.getWriter()) {
                 JSONObject json = game.getGameJSON();
                 System.out.println("GET data sending:   " + json);

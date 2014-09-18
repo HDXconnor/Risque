@@ -51,10 +51,6 @@ public class PlayerList {
         return players;
     }
     
-    public Player getCurrentPlayer(int id) {
-        return players.get(id);
-    }
-    
     public JSONArray getPlayersJSON() throws JSONException {
         JSONArray arr = new JSONArray();
         for (int key:players.keySet()) {
