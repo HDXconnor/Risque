@@ -44,6 +44,16 @@ public class DiceTest {
     }
     
     @Test(expected = DiceException.class)
+    public void testNumberOfDice_0_1() throws DiceException {
+        Dice.Roll(0, 1);
+    }
+    
+    @Test(expected = DiceException.class)
+    public void testNumberOfDice_1_0() throws DiceException {
+        Dice.Roll(1, 0);
+    }
+    
+    @Test(expected = DiceException.class)
     public void testNumberOfDice_0_0() throws DiceException {
         Dice.Roll(0, 0);
     }
@@ -58,6 +68,11 @@ public class DiceTest {
         Dice.Roll(1, 9);
     }
     
+    @Test(expected = DiceException.class)
+    public void testNumberOfDice_9_9() throws DiceException {
+        Dice.Roll(9, 9);
+    }
+    
     @Test
     public void testDiceRolled() throws DiceException {
         int nAttackerDice = 3;
@@ -69,20 +84,23 @@ public class DiceTest {
     
     @Test
     public void testTroopLosses() throws DiceException {
-        AttackOutcome ao = Dice.Roll(3, 2);
-        attackerDice = ao.getAttackerDice();
-        defenderDice = ao.getDefenderDice();
-        int attackerLosses = 0;
-        int defenderLosses = 0;
-        for (int i = 0; i < 2; i++) {
-            if (attackerDice.get(i) > defenderDice.get(i)) {
-                defenderLosses++;
-            } else {
-                attackerLosses++;
+        // for loop because there would be a chance of accidentally passing this test even if it were misbehaving
+        for (int run = 0; run < 10000; run++) {
+            AttackOutcome ao = Dice.Roll(3, 2);
+            attackerDice = ao.getAttackerDice();
+            defenderDice = ao.getDefenderDice();
+            int attackerLosses = 0;
+            int defenderLosses = 0;
+            for (int i = 0; i < 2; i++) {
+                if (attackerDice.get(i) > defenderDice.get(i)) {
+                    defenderLosses++;
+                } else {
+                    attackerLosses++;
+                }
             }
+            assertTrue(ao.getTroopsLostByAttacker() == attackerLosses);
+            assertTrue(ao.getTroopsLostByDefender() == defenderLosses);
         }
-        assertTrue(ao.getTroopsLostByAttacker() == attackerLosses);
-        assertTrue(ao.getTroopsLostByDefender() == defenderLosses);
     }
     
 }
