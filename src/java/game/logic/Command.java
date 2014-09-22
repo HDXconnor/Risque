@@ -35,6 +35,7 @@ public class Command {
     
      TODO:
      Need to check which player sent the command - other players are able to send another players commands currently
+     Server checks player but currently client always sends '1'
     
      */
     public static void parseInput(JSONObject json, Game game) throws JSONException {
@@ -101,7 +102,18 @@ public class Command {
         }
 
         if (cmd.equals(Phase.MOVE)) {
-
+            String from = (String) data.get("SourceCountry");
+            String to = (String) data.get("CountryClicked");
+            int player = (Integer) data.get("CurrentPlayer");
+            if (game.getBoard().getCountry(from).getOwner() != player || game.getBoard().getCountry(to).getOwner() != player) {
+                // Player doesn't own one of these countries
+            } else {
+                if (BoardLogic.isNeighbour(to, from)) {
+                    int troops = (Integer) data.getInt("Troops");
+                    game.getBoard().getCountry(to).setTroops(game.getBoard().getCountry(to).getTroops() + troops);
+                    game.getBoard().getCountry(from).setTroops(game.getBoard().getCountry(from).getTroops() - troops);
+                }
+            }
         }
 
         if (cmd.equals(Phase.ENDPHASE)) {
