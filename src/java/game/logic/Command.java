@@ -53,7 +53,7 @@ public class Command {
             }
         }
 
-        if (cmd.equals(Phase.DEPLOY)) {
+        else if (cmd.equals(Phase.DEPLOY)) {
             String country = (String) data.get("CountryClicked");
             int player = (Integer) data.get("CurrentPlayer");
             if (game.getBoard().getCountry(country).getOwner() != player) {
@@ -63,7 +63,7 @@ public class Command {
             }
         }
 
-        if (cmd.equals(Phase.ATTACK)) {
+        else if (cmd.equals(Phase.ATTACK)) {
             int player = (Integer) data.get("CurrentPlayer");
             String attacker = (String) data.get("AttackingCountry");
             String defender = (String) data.get("DefendingCountry");
@@ -102,7 +102,7 @@ public class Command {
             }
         }
 
-        if (cmd.equals(Phase.MOVE)) {
+        else if (cmd.equals(Phase.MOVE)) {
             String from = (String) data.get("SourceCountry");
             String to = (String) data.get("CountryClicked");
             int player = (Integer) data.get("CurrentPlayer");
@@ -117,15 +117,15 @@ public class Command {
             }
         }
 
-        if (cmd.equals(Phase.ENDPHASE)) {
+        else if (cmd.equals(Phase.ENDPHASE)) {
             game.endPhase();
         }
 
-        if (cmd.equals(CREATE)) {
+        else if (cmd.equals(CREATE)) {
 
         }
 
-        if (cmd.equals(JOIN)) {
+        else if (cmd.equals(JOIN)) {
             String name = (String) data.get("CurrentPlayer");
             try {
                 game.getPlayers().joinGame(new Player(name, 20));
@@ -134,15 +134,13 @@ public class Command {
             }
         }
 
-        if (cmd.equals(QUIT)) {
+        else if (cmd.equals(QUIT)) {
             String name = (String) data.get("CurrentPlayer");
             game.removePlayer(name);
-
         }
         
-        if (cmd.equals(STARTGAME)) {
+        else if (cmd.equals(STARTGAME)) {
             game.getGameState().closeLobby();
-
         }
     }
 }
