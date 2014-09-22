@@ -24,6 +24,7 @@ public class Command {
     private static final String CREATE = "Create";
     private static final String JOIN = "Join";
     private static final String QUIT = "Quit";
+    private static final String STARTGAME = "StartGame";
 
     /*
      Commands to support:
@@ -136,6 +137,11 @@ public class Command {
         if (cmd.equals(QUIT)) {
             String name = (String) data.get("CurrentPlayer");
             game.removePlayer(name);
+
+        }
+        
+        if (cmd.equals(STARTGAME)) {
+            game.getGameState().closeLobby();
 
         }
     }
