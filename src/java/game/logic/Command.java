@@ -135,10 +135,7 @@ public class Command {
 
         if (cmd.equals(QUIT)) {
             String name = (String) data.get("CurrentPlayer");
-            try {
-                game.getPlayers().joinGame(new Player(name, 20));
-            } catch (PlayerException ex) {
-            }
+            game.removePlayer(name);
 
         }
     }
