@@ -1,6 +1,6 @@
 (function() {
-
     var app = angular.module("gameApp", []).config(function($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
     var evtSource = new EventSource("GameServlet");
@@ -8,7 +8,6 @@
             evtSource.addEventListener("gamestate", function(e) {
                 var obj = JSON.parse(e.data);
                 $rootScope.data = obj;
-                console.log(obj);
                 $rootScope.game = obj.Game;
                 $rootScope.board = obj.Game.Board;
                 $rootScope.gameState = obj.Game.GameState;
@@ -19,6 +18,17 @@
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
+                angular.forEach(mapList, function(index) {
+                    angular.forEach($rootScope.board, function(index) {
+                            $rootScope.countryName = index.CountryName;
+                            $rootScope.owner = index.Owner;
+                            $rootScope.troops = index.Troops;
+
+                        angular.forEach($rootScope.players, function(player) {
+                            $rootScope.playerName = player.DisplayName;
+                        });
+                    });
+                })
                 colour();
             }, false);
         }]);
@@ -36,7 +46,14 @@
             }
         }
         this.delCookie = function() {
-            document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC"
+            document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            var clicked = JSON.stringify({hello: "world"});
+            $http({
+                method: 'POST',
+                url: 'GameServlet',
+                headers: {'Content-Type': 'application/json'},
+                data:  clicked
+            }).error();
         }
     }]);
     app.directive("rightBox",function(){
@@ -64,30 +81,27 @@
         };
     });
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
-            this.endphase = function() {
-                // Deploy -> Attack -> Move
-                if ($rootScope.phase == "Setup" || $rootScope.phase == "Deploy")
-                    $rootScope.phase = "Attack";
-                else if ($rootScope.phase == "Attack")
-                    $rootScope.phase = "Move";
-                else if ($rootScope.phase == "Move") {
-//                moveTroops();
-                    $rootScope.phase = "Deploy";
-                    // increment currentplayer, mod number of players
-                    $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
-                    $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
-                }
-
-
-            }
-        this.gameVis = function() {
-            if ($rootScope.gameState.LobbyClosed != "false") {
-                return true;
-            } else {
-                return false;
-            }
+//            this.endphase = function() {
+//                // Deploy -> Attack -> Move
+//                if ($rootScope.phase == "Setup" || $rootScope.phase == "Deploy")
+//                    $rootScope.phase = "Attack";
+//                else if ($rootScope.phase == "Attack")
+//                    $rootScope.phase = "Move";
+//                else if ($rootScope.phase == "Move") {
+////                moveTroops();
+//                    $rootScope.phase = "Deploy";
+//                    // increment currentplayer, mod number of players
+//                    $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
+//                    $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
+//                }
+//            }
+        this.endphase = function(){
+            console.log($rootScope.data);
         }
-        }])
+        this.hasStarted = function(){
+            return true;
+        }
+        }]);
     app.controller("PhaseController", ["$rootScope", '$http', function($rootScope, $http) {
         this.atkBoxes = function() {
             if ($rootScope.phase == "Attack") {
@@ -95,7 +109,7 @@
                 return $rootScope.isHidden;
             }
             else {
-                return tgitrue;
+                return true;
             }
         }
         this.deployBoxes = function() {
@@ -133,6 +147,9 @@
                 $rootScope.countryCount -= 1;
                 return $rootScope.countryCount;
             }
+        this.nextOne = function(){
+            console.log($rootScope.gameState);
+        }
 
             angular.forEach(mapList, function(index) {
 
@@ -163,7 +180,7 @@
                     index.animate(defaultCountry, animationSpeed);
                     var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
                     console.log(temp);
-                    $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
+                    //$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
                     $http.post('GameServlet', "clicked=" + temp).success(function () {
                         $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
                         $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;

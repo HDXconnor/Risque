@@ -14,7 +14,9 @@
     <game-lobby></game-lobby>
     <div id="game-frame" ng-show="gameVis()">
         <left-box></left-box>
-        <div id="map" ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>
+        <div id="map" ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" >
+            <button id="endphase" class="pretty-button" type="button" ng-click="map.nextOne()"> End Phase</button>
+        </div>
         <right-box></right-box>
     </div>
 </div>
