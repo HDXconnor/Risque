@@ -60,13 +60,10 @@ public class GameServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            JSONObject clicked = new JSONObject(request.getParameter("clicked"));
+            String clicked = request.getReader().readLine();//getParameter("clicked");
             System.out.println("POST data received: " + clicked);
-            Command.parseInput(clicked, game);
-        } catch (JSONException e) {
+            //Command.parseInput(clicked, game);
 
-        }
     }
 
     public void tempJoinGame(HttpServletRequest request) {

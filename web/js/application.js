@@ -23,8 +23,8 @@
         }]);
     app.controller("LoginController", ['$rootScope', '$http', function($rootScope, $http){
         this.setUser = function() {
-            var username = document.getElementById("login-textbox").value;
-            writeCookie("Username", username);
+            $rootScope.username = document.getElementById("login-textbox").value;
+            writeCookie("Username", $rootScope.username);
         }
         this.loginVis = function() {
             var cookies = readCookie();
@@ -36,12 +36,14 @@
         }
         this.delCookie = function() {
             document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            var clicked = JSON.stringify({hello: "world"});
+            var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.username}});
+//            var clicked = JSON.stringify({hello: "world"});
+            console.log(temp);
             $http({
                 method: 'POST',
                 url: 'GameServlet',
                 headers: {'Content-Type': 'application/json'},
-                data:  clicked
+                data: temp
             }).error();
         }
     }]);
