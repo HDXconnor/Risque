@@ -45,12 +45,12 @@ public class GameState {
     
     public void endTurn() {
         this.turn++;
-        this.currentPlayer = (this.currentPlayer + 1) % 6;
+        this.currentPlayer = (this.getCurrentPlayer() + 1) % 6;
     }
     
     public JSONObject getGameStateJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("CurrentPlayer", currentPlayer);
+        json.put("CurrentPlayer", getCurrentPlayer());
         json.put("Turn", turn);
         if (gameStarted) json.put("Phase", phase.getPhase());
         else json.put("Phase", Phase.SETUP);
@@ -61,6 +61,10 @@ public class GameState {
 
     public Phase getPhase() {
         return phase;
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
     }
 
 }

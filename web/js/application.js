@@ -4,7 +4,6 @@
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
     var evtSource = new EventSource("GameServlet");
-    //var conn = webSockConnect(); This breaks everything
     app.run(['$rootScope', '$http', function($rootScope, $http) {
             evtSource.addEventListener("gamestate", function(e) {
                 var obj = JSON.parse(e.data);
@@ -160,11 +159,14 @@
 
                 index[0].addEventListener("click", function () {
                     $rootScope.thisCountryID = index.node.id;
+                    $rootScope.currentPlayer = 1;
                     index.animate(defaultCountry, animationSpeed);
                     var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
                     console.log(temp);
                     $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
                     $http.post('GameServlet', "clicked=" + temp).success(function () {
+                        $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
+                        $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                     });
                 }, true);
             });
