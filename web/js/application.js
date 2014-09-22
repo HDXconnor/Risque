@@ -3,6 +3,7 @@
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
+    
     var evtSource = new EventSource("GameServlet");
     app.run(['$rootScope', '$http', function($rootScope, $http) {
             evtSource.addEventListener("gamestate", function(e) {
@@ -21,17 +22,11 @@
                 colour();
             }, false);
         }]);
-    function postData(temp){
-        $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-    }
+    
     app.controller("LoginController", ['$rootScope', '$http', function($rootScope, $http){
         this.setUser = function() {
             $rootScope.username = document.getElementById("login-textbox").value;
+            $rootScope.setuser = $rootScope.username;
             var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
             console.log(temp);
             postData(temp);
@@ -46,10 +41,13 @@
             }
         }
         this.delCookie = function() {
+            var cookie = readCookie();
+            for (index in cookie){
+                var name = cookie[index];
+            }
+            name = name.replace('Username=','');
+            var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
             document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.username}});
-//            var clicked = JSON.stringify({hello: "world"});
-            console.log(temp);
             postData(temp);
             
         }
