@@ -12,7 +12,7 @@
     <h1><strong>Paleozoic Trans-Continental World Domination</strong></h1>
     <login-box></login-box>
     <game-lobby></game-lobby>
-    <div id="game-frame">
+    <div id="game-frame" ng-show="gameVis()">
         <left-box></left-box>
         <div id="map" ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>
         <right-box></right-box>

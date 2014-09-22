@@ -95,7 +95,7 @@
                 return $rootScope.isHidden;
             }
             else {
-                return true;
+                return tgitrue;
             }
         }
         this.deployBoxes = function() {
