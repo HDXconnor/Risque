@@ -66,6 +66,10 @@ public class Game {
         return gameState.getCurrentPlayer();
     }
     
+    public void removePlayer(String playerName) {
+        players.removePlayer(playerName);
+    }
+    
     public JSONObject getGameJSON() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("Players", players.getPlayersJSON());

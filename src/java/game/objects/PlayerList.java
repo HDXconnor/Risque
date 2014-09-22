@@ -51,6 +51,15 @@ public class PlayerList {
         return players;
     }
     
+    public void removePlayer(String player) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(player)) {
+                players.remove(i);
+                return;
+            }
+        }
+    }
+    
     public JSONArray getPlayersJSON() throws JSONException {
         JSONArray arr = new JSONArray();
         for (int key:players.keySet()) {

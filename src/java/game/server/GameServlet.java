@@ -13,6 +13,8 @@ import game.objects.exceptions.PlayerException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +34,7 @@ public class GameServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        tempJoinGame(request);
+        //tempJoinGame(request);
         if (useSSE) {
             response.setContentType("text/event-stream");
             response.setCharacterEncoding("UTF-8");
@@ -60,9 +62,14 @@ public class GameServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            String clicked = request.getReader().readLine();//getParameter("clicked");
-            System.out.println("POST data received: " + clicked);
-            //Command.parseInput(clicked, game);
+        try {
+            JSONObject json = new JSONObject(request.getReader().readLine());
+            System.out.println("POST data received: " + json);
+            Command.parseInput(json, game);
+        } catch (JSONException ex) {
+            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
     }
 

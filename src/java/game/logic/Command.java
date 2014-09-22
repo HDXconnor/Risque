@@ -125,7 +125,7 @@ public class Command {
         }
 
         if (cmd.equals(JOIN)) {
-            String name = (String) data.get("DisplayName");
+            String name = (String) data.get("CurrentPlayer");
             try {
                 game.getPlayers().joinGame(new Player(name, 20));
             } catch (PlayerException ex) {
@@ -134,6 +134,11 @@ public class Command {
         }
 
         if (cmd.equals(QUIT)) {
+            String name = (String) data.get("CurrentPlayer");
+            try {
+                game.getPlayers().joinGame(new Player(name, 20));
+            } catch (PlayerException ex) {
+            }
 
         }
     }
