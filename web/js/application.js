@@ -9,6 +9,7 @@
             evtSource.addEventListener("gamestate", function(e) {
                 var obj = JSON.parse(e.data);
                 $rootScope.data = obj;
+                console.log(obj);
                 $rootScope.game = obj.Game;
                 $rootScope.board = obj.Game.Board;
                 $rootScope.gameState = obj.Game.GameState;
@@ -77,7 +78,16 @@
                     $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
                     $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                 }
+
+
             }
+        this.gameVis = function() {
+            if ($rootScope.gameState.LobbyClosed != "false") {
+                return true;
+            } else {
+                return false;
+            }
+        }
         }])
     app.controller("PhaseController", ["$rootScope", '$http', function($rootScope, $http) {
         this.atkBoxes = function() {
