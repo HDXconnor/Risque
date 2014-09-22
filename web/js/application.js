@@ -21,9 +21,20 @@
                 colour();
             }, false);
         }]);
+    function postData(temp){
+        $http({
+                method: 'POST',
+                url: 'GameServlet',
+                headers: {'Content-Type': 'application/json'},
+                data: temp
+            }).error();
+    }
     app.controller("LoginController", ['$rootScope', '$http', function($rootScope, $http){
         this.setUser = function() {
             $rootScope.username = document.getElementById("login-textbox").value;
+            var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
+            console.log(temp);
+            postData(temp);
             writeCookie("Username", $rootScope.username);
         }
         this.loginVis = function() {
@@ -39,14 +50,19 @@
             var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.username}});
 //            var clicked = JSON.stringify({hello: "world"});
             console.log(temp);
-            $http({
+            postData(temp);
+            
+        }
+        function postData(temp){
+        $http({
                 method: 'POST',
                 url: 'GameServlet',
                 headers: {'Content-Type': 'application/json'},
                 data: temp
             }).error();
-        }
+    }
     }]);
+    
     app.directive("rightBox",function(){
         return{
             restrict: "E",
@@ -219,6 +235,7 @@
             }
         });
     }
+    
     function deploy(troops, id1) {
         angular.forEach($rootScope.board, function(index) {
             if (index.CountryID == id1) {
