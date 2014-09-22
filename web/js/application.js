@@ -7,6 +7,7 @@
     var evtSource = new EventSource("GameServlet");
     app.run(['$rootScope', '$http', function($rootScope, $http) {
             evtSource.addEventListener("gamestate", function(e) {
+                console.log(obj);
                 var obj = JSON.parse(e.data);
                 $rootScope.data = obj;
                 $rootScope.game = obj.Game;
@@ -19,6 +20,7 @@
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
+                $rootScope.$apply();
                 colour();
             }, false);
         }]);
@@ -26,9 +28,7 @@
     app.controller("LoginController", ['$rootScope', '$http', function($rootScope, $http){
         this.setUser = function() {
             $rootScope.username = document.getElementById("login-textbox").value;
-            $rootScope.setuser = $rootScope.username;
             var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
-            console.log(temp);
             postData(temp);
             writeCookie("Username", $rootScope.username);
         }
@@ -60,31 +60,6 @@
             }).error();
     }
     }]);
-    
-    app.directive("rightBox",function(){
-        return{
-            restrict: "E",
-            templateUrl: "html/right-box.html"
-        };
-    });
-    app.directive("leftBox",function(){
-        return{
-            restrict: "E",
-            templateUrl: "html/left-box.html"
-        };
-    });
-    app.directive("gameLobby",function(){
-        return{
-            restrict: "E",
-            templateUrl: "html/game-lobby.html"
-        };
-    });
-    app.directive("loginBox",function(){
-        return{
-            restrict: "AEC",
-            templateUrl: "html/login-box.html"
-        };
-    });
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
             this.endphase = function() {
                 // Deploy -> Attack -> Move
@@ -489,4 +464,28 @@
     });
 
     map.setViewBox(0, innerHeight / 2, window.innerWidth / 1.5, window.innerHeight / 1.5, true);
+        app.directive("rightBox",function(){
+        return{
+            restrict: "E",
+            templateUrl: "html/right-box.html"
+        };
+    });
+    app.directive("leftBox",function(){
+        return{
+            restrict: "E",
+            templateUrl: "html/left-box.html"
+        };
+    });
+    app.directive("gameLobby",function(){
+        return{
+            restrict: "E",
+            templateUrl: "html/game-lobby.html"
+        };
+    });
+    app.directive("loginBox",function(){
+        return{
+            restrict: "AEC",
+            templateUrl: "html/login-box.html"
+        };
+    });
 })();
