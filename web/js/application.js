@@ -158,13 +158,30 @@
                     $rootScope.thisCountryID = index.node.id;
                     $rootScope.currentPlayer = 1;
                     index.animate(defaultCountry, animationSpeed);
-                    var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-                    console.log(temp);
-                    //$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
-                    $http.post('GameServlet', "clicked=" + temp).success(function () {
-                        $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
-                        $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
-                    });
+                    if ($rootScope.phase == "Setup") {
+                        var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                        postData(send);
+                    }
+                    if ($rootScope.phase == "Deploy") {
+                        var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                        postData(send);
+                    }
+                    if ($rootScope.phase == "Attack") {
+                        var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.prevCountryID, DefendingCountry: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                        postData(send);
+                    }
+                    if ($rootScope.phase == "Move") {
+                        var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                        postData(send);
+                    }
+                    $rootScope.prevCountryID = index.node.id;
+//                    var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+//                    console.log(temp);
+//                    //$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
+//                    $http.post('GameServlet', "clicked=" + temp).success(function () {
+//                        $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
+//                        $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
+//                    });
                 }, true);
             });
 
