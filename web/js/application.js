@@ -48,9 +48,9 @@
             name = name.replace('Username=','');
             var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
             document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            postData(temp);
-            
+            postData(temp);           
         }
+        
         function postData(temp){
         $http({
                 method: 'POST',
@@ -65,7 +65,7 @@
         this.lobbyVis = function() {
             var cookies = readCookie();
             if (cookies[0] != "") {
-                if ($rootScope.gameState.LobbyClosed != "false") {
+                if ($rootScope.gameState.LobbyClosed != "true") {
                     return true;
                 } else {
                     return false;
@@ -76,10 +76,20 @@
         }
 
         this.startGame = function() {
-
-
+            var temp = JSON.stringify({Command: "Start Game"});
+            postData(temp);
         }
-
+        
+        this.delCookie = function() {
+            var cookie = readCookie();
+            for (index in cookie){
+                var name = cookie[index];
+            }
+            name = name.replace('Username=','');
+            var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
+            document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            postData(temp);           
+        }
         function postData(temp){
             $http({
                 method: 'POST',
