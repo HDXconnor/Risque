@@ -60,6 +60,36 @@
             }).error();
     }
     }]);
+
+    app.controller("LobbyController", ['$rootScope', '$http', function($rootScope, $http){
+        this.lobbyVis = function() {
+            var cookies = readCookie();
+            if (cookies[0] != "") {
+                if ($rootScope.gameState.LobbyClosed != "false") {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        this.startGame = function() {
+
+
+        }
+
+        function postData(temp){
+            $http({
+                method: 'POST',
+                url: 'GameServlet',
+                headers: {'Content-Type': 'application/json'},
+                data: temp
+            }).error();
+        }
+    }]);
+
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
             this.endphase = function() {
                 // Deploy -> Attack -> Move
