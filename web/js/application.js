@@ -18,6 +18,7 @@
                 $rootScope.phase = obj.Game.GameState.Phase;
                 $rootScope.countryCount = obj.Game.Board.length;
                 $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
+                $rootScope.host=obj.Game.Players[0].DisplayName;
                 $rootScope.$apply();
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
@@ -33,6 +34,7 @@
             var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
             postData(temp);
             writeCookie("Username", $rootScope.username);
+            console.log($rootScope.username);
         }
         this.loginVis = function() {
             var cookies = readCookie();
@@ -219,7 +221,14 @@
 //                    });
                 }, true);
             });
-
+            function postData(temp){
+            $http({
+                method: 'POST',
+                url: 'GameServlet',
+                headers: {'Content-Type': 'application/json'},
+                data: temp
+            }).error();
+        }
         }]);
     
     function colour() {

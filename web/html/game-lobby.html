@@ -13,6 +13,9 @@
 
         </div>
         <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.delCookie()"> Log Out </button>
-        <button id="start-button" class="pretty-button" type="button" ng-click="lobby.startGame()"> Start Game </button>
+        <div ng-show="host==username">
+            <button id="start-button" class="pretty-button" type="button" ng-click="lobby.startGame()"> Start Game </button>
+        </div>
+        
     </div>
 </div>
