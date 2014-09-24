@@ -17,10 +17,12 @@
                 $rootScope.currentPlayer = obj.Game.GameState.CurrentPlayer;
                 $rootScope.phase = obj.Game.GameState.Phase;
                 $rootScope.countryCount = obj.Game.Board.length;
+                $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
+                $rootScope.$apply();
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
-                $rootScope.$apply();
+                
                 colour();
             }, false);
         }]);
@@ -65,7 +67,7 @@
         this.lobbyVis = function() {
             var cookies = readCookie();
             if (cookies[0] != "") {
-                if ($rootScope.gameState.LobbyClosed != "true") {
+                if ($rootScope.gameStarted != "true") {
                     return true;
                 } else {
                     return false;
@@ -76,7 +78,7 @@
         }
 
         this.startGame = function() {
-            var temp = JSON.stringify({Command: "Start Game"});
+            var temp = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: name}});
             postData(temp);
         }
         
@@ -99,7 +101,7 @@
             }).error();
         }
     }]);
-
+    
     app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
             this.endphase = function() {
                 // Deploy -> Attack -> Move
@@ -117,13 +119,6 @@
 
 
             }
-        this.gameVis = function() {
-            if ($rootScope.gameState.LobbyClosed != "false") {
-                return true;
-            } else {
-                return false;
-            }
-        }
         }])
     app.controller("PhaseController", ["$rootScope", '$http', function($rootScope, $http) {
         this.atkBoxes = function() {
@@ -226,6 +221,7 @@
             });
 
         }]);
+    
     function colour() {
         for (index in countryOwner) {
 
