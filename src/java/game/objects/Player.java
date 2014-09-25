@@ -13,7 +13,7 @@ public class Player {
     public Player(String name, int troopsToDeploy) {
         this.name = name;
         this.playerImage = "image.jpg";
-        this.troopsToDeploy = 0;
+        this.troopsToDeploy = 3;
     }
 
     public int getTroopsToDeploy() {
