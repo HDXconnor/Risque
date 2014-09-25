@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package game.objects;
 
 import game.objects.exceptions.PlayerException;
@@ -11,7 +5,6 @@ import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 /**
  *
  * @author Simeon
@@ -47,9 +40,7 @@ public class PlayerList {
         return -1;
     }
     
-    public HashMap getPlayers() {
-        return players;
-    }
+    public HashMap getPlayers() {return players;}
     
     public void removePlayer(String player) {
         for (int i = 0; i < players.size(); i++) {
@@ -76,6 +67,5 @@ public class PlayerList {
     
     public int getNumberOfPlayers() {
         return players.size();
-    }
-    
+    } 
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.logic;
 
 import game.objects.Game;
@@ -145,8 +140,6 @@ public class Command {
         else if (cmd.equals(STARTGAME)) {
 
             game.getGameState().closeLobby();
-        }
-        
+        }       
     }
 }
-

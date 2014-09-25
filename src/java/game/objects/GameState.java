@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package game.objects;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class GameState {
-    
+public class GameState {    
     private boolean gameStarted;
     private boolean lobbyClosed;
     private int currentPlayer;
@@ -54,20 +47,11 @@ public class GameState {
         return json;
     }
 
-    public Phase getPhase() {
-        return phase;
-    }
+    public Phase getPhase() {return phase;}
 
-    public int getCurrentPlayer() {
-        return currentPlayer;
-    }
+    public int getCurrentPlayer() {return currentPlayer;}
     
-    public void setCurrentPlayer(int player) {
-        currentPlayer = player;
-    }
+    public void setCurrentPlayer(int player) {currentPlayer = player;}
     
-    public void nextTurn() {
-        turn++;
-    }
-
+    public void nextTurn() {turn++;}
 }

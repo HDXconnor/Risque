@@ -1,12 +1,12 @@
-(function() {
-    var app = angular.module("gameApp", ['ngCookies']).config(function($httpProvider) {
+(function () {
+    var app = angular.module("gameApp", ['ngCookies']).config(function ($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
-    
+
     var evtSource = new EventSource("GameServlet");
-    app.run(['$rootScope', '$http', function($rootScope, $http) {
-            evtSource.addEventListener("gamestate", function(e) {
+    app.run(['$rootScope', '$http', function ($rootScope, $http) {
+            evtSource.addEventListener("gamestate", function (e) {
                 var obj = JSON.parse(e.data);
                 $rootScope.data = obj;
                 $rootScope.game = obj.Game;
@@ -17,105 +17,77 @@
                 $rootScope.phase = obj.Game.GameState.Phase;
                 $rootScope.countryCount = obj.Game.GameState.Unassigned; // obj.Game.Board.length;
                 $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
-                if ($rootScope.players.length !== 0){
-                $rootScope.host=obj.Game.Players[0].DisplayName;
-                for(i=0;i<$rootScope.players.length;i++){
-                    if (obj.Game.Players[i].DisplayName === $rootScope.username) {
-                        $rootScope.thisUserNumber = i;
+                if ($rootScope.players.length !== 0) {
+                    $rootScope.host = obj.Game.Players[0].DisplayName;
+                    for (i = 0; i < $rootScope.players.length; i++) {
+                        if (obj.Game.Players[i].DisplayName === $rootScope.username) {
+                            $rootScope.thisUserNumber = i;
+                        }
                     }
                 }
-            }
-            $rootScope.$apply();
-                angular.forEach($rootScope.board, function(index) {
+                $rootScope.$apply();
+                angular.forEach($rootScope.board, function (index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
                 colour($rootScope);
             }, false);
         }]);
-    
+
     app.controller("LoginController", ['$rootScope','$cookieStore', '$http', function($rootScope,$cookieStore, $http){
-        this.setUser = function() {
-            $rootScope.username = document.getElementById("login-textbox").value;
-            var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
-            postData(temp);
-            writeCookie("Username", $rootScope.username);
-            //$cookieStore.put("Username", $rootScope.username);
-            console.log($rootScope.username);
-        };
-        
-        this.loginVis = function() {
-            return(document.cookie.indexOf("Username") >= 0);
-        };
-        
-        this.delCookie = function() {
-            var cookie = readCookie();
-            for (index in cookie){
-                var name = cookie[index];
-            }
-            name = name.replace('Username=','');
-            var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
-            document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            postData(temp);  
-            $rootScope.$apply();
-        };
+            this.setUser = function () {
+                $rootScope.username = document.getElementById("login-textbox").value;
+                var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
+                postData(temp);
+                writeCookie("Username", $rootScope.username);
+                //$cookieStore.put("Username", $rootScope.username);
+                console.log($rootScope.username);
+            };
 
-        function postData(temp){
-        $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        };
-    }]);
+            this.loginVis = function () {
+                return(document.cookie.indexOf("Username") >= 0);
+            };
 
-    app.controller("LobbyController", ['$rootScope', '$http', function($rootScope, $http){
-        this.theButton = function(){
-            console.log($rootScope.thisUserNumber);
-        };
-        
-        this.lobbyVis = function() {
-            var cookies = readCookie();
-            if (cookies[0] !== "") {
-                if ($rootScope.gameStarted !== "true") {
-                    return true;
-                } else {
-                    return false;
+            this.delCookie = function() {
+                var cookie = readCookie();
+                for (index in cookie){
+                    var name = cookie[index];
                 }
-            } else {
-                return false;
-            }
-        };
-        
-        this.startGame = function() {
-            var temp = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: name}});
-            postData(temp);
-        };
-        
-        this.delCookie = function() {
-            var cookie = readCookie();
-            for (index in cookie){
-                var name = cookie[index];
-            }
-            name = name.replace('Username=','');
-            var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
-            document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            postData(temp);           
+                name = name.replace('Username=', '');
+                var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
+                document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                postData(temp);
+                $rootScope.$apply();
+            };
+        }]);
 
-        }
-        
-        function postData(temp){
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        }
-    }]);
-    
-    app.controller("GameController", ['$rootScope', '$http', function($rootScope, $http) {
-            this.endphase = function() {
+    app.controller("LobbyController", ['$rootScope', '$http', function ($rootScope, $http) {
+            this.theButton = function () {
+                console.log($rootScope.thisUserNumber);
+            };
+
+            this.lobbyVis = function () {
+                return(document.cookie.indexOf("Username") >= 0 && $rootScope.gameStarted !== "true");
+            };
+
+            this.startGame = function () {
+                var temp = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: name}});
+                postData(temp);
+            };
+
+            this.delCookie = function () {
+                var cookie = readCookie();
+                for (index in cookie) {
+                    var name = cookie[index];
+                }
+                name = name.replace('Username=', '');
+                var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
+                document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+                postData(temp);
+            }
+        }]);
+
+    app.controller("GameController", ['$rootScope', '$http', function ($rootScope, $http) {
+            this.endphase = function () {
                 // Deploy -> Attack -> Move
                 if ($rootScope.phase === "Setup" || $rootScope.phase === "Deploy")
                     $rootScope.phase = "Attack";
@@ -128,61 +100,58 @@
                     $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
                     $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                 }
-            
-            this.endPhaseVis = function() {
-                if ($rootscope.countryCount != 0) {
-                    return true;
-                } else {
-                    return false;
+
+                this.endPhaseVis = function () {
+                    if ($rootscope.countryCount != 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
-
-            }
         }]);
-    
 
-    app.controller("PhaseController", ["$rootScope", '$http', function($rootScope, $http) {
-        this.atkBoxes = function() {
-            if ($rootScope.phase === "Attack") {
-                console.log("HELLO" + $rootScope.phase);
-                return $rootScope.isHidden;
-            }
-            else {
-                return true;
-            }
-        };
-        
-        this.deployBoxes = function() {
-            if ($rootScope.phase === "Deploy") {
-                return $rootScope.isHidden;
-            }
-            else {
-                return true;
-            }
-        };
-        
-        this.reinfBoxes = function() {
-            if ($rootScope.phase === "Move") {
-                return $rootScope.isHidden;
-            }
-            else {
-                return true;
-            }
-        };
-        
-    }]);
-    app.controller("MapController", ["$rootScope", '$http', function($rootScope, $http) {
+    app.controller("PhaseController", ["$rootScope", '$http', function ($rootScope, $http) {
+            this.atkBoxes = function () {
+                if ($rootScope.phase === "Attack") {
+                    console.log("HELLO" + $rootScope.phase);
+                    return $rootScope.isHidden;
+                }
+                else {
+                    return true;
+                }
+            };
 
-            angular.forEach(mapList, function(index) {
+            this.deployBoxes = function () {
+                if ($rootScope.phase === "Deploy") {
+                    return $rootScope.isHidden;
+                }
+                else {
+                    return true;
+                }
+            };
 
-                index[0].addEventListener("mouseover", function() {
-                    angular.forEach($rootScope.board, function(index) {
+            this.reinfBoxes = function () {
+                if ($rootScope.phase === "Move") {
+                    return $rootScope.isHidden;
+                }
+                else {
+                    return true;
+                }
+            };
+        }]);
+    app.controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
+
+            angular.forEach(mapList, function (index) {
+
+                index[0].addEventListener("mouseover", function () {
+                    angular.forEach($rootScope.board, function (index) {
                         if ($rootScope.thisCountryID === index.CountryID) {
                             $rootScope.countryName = index.CountryName;
                             $rootScope.owner = index.Owner;
                             $rootScope.troops = index.Troops;
                         }
-                        angular.forEach($rootScope.players, function(player) {
+                        angular.forEach($rootScope.players, function (player) {
                             if ($rootScope.owner === player.PlayerOrder) {
                                 $rootScope.playerName = player.DisplayName;
                             }
@@ -191,7 +160,7 @@
                 }
                 , true);
 
-                index[0].addEventListener("mouseout", function() {
+                index[0].addEventListener("mouseout", function () {
                     index.animate(4, animationSpeed);
                 }, true);
 
@@ -201,29 +170,29 @@
                     if ($rootScope.currentPlayer === $rootScope.thisUserNumber) {
 
 
-                    index.animate(defaultCountry, animationSpeed);
-                    if ($rootScope.phase === "Setup") {
-                        var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-                        postData(send);
-                    }
-                    if ($rootScope.phase === "Deploy") {
-                        var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-                        postData(send);
-                    }
-                    if ($rootScope.phase === "Attack") {
-                        var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.prevCountryID, DefendingCountry: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-                        postData(send);
-                    }
-                    if ($rootScope.phase === "Move") {
-                        var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-                        postData(send);
-                    }
-                    $rootScope.prevCountryID = index.node.id;
+                        index.animate(defaultCountry, animationSpeed);
+                        if ($rootScope.phase === "Setup") {
+                            var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            postData(send);
+                        }
+                        if ($rootScope.phase === "Deploy") {
+                            var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            postData(send);
+                        }
+                        if ($rootScope.phase === "Attack") {
+                            var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.prevCountryID, DefendingCountry: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            postData(send);
+                        }
+                        if ($rootScope.phase === "Move") {
+                            var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            postData(send);
+                        }
+                        $rootScope.prevCountryID = index.node.id;
 
-                }
-                else{
-                    console.log("Not your turn");
-                }
+                    }
+                    else {
+                        console.log("Not your turn");
+                    }
 //                    var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
 //                    console.log(temp);
 //                    //$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
@@ -234,50 +203,78 @@
 
                 }, true);
             });
-            function postData(temp){
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        }
+            function postData(temp) {
+                $http({
+                    method: 'POST',
+                    url: 'GameServlet',
+                    headers: {'Content-Type': 'application/json'},
+                    data: temp
+                }).error();
+            }
         }]);
-    
-    function colour($rootScope) {
+
+//    function color($rootScope) {
+//
+//        angular.forEach($rootScope.board, function (country) {
+//            if (country.countryID == -1) {
+//                mapList[country.countryID].path.attr(blackCountry);
+//            }
+//            else if (country.countryID == 0) {
+//                mapList[country.countryID].path.attr(redCountry);
+//            }
+//            else if (country.countryID == 1) {
+//                mapList[country.countryID].path.attr(greenCountry);
+//            }
+//            else if (country.countryID == 2) {
+//                mapList[country.countryID].path.attr(yellowCountry);
+//            }
+//            else if (country.countryID == 3) {
+//                mapList[country.countryID].path.attr(pinkCountry);
+//            }
+//            else if (country.countryID == 4) {
+//                mapList[country.countryID].path.attr(brownCountry);
+//            }
+//            else if (country.countryID == 5) {
+//                mapList[country.countryID].path.attr(blueCountry);
+//            }
+//        });
+//    };
+    function color($rootScope) {
         var count = 0;
         for (index in countryOwner) {
             angular.forEach(countryOwner[index], function(shape) {
-                if ($rootScope.board[count].Owner === "-1") {
+                if ($rootScope.board[count].Owner == "-1") {
                     shape.attr(blackCountry);
                 }
-                else if ($rootScope.board[count].Owner === "0") {
+                else if ($rootScope.board[count].Owner == "0") {
                     shape.attr(redCountry);
                 }
-                else if ($rootScope.board[count].Owner === "1") {
+                else if ($rootScope.board[count].Owner == "1") {
                     shape.attr(greenCountry);
                 }
-                else if ($rootScope.board[count].Owner === "2") {
+                else if ($rootScope.board[count].Owner == "2") {
                     shape.attr(yellowCountry);
                 }
-                else if ($rootScope.board[count].Owner === "3") {
+                else if ($rootScope.board[count].Owner == "3") {
                     shape.attr(pinkCountry);
                 }
-                else if ($rootScope.board[count].Owner === "4") {
+                else if ($rootScope.board[count].Owner == "4") {
                     shape.attr(brownCountry);
                 }
-                else if ($rootScope.board[count].Owner === "5") {
+                else if ($rootScope.board[count].Owner == "5") {
                     shape.attr(blueCountry);
                 }
-            count = count+1;
+                count = count+1;
             });
             count = 0;
         }count = 0;
-        
+
         ;
     }
+
+
     function moveTroops(troops, id1, id2) {
-        angular.forEach($rootScope.board, function(index) {
+        angular.forEach($rootScope.board, function (index) {
             if (index.CountryID === id1) {
                 index.Troops = index.Troops - troops;
             }
@@ -286,42 +283,55 @@
             }
         });
     }
-    
+
     function deploy(troops, id1) {
-        angular.forEach($rootScope.board, function(index) {
+        angular.forEach($rootScope.board, function (index) {
             if (index.CountryID === id1) {
                 index.Troops = index.Troops + troops;
             }
         });
     }
-    
+    ;
+    function postData(temp) {
+        $http({
+            method: 'POST',
+            url: 'GameServlet',
+            headers: {'Content-Type': 'application/json'},
+            data: temp
+        }).error();
+    }
+    ;
     function writeCookie(key, value) {
         document.cookie = key + "=" + value + "; ";
     }
-    
+    ;
+
     function readCookie() {
         var x = document.cookie;
         var keyArray = x.split("; ");
         return keyArray;
     }
-    
+    ;
+
     function appendCookie(key, value) {
         var x = document.cookie;
         document.cookie = x + key + "=" + value + "; ";
     }
-    
+    ;
+
     function webSockConnect() {
         var socketURI = "ws://" + document.location.host + "GameSocket";
         var ws = new WebSocket(socketURI);
-        ws.onmessage = function(evt) {
+        ws.onmessage = function (evt) {
             webSockRecv(evt);
         };
-        ws.onerror = function(evt) {
+        ws.onerror = function (evt) {
             console.log(evt);
         };
         return ws;
     }
-    
+    ;
+
     function webSockSend(json) {
         if (conn.readyState !== 1) {
             conn.send(json);
@@ -329,10 +339,12 @@
             console.log("Not connected to websocket, cannot send.");
         }
     }
-    
+    ;
+
     function webSockRecv(evt) {
         console.log("Server says " + evt.data());
     }
+    ;
 
     var countryOwner = {};
     countryOwner["-1"] = [];
@@ -544,30 +556,30 @@
     mapList["NA09"] = map.path("M222.167,507.167c0,0-2.417,1.583-3.917,5.083s1.25,6.75,1,8s-3.5,3.75-3.5,6.75s-1.5,12-1.5,12s-3-1.5-5-3.5s-4.5,1.25-2.75,6.75s9.75,7.75,9.75,7.75c4,2.5,0.5,16-1,17s-7.25,7-10.25,9.75s-3.5,7.5-0.5,11.5s7.25,1,7.25,1s0,0,1.75,0.25s4,8.75,4,13.5s6,8.25,9,9.25s5,9,5,9s0,0-1.25,0.5s-2.5,6,2.25,11.75s9.75-2.75,9.75-2.75s0,0,0.75,0.75s1.5,11.5,1.5,11.5c-2,1-16.5-1.5-19.5-4s-4.5-13-6-17s-3.5,0-5.5,2.5s-7-1-7.5-4.5s-5-2.5-6-7.5s-2.5-11-5.5-12S187,598,185,597s-6.5-4.5-6-7s-1-3-4-12s1.377-17.519,10.334-15.334C199,565.999,200,558,194,557s-14-11-17-15.5s-15.999-16.499-17.563-21.499s3.563-8.5,6.063-10s-1.5-25.5-1-33s-1-7.5-2.5-13.5s-2.453-7.321-2.5-9.762c-0.533-27.762,0.167-27.239,4.167-33.739l0,0c0,0,3,2.834,5.167,5s4.5,8.166,4.833,10.834c0.333,2.666,6.5,10.332,7.833,13.166s8,1.833,10.833,1.833s3.5,7.667,3.5,7.667l0,0c0,0,1.333,14.667,3.333,16s2.667,0.333,4-0.667s4.333-3.333,4.333,0.667s4.667,9.666,4.667,11.333s1.334,13.668,2.667,14.334S222.167,504.501,222.167,507.167L222.167,507.167z");
     mapList["NA09"].node.id = "NA09";
 
-    angular.forEach(mapList, function(index) {
+    angular.forEach(mapList, function (index) {
         index.attr(defaultCountry);
     });
 
     map.setViewBox(0, innerHeight / 2, window.innerWidth / 1.5, window.innerHeight / 1.5, true);
-        app.directive("rightBox",function(){
+    app.directive("rightBox", function () {
         return{
             restrict: "E",
             templateUrl: "html/right-box.html"
         };
     });
-    app.directive("leftBox",function(){
+    app.directive("leftBox", function () {
         return{
             restrict: "E",
             templateUrl: "html/left-box.html"
         };
     });
-    app.directive("gameLobby",function(){
+    app.directive("gameLobby", function () {
         return{
             restrict: "E",
             templateUrl: "html/game-lobby.html"
         };
     });
-    app.directive("loginBox",function(){
+    app.directive("loginBox", function () {
         return{
             restrict: "AEC",
             templateUrl: "html/login-box.html"
