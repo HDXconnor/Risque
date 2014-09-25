@@ -45,13 +45,9 @@
             console.log($rootScope.username);
         };
         this.loginVis = function() {
-            var cookies = readCookie();
-            if (cookies[0] !== "") {
-                return true;
-            } else {
-                return false;
-            }
+            return(document.cookie.indexOf("Username") >= 0);
         };
+        
         this.delCookie = function() {
             var cookie = readCookie();
             for (index in cookie){
@@ -85,7 +81,7 @@
         this.lobbyVis = function() {
             var cookies = readCookie();
             if (cookies[0] !== "") {
-                if ($rootScope.gameStarted === "true") {
+                if ($rootScope.gameStarted !== "true") {
                     return true;
                 } else {
                     return false;
