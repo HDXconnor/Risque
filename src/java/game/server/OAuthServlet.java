@@ -6,6 +6,7 @@
 package game.server;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,20 +34,28 @@ public class OAuthServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Verifier verifier = new Verifier(request.getParameter("oauth_verifier"));
+        Verifier verifier = new Verifier(request.getParameter("code"));
         Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+//        PrintWriter out = response.getWriter();
+//        out.println(request.getParameter("code"));
 
         // Testing our access
         OAuthRequest authRequest = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me");
         service.signRequest(accessToken, authRequest);
         Response authResponse = authRequest.send();
-        System.out.println(authResponse.getCode());
-        System.out.println(authResponse.getBody());
+        PrintWriter out = response.getWriter();
+        out.println(authResponse.getCode());
+        out.println(authResponse.getBody());
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        service = new ServiceBuilder().provider(FacebookApi.class).apiKey(apiKey).apiSecret(apiSecret).callback("http://localhost:8084/Risque/OAuthServlet").build();
+        service = new ServiceBuilder().provider(FacebookApi.class).apiKey(apiKey).apiSecret(apiSecret).callback("http://111.69.101.129:8084/Risque/OAuthServlet").build();
         String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN); // Send the user here clientside
+//        PrintWriter out = response.getWriter();
+//        out.println(authorizationUrl);
+        response.setContentType("text/html");
+        response.setStatus(response.SC_MOVED_TEMPORARILY);
+        response.setHeader("Location", authorizationUrl);
     }
 }
