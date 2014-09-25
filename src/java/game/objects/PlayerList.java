@@ -74,4 +74,8 @@ public class PlayerList {
         return arr;
     }
     
+    public int getNumberOfPlayers() {
+        return players.size();
+    }
+    
 }

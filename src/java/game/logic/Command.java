@@ -47,11 +47,11 @@ public class Command {
             String country = (String) data.get("CountryClicked");
             int player = (Integer) data.get("CurrentPlayer");
             
-            if (game.getCurrentPlayer() != player) return;
+            if (game.getGameState().getCurrentPlayer() != player) return;
             
             if (game.getBoard().getCountry(country).getOwner() == -1) {
                 game.getBoard().getCountry(country).setOwner(player);
-                game.getGameState().endTurn();
+                game.endTurn();
             } else {
                 // country already owned by another player
             }

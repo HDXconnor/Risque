@@ -50,7 +50,7 @@ public class Game {
                 gameState.startGame();
                 break;
             case Phase.MOVE:
-                gameState.endTurn();
+                endTurn();
                 break;
             default:
                 break;
@@ -58,12 +58,13 @@ public class Game {
         phase.nextPhase();
     }
     
-    public Player getCurrentPlayerObject() {
-        return (Player) players.getPlayers().get(gameState.getCurrentPlayer());
+    public void endTurn() {
+        gameState.nextTurn();
+        gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % players.getNumberOfPlayers());
     }
     
-    public int getCurrentPlayer() {
-        return gameState.getCurrentPlayer();
+    public Player getCurrentPlayerObject() {
+        return (Player) players.getPlayers().get(gameState.getCurrentPlayer());
     }
     
     public void removePlayer(String playerName) {
