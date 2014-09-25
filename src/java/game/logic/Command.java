@@ -46,8 +46,12 @@ public class Command {
         if (cmd.equals(Phase.SETUP)) {
             String country = (String) data.get("CountryClicked");
             int player = (Integer) data.get("CurrentPlayer");
+            
+            if (game.getCurrentPlayer() != player) return;
+            
             if (game.getBoard().getCountry(country).getOwner() == -1) {
                 game.getBoard().getCountry(country).setOwner(player);
+                game.getGameState().endTurn();
             } else {
                 // country already owned by another player
             }

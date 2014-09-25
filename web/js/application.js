@@ -15,7 +15,7 @@
                 $rootScope.players = obj.Game.Players;
                 $rootScope.currentPlayer = obj.Game.GameState.CurrentPlayer;
                 $rootScope.phase = obj.Game.GameState.Phase;
-                $rootScope.countryCount = obj.Game.Board.length;
+                $rootScope.countryCount = obj.Game.GameState.Unassigned; // obj.Game.Board.length;
                 $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
                 $rootScope.host=obj.Game.Players[0].DisplayName;
                 $rootScope.$apply();
@@ -148,23 +148,6 @@
         }
     }]);
     app.controller("MapController", ["$rootScope", '$http', function($rootScope, $http) {
-            $rootScope.isHidden = false;
-            $rootScope.countryID = "tom";
-            $rootScope.playerOrder = "";
-            $rootScope.troops = 0;
-            $rootScope.countryName = "default";
-            $rootScope.playerOrder = "nothing";
-            $rootScope.playerName = "default";
-            this.map = map;
-            this.countries = mapList;
-            this.setupCountries = function() {
-                if ($rootScope.countryCount = 42) {
-                    $rootScope.countryCount -= 1;
-                    return $rootScope.countryCount + 1;
-                }
-                $rootScope.countryCount -= 1;
-                return $rootScope.countryCount;
-            }
 
             angular.forEach(mapList, function(index) {
 
@@ -191,7 +174,6 @@
 
                 index[0].addEventListener("click", function () {
                     $rootScope.thisCountryID = index.node.id;
-                    $rootScope.currentPlayer = 1;
                     index.animate(defaultCountry, animationSpeed);
                     if ($rootScope.phase == "Setup") {
                         var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
@@ -210,13 +192,6 @@
                         postData(send);
                     }
                     $rootScope.prevCountryID = index.node.id;
-//                    var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-//                    console.log(temp);
-//                    //$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
-//                    $http.post('GameServlet', "clicked=" + temp).success(function () {
-//                        $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
-//                        $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
-//                    });
                 }, true);
             });
             function postData(temp){
