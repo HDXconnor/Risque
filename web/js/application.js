@@ -71,7 +71,7 @@
 
     app.controller("LobbyController", ['$rootScope', '$http', function($rootScope, $http){
         this.theButton = function(){
-            console.log($rootScope.thisUserNumber);
+            console.log($rootscope.countryCount);
         };
         
         this.lobbyVis = function() {
@@ -128,15 +128,14 @@
                     $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
                     $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                 }
-            
+           
+            }
             this.endPhaseVis = function() {
-                if ($rootscope.countryCount != 0) {
+                if ($rootScope.countryCount !== 0) {
                     return true;
                 } else {
                     return false;
                 }
-            }
-
             }
         }]);
     
@@ -172,7 +171,9 @@
         
     }]);
     app.controller("MapController", ["$rootScope", '$http', function($rootScope, $http) {
-
+            this.magicButton = function(){
+                console.log($rootScope.countryCount);
+            }
             angular.forEach(mapList, function(index) {
 
                 index[0].addEventListener("mouseover", function() {

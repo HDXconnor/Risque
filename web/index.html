@@ -16,7 +16,7 @@
     <div id="game-frame" ng-show="gameStarted==true" >
         <left-box></left-box>
         <div id="map"  ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" >
-            <button id="magic" class="pretty-button" type="button" ng-click="map.nextOne()"> Magic </button>
+            <button id="magic" class="pretty-button" type="button" ng-click="map.magicButton()"> Magic </button>
         </div>
         <right-box></right-box>
     </div>
