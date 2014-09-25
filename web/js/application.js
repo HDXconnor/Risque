@@ -24,6 +24,7 @@
                 for(i=0;i<$rootScope.players.length;i++){
                     if (obj.Game.Players[i].DisplayName == $rootScope.username) {
                         $rootScope.thisUserNumber = i;
+                        $rootScope.troopsToDeploy = obj.Game.Players[i].TroopsToDeploy;
                     }
                 }
                 if($rootScope.host==$rootScope.username){
@@ -31,6 +32,11 @@
                     var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
                     postData(temp);
                 }
+                }
+                
+                if($rootScope.phase=="Deploy"&&obj.Game.Players[$rootScope.players.length-1].troopsToDeploy==0){
+                    var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
+                    postData(temp);
                 }
                 
                 
@@ -204,7 +210,6 @@
                 , true);
 
                 index[0].addEventListener("mouseout", function () {
-                    index.animate(4, animationSpeed);
                 }, true);
 
                 index[0].addEventListener("click", function () {
