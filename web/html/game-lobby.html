@@ -4,6 +4,7 @@
             <h3> Players </h3>
             <div>
                 <p ng-repeat="player in players"> {{player.DisplayName}} </p>
+                <p ng-repeat="n in [0,1,2,3,4,5] | limitTo:lobbySize - players.length"> Empty Slot </p>
                 <button class="pretty-button" type="button" ng-show="host==username"> Remove From Game </button>
             </div>
         </div>
