@@ -7,7 +7,6 @@
     var evtSource = new EventSource("GameServlet");
     app.run(['$rootScope', '$http', function($rootScope, $http) {
             evtSource.addEventListener("gamestate", function(e) {
-                console.log(obj);
                 var obj = JSON.parse(e.data);
                 $rootScope.data = obj;
                 $rootScope.game = obj.Game;
@@ -23,7 +22,6 @@
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
-                
                 colour();
             }, false);
         }]);
