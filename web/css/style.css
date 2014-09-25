@@ -52,6 +52,11 @@
 {
     display: inline-block;
 }
+.player-color
+{
+    height: 10px;
+    width: 10px;
+}
 
 .remove-button
 {
@@ -174,25 +179,25 @@ h1
 }
 
 #player0 {
-    color: #007AFF;
+    background-color: #FF3B30;
 }
 
 #player1 {
-    color: #FF3B30;
+    background-color: #00ff1b;
 }
 
 #player2 {
-    color: #87FC70;
+    background-color: #FF5400;
 }
 
 #player3 {
-    color: #ff5400;
+    background-color: #4A4A4A;
 }
 
 #player4 {
-    color: #4A4A4A  ;
+    background-color: #6f3edb  ;
 }
 
 #player5 {
-    color: #6f3ed6;
+    background-color: #007AFF;
 }

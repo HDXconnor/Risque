@@ -2,8 +2,9 @@
 
     <div id="player-state" class="display-box" >
         <h3> Players </h3>
-        <div>
-            <p  ng-repeat="player in players">{{player.DisplayName}}</p>
+        <div class="player-box" ng-repeat="player in players">
+            <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
+            <p  class="player-name"> {{player.DisplayName}} </p>
         </div>
     </div>
 

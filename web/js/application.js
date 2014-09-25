@@ -18,6 +18,7 @@
                 $rootScope.countryCount = obj.Game.GameState.Unassigned; // obj.Game.Board.length;
                 $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
                 $rootScope.lobbySize = 6;
+                $rootScope.playerString = "player";
                 if ($rootScope.players.length !== 0){
                 $rootScope.host=obj.Game.Players[0].DisplayName;
             }
