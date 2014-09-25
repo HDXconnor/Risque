@@ -42,19 +42,19 @@ public class Command {
     public static void parseInput(JSONObject json, Game game) throws JSONException {
         String cmd = (String) json.get("Command");
         JSONObject data = (JSONObject) json.get("Data");
-
         if (cmd.equals(Phase.SETUP)) {
             String country = (String) data.get("CountryClicked");
             int player = (Integer) data.get("CurrentPlayer");
             
-            if (game.getGameState().getCurrentPlayer() != player) return;
+            if (game.getCurrentPlayer() != player) return;
             
             if (game.getBoard().getCountry(country).getOwner() == -1) {
                 game.getBoard().getCountry(country).setOwner(player);
-                game.endTurn();
+                game.getGameState().endTurn();
             } else {
                 // country already owned by another player
             }
+            game.getGameState().changePlayer();
         }
 
         else if (cmd.equals(Phase.DEPLOY)) {
@@ -144,7 +144,10 @@ public class Command {
         }
         
         else if (cmd.equals(STARTGAME)) {
+
             game.getGameState().closeLobby();
         }
+        
     }
 }
+

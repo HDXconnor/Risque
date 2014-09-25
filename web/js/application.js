@@ -17,11 +17,23 @@
                 $rootScope.phase = obj.Game.GameState.Phase;
                 $rootScope.countryCount = obj.Game.GameState.Unassigned; // obj.Game.Board.length;
                 $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
+                if($rootScope.players.length!=0){
                 $rootScope.host=obj.Game.Players[0].DisplayName;
-                $rootScope.$apply();
+                for(i=0;i<$rootScope.players.length;i++){
+                    if(obj.Game.Players[i].DisplayName==$rootScope.username){
+                        $rootScope.thisUserNumber = i;
+                    }
+                }
+            }
+                
+            $rootScope.$apply();
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
+                
+                colour($rootScope);
+                
+                
                 colour();
             }, false);
         }]);
@@ -50,7 +62,8 @@
             name = name.replace('Username=','');
             var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
             document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-            postData(temp);           
+            postData(temp);  
+            $rootScope.$apply();
         }
         
         function postData(temp){
@@ -64,6 +77,9 @@
     }]);
 
     app.controller("LobbyController", ['$rootScope', '$http', function($rootScope, $http){
+        this.theButton = function(){
+            console.log($rootScope.thisUserNumber);
+        }
         this.lobbyVis = function() {
             var cookies = readCookie();
             if (cookies[0] != "") {
@@ -164,7 +180,6 @@
                             }
                         });
                     });
-                    colour();
                 }
                 , true);
 
@@ -174,6 +189,10 @@
 
                 index[0].addEventListener("click", function () {
                     $rootScope.thisCountryID = index.node.id;
+
+                    if($rootScope.currentPlayer==$rootScope.thisUserNumber){
+
+
                     index.animate(defaultCountry, animationSpeed);
                     if ($rootScope.phase == "Setup") {
                         var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
@@ -192,6 +211,19 @@
                         postData(send);
                     }
                     $rootScope.prevCountryID = index.node.id;
+
+                }
+                else{
+                    console.log("Not your turn")
+                }
+//                    var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+//                    console.log(temp);
+//                    //$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
+//                    $http.post('GameServlet', "clicked=" + temp).success(function () {
+//                        $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
+//                        $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
+//                    });
+
                 }, true);
             });
             function postData(temp){
@@ -204,33 +236,36 @@
         }
         }]);
     
-    function colour() {
+    function colour($rootScope) {
+        var count = 0;
         for (index in countryOwner) {
-
             angular.forEach(countryOwner[index], function(shape) {
-                if (index == "0") {
-                    shape.attr(blueCountry);
-                }
-                else if (index == "1") {
-                    shape.attr(redCountry);
-                }
-                else if (index == "2") {
-                    shape.attr(greenCountry);
-                }
-                else if (index == "3") {
-                    shape.attr(yellowCountry);
-                }
-                else if (index == "4") {
-                    shape.attr(pinkCountry);
-                }
-                else if (index == "5") {
-                    shape.attr(brownCountry);
-                }
-                else if (index == "-1") { // or just else?
+                if ($rootScope.board[count].Owner == "-1") {
                     shape.attr(blackCountry);
                 }
+                else if ($rootScope.board[count].Owner == "0") {
+                    shape.attr(redCountry);
+                }
+                else if ($rootScope.board[count].Owner == "1") {
+                    shape.attr(greenCountry);
+                }
+                else if ($rootScope.board[count].Owner == "2") {
+                    shape.attr(yellowCountry);
+                }
+                else if ($rootScope.board[count].Owner == "3") {
+                    shape.attr(pinkCountry);
+                }else if ($rootScope.board[count].Owner == "4") {
+                    shape.attr(brownCountry);
+                }
+                else if ($rootScope.board[count].Owner == "5") {
+                    shape.attr(blueCountry);
+                }
+                console.log()
+            count = count+1;
             });
-        }
+            count = 0;
+        }count = 0;
+        
         ;
     }
     function moveTroops(troops, id1, id2) {
