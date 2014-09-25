@@ -84,13 +84,8 @@
         
         this.lobbyVis = function() {
             var cookies = readCookie();
-<<<<<<< HEAD
-            if (cookies[0] != "") {
-                if ($rootScope.gameStarted == "true") {
-=======
             if (cookies[0] !== "") {
                 if ($rootScope.gameStarted !== "true") {
->>>>>>> c0d02c9a3f050ad439768c2265e83329da3bbb88
                     return true;
                 } else {
                     return false;
@@ -116,14 +111,9 @@
             var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
             document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
             postData(temp);           
-<<<<<<< HEAD
+
         }
         
-
-=======
-        };
-        
->>>>>>> c0d02c9a3f050ad439768c2265e83329da3bbb88
         function postData(temp){
             $http({
                 method: 'POST',
@@ -148,7 +138,6 @@
                     $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
                     $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                 }
-<<<<<<< HEAD
             
             this.endPhaseVis = function() {
                 if ($rootscope.countryCount != 0) {
@@ -159,12 +148,9 @@
             }
 
             }
-        }])
-=======
-            };
         }]);
     
->>>>>>> c0d02c9a3f050ad439768c2265e83329da3bbb88
+
     app.controller("PhaseController", ["$rootScope", '$http', function($rootScope, $http) {
         this.atkBoxes = function() {
             if ($rootScope.phase === "Attack") {
@@ -357,18 +343,8 @@
     function webSockRecv(evt) {
         console.log("Server says " + evt.data());
     }
-<<<<<<< HEAD
+
     var countryOwner = {};
-    countryOwner["-1"] = {};
-    countryOwner["0"] = {};
-    countryOwner["1"] = {};
-    countryOwner["2"] = {};
-    countryOwner["3"] = {};
-    countryOwner["4"] = {};
-    countryOwner["5"] = {};
-=======
-    
-    var countryOwner = [];
     countryOwner["-1"] = [];
     countryOwner["0"] = [];
     countryOwner["1"] = [];
@@ -376,7 +352,6 @@
     countryOwner["3"] = [];
     countryOwner["4"] = [];
     countryOwner["5"] = [];
->>>>>>> c0d02c9a3f050ad439768c2265e83329da3bbb88
 
     var MapWidth = 900;
     var MapHeight = 900;
