@@ -45,6 +45,7 @@ public class Command {
             
             if (game.getBoard().getCountry(country).getOwner() == -1) {
                 game.getBoard().getCountry(country).setOwner(player);
+                game.getBoard().getCountry(country).setTroops(1);
                 game.nextPlayer();//game.endTurn();
             } else {
                 // country already owned by another player
