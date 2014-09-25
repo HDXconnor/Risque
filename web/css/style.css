@@ -30,7 +30,12 @@
 {
     width: 50%;
     margin: 0 25%;
+}
 
+#lobby-area
+{
+    width: 40%;
+    display: inline-block;
 }
 
 .display-box

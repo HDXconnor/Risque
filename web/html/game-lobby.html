@@ -1,15 +1,16 @@
 <div id="game-lobby" ng-controller="LobbyController as lobby" ng-show="lobby.lobbyVis()">
     <div id="lobby-box" class="display-box">
-        <div id="player-box">
+        <div id="player-box" class="lobby-area">
             <h3> Players </h3>
             <div>
-                <p ng-repeat="player in players">
-                    {{player.DisplayName}}
-                </p>              
+                <p ng-repeat="player in players"> {{player.DisplayName}} </p>
+                <button class="pretty-button" type="button" ng-show="host==username"> Remove From Game </button>
             </div>
         </div>
-        <div id="chat area">
-
+        <div id="chat-area" class="lobby-area">
+            <form>
+                <input type="text" class="input-type" name="username" placeholder="chat">
+            </form>
         </div>
         
         <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.delCookie()"> Log Out </button>

@@ -85,7 +85,7 @@
         this.lobbyVis = function() {
             var cookies = readCookie();
             if (cookies[0] !== "") {
-                if ($rootScope.gameStarted !== "true") {
+                if ($rootScope.gameStarted === "true") {
                     return true;
                 } else {
                     return false;
