@@ -247,28 +247,27 @@
 
     function color($rootScope) {
 
-        angular.forEach($rootscope.board, function (country) {
-            if (country.countryID === "-1") {
-                mapList[country.countryID].attr(blackCountry);
+        angular.forEach($rootScope.board, function (country) {
+            if (country.countryID == -1) {
+                mapList[country.countryID].path.attr(blackCountry);
             }
-            else if (country.countryID === "0") {
-                mapList[country.countryID].attr(redCountry);
+            else if (country.countryID == 0) {
+                mapList[country.countryID].path.attr(redCountry);
             }
-            else if (country.countryID === "1") {
-                mapList[country.countryID].attr(greenCountry);
+            else if (country.countryID == 1) {
+                mapList[country.countryID].path.attr(greenCountry);
             }
-            else if (country.countryID === "2") {
-                mapList[country.countryID].attr(yellowCountry);
+            else if (country.countryID == 2) {
+                mapList[country.countryID].path.attr(yellowCountry);
             }
-            else if (country.countryID === "3") {
-                mapList[country.countryID].attr(pinkCountry);
+            else if (country.countryID == 3) {
+                mapList[country.countryID].path.attr(pinkCountry);
             }
-            else if (country.countryID === "4") {
-                mapList[country.countryID].attr(brownCountry);
+            else if (country.countryID == 4) {
+                mapList[country.countryID].path.attr(brownCountry);
             }
-            else country.countryID === "5"
-            {
-                mapList[country.countryID].attr(blueCountry);
+            else if (country.countryID == 5) {
+                mapList[country.countryID].path.attr(blueCountry);
             }
         });
     };
