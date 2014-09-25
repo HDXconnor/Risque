@@ -3,19 +3,18 @@
         <div id="player-box">
             <h3> Players </h3>
             <div>
-                <p ng-repeat="(i, player) in players track by $index">
+                <p ng-repeat="player in players">
                     {{player.DisplayName}}
-                    {{}}
-                </p>
+                </p>              
             </div>
         </div>
         <div id="chat area">
 
         </div>
+        
         <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.delCookie()"> Log Out </button>
-        <div ng-show="host==username">
-            <button id="start-button" class="pretty-button" type="button" ng-click="lobby.startGame()"> Start Game </button>
-        </div>
+        <button id="start-button" class="pretty-button" type="button" ng-show="host==username" ng-click="lobby.startGame()"> Start Game </button>
+
         
     </div>
 </div>

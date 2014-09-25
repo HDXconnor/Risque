@@ -14,5 +14,5 @@
         <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{game.current.TroopsToDeploy}}</p>
     </div>
 
-    <button id="endphase" class="pretty-button" type="button" ng-click="game.endphase()"> End Phase</button>
+    <button id="endphase" class="pretty-button" type="button" ng-click="game.endphase()" ng-hide="game.endPhaseVis()"> End Phase</button>
 </div>

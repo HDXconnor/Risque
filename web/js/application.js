@@ -32,9 +32,7 @@
                 });
                 
                 colour($rootScope);
-                
-                
-                colour();
+
             }, false);
         }]);
     
@@ -66,6 +64,9 @@
             $rootScope.$apply();
         }
         
+
+        
+        
         function postData(temp){
         $http({
                 method: 'POST',
@@ -83,7 +84,7 @@
         this.lobbyVis = function() {
             var cookies = readCookie();
             if (cookies[0] != "") {
-                if ($rootScope.gameStarted != "true") {
+                if ($rootScope.gameStarted == "true") {
                     return true;
                 } else {
                     return false;
@@ -93,6 +94,8 @@
             }
         }
 
+        
+        
         this.startGame = function() {
             var temp = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: name}});
             postData(temp);
@@ -108,6 +111,8 @@
             document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
             postData(temp);           
         }
+        
+
         function postData(temp){
             $http({
                 method: 'POST',
@@ -132,7 +137,14 @@
                     $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
                     $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                 }
-
+            
+            this.endPhaseVis = function() {
+                if ($rootscope.countryCount != 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
 
             }
         }])
@@ -319,14 +331,14 @@
     function webSockRecv(evt) {
         console.log("Server says " + evt.data());
     }
-    var countryOwner = [];
-    countryOwner["-1"] = [];
-    countryOwner["0"] = [];
-    countryOwner["1"] = [];
-    countryOwner["2"] = [];
-    countryOwner["3"] = [];
-    countryOwner["4"] = [];
-    countryOwner["5"] = [];
+    var countryOwner = {};
+    countryOwner["-1"] = {};
+    countryOwner["0"] = {};
+    countryOwner["1"] = {};
+    countryOwner["2"] = {};
+    countryOwner["3"] = {};
+    countryOwner["4"] = {};
+    countryOwner["5"] = {};
 
     var MapWidth = 900;
     var MapHeight = 900;
