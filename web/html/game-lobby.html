@@ -3,14 +3,18 @@
         <div id="player-area" class="lobby-area">
             <h3> Players </h3>
             <div>
-                <p ng-repeat="player in players"> {{player.DisplayName}} </p>
-                <p ng-repeat="n in [0,1,2,3,4,5] | limitTo:lobbySize - players.length"> Empty Slot </p>
-                <button class="pretty-button" type="button" ng-show="host==username"> Remove From Game </button>
+                <div class="player-box" ng-repeat="player in players">
+                    <p  class="player-name"> {{player.DisplayName}} </p>
+                    <button class="remove-button" type="button" ng-show="host==username"> Remove </button>
+                </div>
+                <div class="player-box" ng-repeat="n in [0,1,2,3,4,5] | limitTo:lobbySize - players.length">
+                    <p class="player-name"> Empty Slot </p>
+                </div>
             </div>
         </div>
         <div id="chat-area" class="lobby-area">
             <form>
-                <input type="text" class="input-type" name="username" placeholder="chat">
+                <input type="text" class="input-chat" name="username" placeholder="chat">
             </form>
         </div>
         
