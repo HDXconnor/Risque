@@ -29,7 +29,7 @@
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
-                colour($rootScope);
+                color($rootScope);
             }, false);
         }]);
     
@@ -244,39 +244,36 @@
             }).error();
         }
         }]);
-    
-    function colour($rootScope) {
-        var count = 0;
-        for (index in countryOwner) {
-            angular.forEach(countryOwner[index], function(shape) {
-                if ($rootScope.board[count].Owner === "-1") {
-                    shape.attr(blackCountry);
-                }
-                else if ($rootScope.board[count].Owner === "0") {
-                    shape.attr(redCountry);
-                }
-                else if ($rootScope.board[count].Owner === "1") {
-                    shape.attr(greenCountry);
-                }
-                else if ($rootScope.board[count].Owner === "2") {
-                    shape.attr(yellowCountry);
-                }
-                else if ($rootScope.board[count].Owner === "3") {
-                    shape.attr(pinkCountry);
-                }
-                else if ($rootScope.board[count].Owner === "4") {
-                    shape.attr(brownCountry);
-                }
-                else if ($rootScope.board[count].Owner === "5") {
-                    shape.attr(blueCountry);
-                }
-            count = count+1;
-            });
-            count = 0;
-        }count = 0;
-        
-        ;
-    }
+
+    function color($rootScope) {
+
+        angular.forEach($rootscope.board, function (country) {
+            if (country.countryID === "-1") {
+                mapList[country.countryID].attr(blackCountry);
+            }
+            else if (country.countryID === "0") {
+                mapList[country.countryID].attr(redCountry);
+            }
+            else if (country.countryID === "1") {
+                mapList[country.countryID].attr(greenCountry);
+            }
+            else if (country.countryID === "2") {
+                mapList[country.countryID].attr(yellowCountry);
+            }
+            else if (country.countryID === "3") {
+                mapList[country.countryID].attr(pinkCountry);
+            }
+            else if (country.countryID === "4") {
+                mapList[country.countryID].attr(brownCountry);
+            }
+            else country.countryID === "5"
+            {
+                mapList[country.countryID].attr(blueCountry);
+            }
+        });
+    };
+
+
     function moveTroops(troops, id1, id2) {
         angular.forEach($rootScope.board, function(index) {
             if (index.CountryID === id1) {
