@@ -17,18 +17,15 @@
                 $rootScope.phase = obj.Game.GameState.Phase;
                 $rootScope.countryCount = obj.Game.GameState.Unassigned; // obj.Game.Board.length;
                 $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
-                $rootScope.lobbySize = 6;
                 if ($rootScope.players.length !== 0){
-                $rootScope.host=obj.Game.Players[0].DisplayName;
+                    $rootScope.host = obj.Game.Players[0].DisplayName;
             }
-                for(i=0;i<$rootScope.players.length;i++){
-                    if (obj.Game.Players[i].DisplayName == $rootScope.username) {
-                        $rootScope.thisUserNumber = i;
+                    for (i = 0; i < $rootScope.players.length; i++) {
+                        if (obj.Game.Players[i].DisplayName === $rootScope.username) {
+                            $rootScope.thisUserNumber = i;
+                        }
                     }
-                }
-                
-            
-            $rootScope.$apply();
+                $rootScope.$apply();
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
@@ -36,24 +33,23 @@
             }, false);
         }]);
 
- app.controller("LoginController", ['$rootScope','$cookieStore', '$http', function($rootScope,$cookieStore, $http){
-        this.setUser = function() {
-            $rootScope.username = document.getElementById("login-textbox").value;
-        
-            var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
-            postData(temp);
-            writeCookie("Username", $rootScope.username);
-            //$cookieStore.put("Username", $rootScope.username);
-            console.log($rootScope.username);
-        };
-        
-        this.loginVis = function() {
-            return(document.cookie.indexOf("Username") >= 0);
-        };
+    app.controller("LoginController", ['$rootScope', '$cookieStore', '$http', function ($rootScope, $cookieStore, $http) {
+            this.setUser = function () {
+                $rootScope.username = document.getElementById("login-textbox").value;
+                var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
+                postData(temp);
+                writeCookie("Username", $rootScope.username);
+                //$cookieStore.put("Username", $rootScope.username);
+                console.log($rootScope.username);
+            };
 
-            this.delCookie = function() {
+            this.loginVis = function () {
+                return(document.cookie.indexOf("Username") >= 0);
+            };
+
+            this.delCookie = function () {
                 var cookie = readCookie();
-                for (index in cookie){
+                for (index in cookie) {
                     var name = cookie[index];
                 }
                 name = name.replace('Username=', '');
@@ -62,17 +58,17 @@
                 postData(temp);
                 $rootScope.$apply();
             };
-            function postData(temp){
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        }
+            function postData(temp) {
+                $http({
+                    method: 'POST',
+                    url: 'GameServlet',
+                    headers: {'Content-Type': 'application/json'},
+                    data: temp
+                }).error();
+            };
         }]);
 
-    app.controller("LobbyController", ['$rootScope', '$http', function ($rootScope, $http) {
+    app.controller("LobbyController", ['$rootScope','$http', function ($rootScope, $http) {
             this.lobbyVis = function () {
                 return(document.cookie.indexOf("Username") >= 0 && $rootScope.gameStarted !== true);
             };
@@ -93,13 +89,13 @@
                 postData(temp);
             }
             function postData(temp){
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        }
+                $http({
+                    method: 'POST',
+                    url: 'GameServlet',
+                    headers: {'Content-Type': 'application/json'},
+                    data: temp
+                }).error();
+            };
         }]);
 
     app.controller("GameController", ['$rootScope', '$http', function ($rootScope, $http) {
@@ -117,13 +113,12 @@
                     $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                 }
 
-                
-            }
             this.endPhaseVis = function() {
                 if ($rootScope.countryCount !== 0) {
-                    return true;
-                } else {
-                    return false;
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
         }]);
@@ -248,7 +243,6 @@ function color($rootScope) {
             }
             else if (country.Owner == 3) {
                 mapList[country.CountryID].attr(pinkCountry);
-                
             }
             else if (country.Owner == 4) {
                 mapList[country.CountryID].attr(brownCountry);
@@ -269,7 +263,7 @@ function color($rootScope) {
                 index.Troops = index.Troops + troops;
             }
         });
-    }
+    };
 
     function deploy(troops, id1) {
         angular.forEach($rootScope.board, function (index) {
@@ -277,34 +271,22 @@ function color($rootScope) {
                 index.Troops = index.Troops + troops;
             }
         });
-    }
-    ;
-    function postData(temp) {
-        $http({
-            method: 'POST',
-            url: 'GameServlet',
-            headers: {'Content-Type': 'application/json'},
-            data: temp
-        }).error();
-    }
-    ;
+    };
+
     function writeCookie(key, value) {
         document.cookie = key + "=" + value + "; ";
-    }
-    ;
+    };
 
     function readCookie() {
         var x = document.cookie;
         var keyArray = x.split("; ");
         return keyArray;
-    }
-    ;
+    };
 
     function appendCookie(key, value) {
         var x = document.cookie;
         document.cookie = x + key + "=" + value + "; ";
-    }
-    ;
+    };
 
     function webSockConnect() {
         var socketURI = "ws://" + document.location.host + "GameSocket";
@@ -316,8 +298,7 @@ function color($rootScope) {
             console.log(evt);
         };
         return ws;
-    }
-    ;
+    };
 
     function webSockSend(json) {
         if (conn.readyState !== 1) {
@@ -325,14 +306,12 @@ function color($rootScope) {
         } else {
             console.log("Not connected to websocket, cannot send.");
         }
-    }
-    ;
+    };
 
     function webSockRecv(evt) {
         console.log("Server says " + evt.data());
-    }
-    ;
-
+    };
+    
     var countryOwner = {};
     countryOwner["-1"] = [];
     countryOwner["0"] = [];
