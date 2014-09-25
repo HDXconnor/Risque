@@ -1,5 +1,5 @@
 (function() {
-    var app = angular.module("gameApp", []).config(function($httpProvider) {
+    var app = angular.module("gameApp", ['ngCookies']).config(function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
@@ -25,25 +25,24 @@
                     }
                 }
             }
-                
             $rootScope.$apply();
                 angular.forEach($rootScope.board, function(index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
-                
                 colour($rootScope);
-
             }, false);
         }]);
     
-    app.controller("LoginController", ['$rootScope', '$http', function($rootScope, $http){
+    app.controller("LoginController", ['$rootScope','$cookieStore', '$http', function($rootScope,$cookieStore, $http){
         this.setUser = function() {
             $rootScope.username = document.getElementById("login-textbox").value;
             var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
             postData(temp);
             writeCookie("Username", $rootScope.username);
+            //$cookieStore.put("Username", $rootScope.username);
             console.log($rootScope.username);
         };
+        
         this.loginVis = function() {
             return(document.cookie.indexOf("Username") >= 0);
         };
@@ -59,10 +58,7 @@
             postData(temp);  
             $rootScope.$apply();
         };
-        
 
-        
-        
         function postData(temp){
         $http({
                 method: 'POST',
@@ -90,8 +86,6 @@
                 return false;
             }
         };
-
-        
         
         this.startGame = function() {
             var temp = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: name}});
