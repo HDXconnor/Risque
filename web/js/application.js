@@ -5,8 +5,11 @@
     });
 
     var evtSource = new EventSource("GameServlet");
-    app.run(['$rootScope', '$http', function($rootScope, $http) {
-            evtSource.addEventListener("gamestate", function(e) {
+    
+    app.run(['$rootScope', '$http', function ($rootScope, $http) {
+            
+            evtSource.addEventListener("gamestate", function (e) {
+                
                 var obj = JSON.parse(e.data);
                 $rootScope.data = obj;
                 $rootScope.game = obj.Game;
@@ -15,67 +18,69 @@
                 $rootScope.players = obj.Game.Players;
                 $rootScope.currentPlayer = obj.Game.GameState.CurrentPlayer;
                 $rootScope.phase = obj.Game.GameState.Phase;
-                $rootScope.countryCount = obj.Game.GameState.Unassigned; // obj.Game.Board.length;
+                $rootScope.countryCount = obj.Game.GameState.Unassigned;
                 $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
                 $rootScope.lobbySize = 6;
                 $rootScope.playerString = "player";
-                if ($rootScope.players.length !== 0){
-                $rootScope.host=obj.Game.Players[0].DisplayName;
-            }
-                for(i=0;i<$rootScope.players.length;i++){
-                    if (obj.Game.Players[i].DisplayName == $rootScope.username) {
+                
+                if ($rootScope.players.length !== 0) {
+                    $rootScope.host = obj.Game.Players[0].DisplayName;
+                }
+                
+                for (i = 0; i < $rootScope.players.length; i++) {
+                    if (obj.Game.Players[i].DisplayName === $rootScope.username) {
                         $rootScope.thisUserNumber = i;
                         $rootScope.troopsToDeploy = obj.Game.Players[i].TroopsToDeploy;
                     }
                 }
-                if($rootScope.host==$rootScope.username){
-                    if($rootScope.phase=="Setup"&&$rootScope.countryCount==0){
+                
+                if ($rootScope.host === $rootScope.username) {
+                    if ($rootScope.phase === "Setup" && $rootScope.countryCount === 0) {
+                        var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
+                        postData(temp);
+                    }
+                }
+
+                if ($rootScope.phase === "Deploy" && obj.Game.Players[$rootScope.players.length - 1].troopsToDeploy === 0) {
                     var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
                     postData(temp);
                 }
-                }
-                
-                if($rootScope.phase=="Deploy"&&obj.Game.Players[$rootScope.players.length-1].troopsToDeploy==0){
-                    var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
-                    postData(temp);
-                }
-                
-                
-            
-            $rootScope.$apply();
-                angular.forEach($rootScope.board, function(index) {
+
+                $rootScope.$apply();
+                angular.forEach($rootScope.board, function (index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
-                function postData(temp){
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        }
+                
+                function postData(temp) {
+                    $http({
+                        method: 'POST',
+                        url: 'GameServlet',
+                        headers: {'Content-Type': 'application/json'},
+                        data: temp
+                    }).error();
+                }
                 color($rootScope);
             }, false);
         }]);
 
- app.controller("LoginController", ['$rootScope','$cookieStore', '$http', function($rootScope,$cookieStore, $http){
-        this.setUser = function() {
-            $rootScope.username = document.getElementById("login-textbox").value;
-        
-            var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
-            postData(temp);
-            writeCookie("Username", $rootScope.username);
-            //$cookieStore.put("Username", $rootScope.username);
-            console.log($rootScope.username);
-        };
-        
-        this.loginVis = function() {
-            return(document.cookie.indexOf("Username") >= 0);
-        };
+    app.controller("LoginController", ['$rootScope', '$cookieStore', '$http', function ($rootScope, $cookieStore, $http) {
+            this.setUser = function () {
+                $rootScope.username = document.getElementById("login-textbox").value;
 
-            this.delCookie = function() {
+                var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
+                postData(temp);
+                writeCookie("Username", $rootScope.username);
+                //$cookieStore.put("Username", $rootScope.username);
+                console.log($rootScope.username);
+            };
+
+            this.loginVis = function () {
+                return(document.cookie.indexOf("Username") >= 0);
+            };
+
+            this.delCookie = function () {
                 var cookie = readCookie();
-                for (index in cookie){
+                for (index in cookie) {
                     var name = cookie[index];
                 }
                 name = name.replace('Username=', '');
@@ -84,17 +89,19 @@
                 postData(temp);
                 $rootScope.$apply();
             };
-            function postData(temp){
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        }
+            
+            function postData(temp) {
+                $http({
+                    method: 'POST',
+                    url: 'GameServlet',
+                    headers: {'Content-Type': 'application/json'},
+                    data: temp
+                }).error();
+            }
         }]);
 
     app.controller("LobbyController", ['$rootScope', '$http', function ($rootScope, $http) {
+            
             this.lobbyVis = function () {
                 return(document.cookie.indexOf("Username") >= 0 && $rootScope.gameStarted !== true);
             };
@@ -113,19 +120,20 @@
                 var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
                 document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                 postData(temp);
+            };
+
+            function postData(temp) {
+                $http({
+                    method: 'POST',
+                    url: 'GameServlet',
+                    headers: {'Content-Type': 'application/json'},
+                    data: temp
+                }).error();
             }
-            function postData(temp){
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        }
         }]);
 
     app.controller("GameController", ['$rootScope', '$http', function ($rootScope, $http) {
-            
+
             this.endphase = function () {
                 // Deploy -> Attack -> Move
                 if ($rootScope.phase === "Setup" || $rootScope.phase === "Deploy")
@@ -139,25 +147,24 @@
                     $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
                     $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
                 }
+            };
 
-                
-            }
-            this.endPhaseVis = function() {
+            this.endPhaseVis = function () {
                 if ($rootScope.countryCount !== 0) {
                     return true;
                 } else {
-                    
                     return false;
                 }
+            };
+
+            function postData(temp) {
+                $http({
+                    method: 'POST',
+                    url: 'GameServlet',
+                    headers: {'Content-Type': 'application/json'},
+                    data: temp
+                }).error();
             }
-            function postData(temp){
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: temp
-            }).error();
-        }
         }]);
 
     app.controller("PhaseController", ["$rootScope", '$http', function ($rootScope, $http) {
@@ -165,8 +172,7 @@
                 if ($rootScope.phase === "Attack") {
                     console.log("HELLO" + $rootScope.phase);
                     return $rootScope.isHidden;
-                }
-                else {
+                } else {
                     return true;
                 }
             };
@@ -174,8 +180,7 @@
             this.deployBoxes = function () {
                 if ($rootScope.phase === "Deploy") {
                     return $rootScope.isHidden;
-                }
-                else {
+                } else {
                     return true;
                 }
             };
@@ -183,18 +188,18 @@
             this.reinfBoxes = function () {
                 if ($rootScope.phase === "Move") {
                     return $rootScope.isHidden;
-                }
-                else {
+                } else {
                     return true;
                 }
             };
         }]);
+    
     app.controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
 
             angular.forEach(mapList, function (index) {
 
                 index[0].addEventListener("mouseover", function () {
-                    $rootScope.thisCountryID=index.node.id;
+                    $rootScope.thisCountryID = index.node.id;
                     angular.forEach($rootScope.board, function (index) {
                         if ($rootScope.thisCountryID === index.CountryID) {
                             $rootScope.countryName = index.CountryName;
@@ -207,8 +212,7 @@
                             }
                         });
                     });
-                }
-                , true);
+                }, true);
 
                 index[0].addEventListener("mouseout", function () {
                 }, true);
@@ -223,7 +227,7 @@
                             postData(send);
                         }
                         if ($rootScope.phase === "Deploy") {
-                            var send = JSON.stringify({Command: "Deploy", Data: {Troops: 1,CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            var send = JSON.stringify({Command: "Deploy", Data: {Troops: 1, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
                             postData(send);
                         }
                         if ($rootScope.phase === "Attack") {
@@ -240,16 +244,9 @@
                     else {
                         console.log("Not your turn");
                     }
-//                    var temp = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-//                    console.log(temp);
-//                    //$http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded"; //TODO PUT THIS IN A BETTER PLACE?
-//                    $http.post('GameServlet', "clicked=" + temp).success(function () {
-//                        $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
-//                        $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
-//                    });
-
                 }, true);
             });
+            
             function postData(temp) {
                 $http({
                     method: 'POST',
@@ -261,34 +258,32 @@
         }]);
 
 
-function color($rootScope) {
+    function color($rootScope) {
 
         angular.forEach($rootScope.board, function (country) {
-            if (country.Owner == -1) {
+            if (country.Owner === -1) {
                 mapList[country.CountryID].attr(blackCountry);
             }
-            else if (country.Owner == 0) {
+            else if (country.Owner === 0) {
                 mapList[country.CountryID].attr(redCountry);
             }
-            else if (country.Owner == 1) {
+            else if (country.Owner === 1) {
                 mapList[country.CountryID].attr(greenCountry);
             }
-            else if (country.Owner == 2) {
+            else if (country.Owner === 2) {
                 mapList[country.CountryID].attr(yellowCountry);
             }
-            else if (country.Owner == 3) {
+            else if (country.Owner === 3) {
                 mapList[country.CountryID].attr(pinkCountry);
-                
             }
-            else if (country.Owner == 4) {
+            else if (country.Owner === 4) {
                 mapList[country.CountryID].attr(brownCountry);
             }
-            else if (country.Owner == 5) {
+            else if (country.Owner === 5) {
                 mapList[country.CountryID].attr(blueCountry);
             }
         });
     };
-
 
     function moveTroops(troops, id1, id2) {
         angular.forEach($rootScope.board, function (index) {
@@ -299,7 +294,7 @@ function color($rootScope) {
                 index.Troops = index.Troops + troops;
             }
         });
-    }
+    };
 
     function deploy(troops, id1) {
         angular.forEach($rootScope.board, function (index) {
@@ -307,8 +302,8 @@ function color($rootScope) {
                 index.Troops = index.Troops + troops;
             }
         });
-    }
-    ;
+    };
+    
     function postData(temp) {
         $http({
             method: 'POST',
@@ -316,38 +311,37 @@ function color($rootScope) {
             headers: {'Content-Type': 'application/json'},
             data: temp
         }).error();
-    }
-    ;
+    };
+    
     function writeCookie(key, value) {
         document.cookie = key + "=" + value + "; ";
-    }
-    ;
+    };
 
     function readCookie() {
         var x = document.cookie;
         var keyArray = x.split("; ");
         return keyArray;
-    }
-    ;
+    };
 
     function appendCookie(key, value) {
         var x = document.cookie;
         document.cookie = x + key + "=" + value + "; ";
-    }
-    ;
+    };
 
     function webSockConnect() {
         var socketURI = "ws://" + document.location.host + "GameSocket";
         var ws = new WebSocket(socketURI);
+        
         ws.onmessage = function (evt) {
             webSockRecv(evt);
         };
+        
         ws.onerror = function (evt) {
             console.log(evt);
         };
+        
         return ws;
-    }
-    ;
+    };
 
     function webSockSend(json) {
         if (conn.readyState !== 1) {
@@ -355,13 +349,11 @@ function color($rootScope) {
         } else {
             console.log("Not connected to websocket, cannot send.");
         }
-    }
-    ;
+    };
 
     function webSockRecv(evt) {
         console.log("Server says " + evt.data());
-    }
-    ;
+    };
 
     var countryOwner = {};
     countryOwner["-1"] = [];
@@ -399,6 +391,7 @@ function color($rootScope) {
         "stroke-linejoin": "round",
         cursor: "pointer"
     };
+    
     var yellowCountry = {
         fill: "#ff5400",
         stroke: "#aaa",
@@ -406,6 +399,7 @@ function color($rootScope) {
         "stroke-linejoin": "round",
         cursor: "pointer"
     };
+    
     var pinkCountry = {
         fill: "#4A4A4A",
         stroke: "#aaa",
@@ -413,6 +407,7 @@ function color($rootScope) {
         "stroke-linejoin": "round",
         cursor: "pointer"
     };
+    
     var brownCountry = {
         fill: "#6f3ed6",
         stroke: "#aaa",
@@ -420,6 +415,7 @@ function color($rootScope) {
         "stroke-linejoin": "round",
         cursor: "pointer"
     };
+    
     var greenCountry = {
         fill: "#00ff1b",
         stroke: "#aaa",
@@ -427,6 +423,7 @@ function color($rootScope) {
         "stroke-linejoin": "round",
         cursor: "pointer"
     };
+    
     var blueCountry = {
         fill: "#007AFF",
         stroke: "#aaa",
@@ -434,7 +431,6 @@ function color($rootScope) {
         "stroke-linejoin": "round",
         cursor: "pointer"
     };
-
 
     var hoverCountry = {
         fill: "#fff",
