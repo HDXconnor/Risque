@@ -22,6 +22,11 @@
                 $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
                 $rootScope.lobbySize = 6;
                 $rootScope.playerString = "player";
+                var cookie = readCookie();
+                for (index in cookie) {
+                    var name = cookie[index];
+                }
+                $rootScope.username=name.replace('Username=', '');
                 
                 if ($rootScope.players.length !== 0) {
                     $rootScope.host = obj.Game.Players[0].DisplayName;
@@ -65,13 +70,11 @@
 
     app.controller("LoginController", ['$rootScope', '$cookieStore', '$http', function ($rootScope, $cookieStore, $http) {
             this.setUser = function () {
-                $rootScope.username = document.getElementById("login-textbox").value;
-
-                var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.username}});
+                $rootScope.loginInformation = document.getElementById("login-textbox").value;
+                var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.loginInformation}});
                 postData(temp);
-                writeCookie("Username", $rootScope.username);
+                writeCookie("Username", $rootScope.loginInformation);
                 //$cookieStore.put("Username", $rootScope.username);
-                console.log($rootScope.username);
             };
 
             this.loginVis = function () {
@@ -121,7 +124,11 @@
                 document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                 postData(temp);
             };
-
+            this.magicButton = function(){
+                console.log($rootScope.host);
+                console.log($rootScope.username);
+                
+            }
             function postData(temp) {
                 $http({
                     method: 'POST',
@@ -165,6 +172,8 @@
                     data: temp
                 }).error();
             }
+            
+            
         }]);
 
     app.controller("PhaseController", ["$rootScope", '$http', function ($rootScope, $http) {
@@ -255,7 +264,11 @@
                     data: temp
                 }).error();
             }
+            
+            
         }]);
+
+
 
 
     function color($rootScope) {
