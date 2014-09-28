@@ -32,11 +32,15 @@
                     $rootScope.host = obj.Game.Players[0].DisplayName;
                 }
                 
+                
+                
                 for (i = 0; i < $rootScope.players.length; i++) {
                     if (obj.Game.Players[i].DisplayName === $rootScope.username) {
                         $rootScope.thisUserNumber = i;
                         $rootScope.troopsToDeploy = obj.Game.Players[i].TroopsToDeploy;
                     }
+                    if($rootScope.currentPlayer == obj.Game.Players[i].PlayerOrder)
+                        $rootScope.currentUserName = obj.Game.Players[i].DisplayName;
                 }
                 
                 if ($rootScope.host === $rootScope.username) {
