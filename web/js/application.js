@@ -44,11 +44,18 @@
                         postData(endPhaseData);
                     }
                 }
-
-                if ($rootScope.obj.Game.GameState.Phase === "Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.Players.length - 1].troopsToDeploy === 0) {
+                //sends out end phase when the last player has finished deploying
+                if ($rootScope.obj.Game.GameState.Phase === "Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.Players.length - 1].TroopsToDeploy === 0) {
                     var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
                     postData(endPhaseData);
                 }
+                if($rootScope.obj.Game.GameState.Phase==="Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].TroopsToDeploy===0) {
+                    var endTroopDeployData = JSON.stringify({Command: "TroopDone", Data: {CurrentPlayer: name}});
+                    postData(endTroopDeployData);
+                }
+                
+                
+                
 
                 $rootScope.$apply();
                 angular.forEach($rootScope.obj.Game.Board, function (index) {
