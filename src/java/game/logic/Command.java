@@ -131,7 +131,7 @@ public class Command {
         else if (cmd.equals(JOIN)) {
             String name = (String) data.get("CurrentPlayer");
             try {
-                game.getPlayers().joinGame(new Player(name, 20));
+                game.getPlayers().joinGame(new Player(name, 3));
             } catch (PlayerException ex) {
                 //join game fails, response?
             }
