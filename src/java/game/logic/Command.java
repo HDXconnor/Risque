@@ -7,6 +7,7 @@ import game.objects.AttackOutcome;
 import game.objects.exceptions.PlayerException;
 import game.objects.exceptions.DiceException;
 import game.logic.Dice;
+import game.objects.exceptions.TroopsException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,7 +35,7 @@ public class Command {
      Server checks player but currently client always sends '1'
     
      */
-    public static void parseInput(JSONObject json, Game game) throws JSONException {
+    public static void parseInput(JSONObject json, Game game) throws JSONException, TroopsException {
         String cmd = (String) json.get("Command");
         JSONObject data = (JSONObject) json.get("Data");
         if (cmd.equals(Phase.SETUP)) {
@@ -55,10 +56,13 @@ public class Command {
         else if (cmd.equals(Phase.DEPLOY)) {
             String country = (String) data.get("CountryClicked");
             int player = (Integer) data.get("CurrentPlayer");
-            if (game.getBoard().getCountry(country).getOwner() != player) {
-                // country aint yours bitch
-            } else {
+            Player p = (Player) game.getPlayers().getPlayers().get(player);
+            
+            if (game.getBoard().getCountry(country).getOwner() == player && p.getTroopsToDeploy() > 0) {
                 game.getBoard().getCountry(country).setTroops(game.getBoard().getCountry(country).getTroops() + (Integer) data.get("Troops"));
+                p.decrementTroopsToDeploy();
+            } else {
+                // country not yours
             }
         }
 

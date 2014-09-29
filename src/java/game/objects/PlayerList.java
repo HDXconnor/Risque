@@ -18,12 +18,12 @@ public class PlayerList {
         
     public PlayerList(String a, String b, String c, String d, String e, String f) {
         players = new HashMap<>();
-        players.put(0, new Player(a, 20));
-        players.put(1, new Player(b, 20));
-        players.put(2, new Player(c, 20));
-        players.put(3, new Player(d, 20));
-        players.put(4, new Player(e, 20));
-        players.put(5, new Player(f, 20));
+        players.put(0, new Player(a, 3));
+        players.put(1, new Player(b, 3));
+        players.put(2, new Player(c, 3));
+        players.put(3, new Player(d, 3));
+        players.put(4, new Player(e, 3));
+        players.put(5, new Player(f, 3));
     }
     
     public void joinGame(Player newPlayer) throws PlayerException {
@@ -34,13 +34,24 @@ public class PlayerList {
     }
     
     private int getNextAvailableSpot() {
-        for (int i=0; i<6; i++) {
+        for (int i = 0; i < 6; i++) {
             if (players.get(i) == null) return i;
         }
         return -1;
     }
     
-    public HashMap getPlayers() {return players;}
+    public HashMap getPlayers() {
+        return players;
+    }
+
+    public Player getPlayerByName(String player) throws PlayerException {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(player)) {
+                return players.get(i);
+            }
+        }
+        throw new PlayerException("Player not found");
+    }
     
     public void removePlayer(String player) {
         for (int i = 0; i < players.size(); i++) {

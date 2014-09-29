@@ -34,20 +34,20 @@
                         $rootScope.thisUserNumber = i;
                         $rootScope.troopsToDeploy = $rootScope.obj.Game.Players[i].TroopsToDeploy;
                     }
-                    if($rootScope.obj.Game.GameState.CurrentPlayer== $rootScope.obj.Game.Players[i].PlayerOrder)
+                    if ($rootScope.obj.Game.GameState.CurrentPlayer === $rootScope.obj.Game.Players[i].PlayerOrder)
                         $rootScope.currentUserName = $rootScope.obj.Game.Players[i].DisplayName;
                 }
                 
                 if ($rootScope.host === $rootScope.username) {
-                    if ($rootScope.obj.Game.GameState.Phase=== "Setup" && $rootScope.obj.Game.GameState.Unassigned=== 0) {
-                        var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
-                        postData(temp);
+                    if ($rootScope.obj.Game.GameState.Phase === "Setup" && $rootScope.obj.Game.GameState.Unassigned === 0) {
+                        var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
+                        postData(endPhaseData);
                     }
                 }
 
                 if ($rootScope.obj.Game.GameState.Phase === "Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.Players.length - 1].troopsToDeploy === 0) {
-                    var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
-                    postData(temp);
+                    var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
+                    postData(endPhaseData);
                 }
 
                 $rootScope.$apply();
@@ -55,12 +55,12 @@
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
                 
-                function postData(temp) {
+                function postData(data) {
                     $http({
                         method: 'POST',
                         url: 'GameServlet',
                         headers: {'Content-Type': 'application/json'},
-                        data: temp
+                        data: data
                     }).error();
                 }
                 color($rootScope);
@@ -70,8 +70,8 @@
     app.controller("LoginController", ['$rootScope', '$cookieStore', '$http', function ($rootScope, $cookieStore, $http) {
             this.setUser = function () {
                 $rootScope.loginInformation = document.getElementById("login-textbox").value;
-                var temp = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.loginInformation}});
-                postData(temp);
+                var joinData = JSON.stringify({Command: "Join", Data: {CurrentPlayer: $rootScope.loginInformation}});
+                postData(joinData);
                 writeCookie("Username", $rootScope.loginInformation);
                 //$cookieStore.put("Username", $rootScope.username);
             };
@@ -86,18 +86,18 @@
                     var name = cookie[index];
                 }
                 name = name.replace('Username=', '');
-                var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
+                var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
                 document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-                postData(temp);
+                postData(quitData);
                 $rootScope.$apply();
             };
             
-            function postData(temp) {
+            function postData(data) {
                 $http({
                     method: 'POST',
                     url: 'GameServlet',
                     headers: {'Content-Type': 'application/json'},
-                    data: temp
+                    data: data
                 }).error();
             }
         }]);
@@ -109,8 +109,8 @@
             };
 
             this.startGame = function () {
-                var temp = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: name}});
-                postData(temp);
+                var startGameData = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: name}});
+                postData(startGameData);
             };
 
             this.delCookie = function () {
@@ -119,21 +119,21 @@
                     var name = cookie[index];
                 }
                 name = name.replace('Username=', '');
-                var temp = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
+                var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
                 document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-                postData(temp);
+                postData(quitData);
             };
             this.magicButton = function(){
                 console.log($rootScope.host);
                 console.log($rootScope.username);
                 
             }
-            function postData(temp) {
+            function postData(data) {
                 $http({
                     method: 'POST',
                     url: 'GameServlet',
                     headers: {'Content-Type': 'application/json'},
-                    data: temp
+                    data: data
                 }).error();
             }
         }]);
@@ -163,12 +163,12 @@
                 }
             };
 
-            function postData(temp) {
+            function postData(data) {
                 $http({
                     method: 'POST',
                     url: 'GameServlet',
                     headers: {'Content-Type': 'application/json'},
-                    data: temp
+                    data: data
                 }).error();
             }
             
@@ -255,12 +255,12 @@
                 }, true);
             });
             
-            function postData(temp) {
+            function postData(data) {
                 $http({
                     method: 'POST',
                     url: 'GameServlet',
                     headers: {'Content-Type': 'application/json'},
-                    data: temp
+                    data: data
                 }).error();
             }
             
@@ -316,12 +316,12 @@
         });
     };
     
-    function postData(temp) {
+    function postData(data) {
         $http({
             method: 'POST',
             url: 'GameServlet',
             headers: {'Content-Type': 'application/json'},
-            data: temp
+            data: data
         }).error();
     };
     

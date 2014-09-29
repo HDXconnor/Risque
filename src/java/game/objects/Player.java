@@ -13,7 +13,7 @@ public class Player {
     public Player(String name, int troopsToDeploy) {
         this.name = name;
         this.playerImage = "image.jpg";
-        this.troopsToDeploy = 3;
+        this.troopsToDeploy = troopsToDeploy;
     }
 
     public int getTroopsToDeploy() {
@@ -21,12 +21,12 @@ public class Player {
     }
 
     public void setNumberOfTroopsToDeploy(int troopsToDeploy) throws TroopsException {
-        if (troopsToDeploy < 0) throw new TroopsException("Cannot have negative number of troops.");
+        if (troopsToDeploy < 0) throw new TroopsException("Cannot have negative number of troops to deploy.");
         this.troopsToDeploy = troopsToDeploy;
     }
     
     public void decrementTroopsToDeploy() throws TroopsException {
-        if (this.troopsToDeploy <= 0) throw new TroopsException("Cannot have negative number of troops.");
+        if (this.troopsToDeploy <= 0) throw new TroopsException("Cannot have negative number of troops to deploy.");
         this.troopsToDeploy--;
     }
 

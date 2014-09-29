@@ -16,20 +16,20 @@ import org.json.JSONObject;
  */
 
 public class Game {
-    private final PlayerList players;
+    private final PlayerList playerList;
     private final Board board;
     private final GameState gameState;
     private final Phase phase;
     
     public Game(PlayerList players) {
-        this.players = players;
+        this.playerList = players;
         this.board = new Board();
         this.gameState = new GameState(board); // board is a parameter here for the GameState field "Unassigned". TODO - find a better way of doing this
         this.phase = gameState.getPhase();
     }
 
     public PlayerList getPlayers() {
-        return players;
+        return playerList;
     }
 
     public GameState getGameState() {
@@ -64,20 +64,20 @@ public class Game {
     }
     
     public void nextPlayer () {
-        gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % players.getNumberOfPlayers());
+        gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
     }
     
     public Player getCurrentPlayerObject() {
-        return (Player) players.getPlayers().get(gameState.getCurrentPlayer());
+        return (Player) playerList.getPlayers().get(gameState.getCurrentPlayer());
     }
     
     public void removePlayer(String playerName) {
-        players.removePlayer(playerName);
+        playerList.removePlayer(playerName);
     }
     
     public JSONObject getGameJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("Players", players.getPlayersJSON());
+        json.put("Players", playerList.getPlayersJSON());
         json.put("GameState", gameState.getGameStateJSON());
         json.put("Board", board.getBoardJSON());
         return new JSONObject().put("Game", json);

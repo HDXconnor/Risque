@@ -10,6 +10,7 @@ import game.objects.Game;
 import game.objects.Player;
 import game.objects.PlayerList;
 import game.objects.exceptions.PlayerException;
+import game.objects.exceptions.TroopsException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -66,7 +67,7 @@ public class GameServlet extends HttpServlet {
             JSONObject json = new JSONObject(request.getReader().readLine());
             System.out.println("POST data received: " + json);
             Command.parseInput(json, game);
-        } catch (JSONException ex) {
+        } catch (JSONException | TroopsException ex) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
