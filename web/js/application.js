@@ -12,8 +12,9 @@
                 
                 $rootScope.obj = JSON.parse(e.data);
                 $rootScope.players = $rootScope.obj.Game.Players;
-                $rootScope.phase = $rootScope.obj.Game.GameState.Phase;
                 $rootScope.gameStarted = $rootScope.obj.Game.GameState.LobbyClosed;
+                $rootScope.countryCount = $rootScope.obj.Game.GameState.Unassigned;
+                $rootScope.phase=$rootScope.obj.Game.GameState.Phase;
                 $rootScope.lobbySize = 6;
                 $rootScope.playerString = "player";
                 var cookie = readCookie();
@@ -38,13 +39,13 @@
                 }
                 
                 if ($rootScope.host === $rootScope.username) {
-                    if ($rootScope.phase === "Setup" && $rootScope.obj.Game.GameState.Unassigned=== 0) {
+                    if ($rootScope.obj.Game.GameState.Phase=== "Setup" && $rootScope.obj.Game.GameState.Unassigned=== 0) {
                         var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
                         postData(temp);
                     }
                 }
 
-                if ($rootScope.phase === "Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.Players.length - 1].troopsToDeploy === 0) {
+                if ($rootScope.obj.Game.GameState.Phase === "Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.Players.length - 1].troopsToDeploy === 0) {
                     var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
                     postData(temp);
                 }
@@ -141,13 +142,13 @@
 
             this.endphase = function () {
                 // Deploy -> Attack -> Move
-                if ($rootScope.phase === "Setup" || $rootScope.phase === "Deploy")
-                    $rootScope.phase = "Attack";
-                else if ($rootScope.phase === "Attack")
-                    $rootScope.phase = "Move";
-                else if ($rootScope.phase === "Move") {
+                if ($rootScope.obj.Game.GameState.Phase === "Setup" || $rootScope.obj.Game.GameState.Phase === "Deploy")
+                    $rootScope.obj.Game.GameState.Phase = "Attack";
+                else if ($rootScope.obj.Game.GameState.Phase === "Attack")
+                    $rootScope.obj.Game.GameState.Phase = "Move";
+                else if ($rootScope.obj.Game.GameState.Phase === "Move") {
 //                moveTroops();
-                    $rootScope.phase = "Deploy";
+                    $rootScope.obj.Game.GameState.Phase = "Deploy";
                     // increment currentplayer, mod number of players
                     $rootScope.obj.Game.GameState.CurrentPlayer= ($rootScope.obj.Game.GameState.CurrentPlayer + 1) % $rootScope.obj.Game.Players.length;
                     $rootScope.obj.Game.GameState.CurrentPlayer = $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].PlayerOrder;
@@ -176,8 +177,8 @@
 
     app.controller("PhaseController", ["$rootScope", '$http', function ($rootScope, $http) {
             this.atkBoxes = function () {
-                if ($rootScope.phase === "Attack") {
-                    console.log("HELLO" + $rootScope.phase);
+                if ($rootScope.obj.Game.GameState.Phase === "Attack") {
+                    console.log("HELLO" + $rootScope.obj.Game.GameState.Phase);
                     return $rootScope.isHidden;
                 } else {
                     return true;
@@ -185,7 +186,7 @@
             };
 
             this.deployBoxes = function () {
-                if ($rootScope.phase === "Deploy") {
+                if ($rootScope.obj.Game.GameState.Phase === "Deploy") {
                     return $rootScope.isHidden;
                 } else {
                     return true;
@@ -193,7 +194,7 @@
             };
 
             this.reinfBoxes = function () {
-                if ($rootScope.phase === "Move") {
+                if ($rootScope.obj.Game.GameState.Phase === "Move") {
                     return $rootScope.isHidden;
                 } else {
                     return true;
@@ -229,19 +230,19 @@
 
                     if ($rootScope.obj.Game.GameState.CurrentPlayer === $rootScope.thisUserNumber) {
                         index.animate(defaultCountry, animationSpeed);
-                        if ($rootScope.phase === "Setup") {
+                        if ($rootScope.obj.Game.GameState.Phase === "Setup") {
                             var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
-                        if ($rootScope.phase === "Deploy") {
+                        if ($rootScope.obj.Game.GameState.Phase === "Deploy") {
                             var send = JSON.stringify({Command: "Deploy", Data: {Troops: 1, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
-                        if ($rootScope.phase === "Attack") {
+                        if ($rootScope.obj.Game.GameState.Phase === "Attack") {
                             var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.prevCountryID, DefendingCountry: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
-                        if ($rootScope.phase === "Move") {
+                        if ($rootScope.obj.Game.GameState.Phase === "Move") {
                             var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
