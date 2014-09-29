@@ -59,6 +59,8 @@ public class Command {
             int player = (Integer) data.get("CurrentPlayer");
             Player p = (Player) game.getPlayerList().getPlayers().get(player);
             
+            if (game.getGameState().getCurrentPlayer() != player) return;
+            
             if (game.getBoard().getCountry(country).getOwner() == player && p.getTroopsToDeploy() > 0) {
                 game.getBoard().getCountry(country).setTroops(game.getBoard().getCountry(country).getTroops() + (Integer) data.get("Troops"));
                 p.decrementTroopsToDeploy();
@@ -71,6 +73,8 @@ public class Command {
             int player = (Integer) data.get("CurrentPlayer");
             String attacker = (String) data.get("AttackingCountry");
             String defender = (String) data.get("DefendingCountry");
+            
+            if (game.getGameState().getCurrentPlayer() != player) return;
             
             if (game.getBoard().getCountry(defender).getOwner() != player) {
                 
@@ -112,6 +116,9 @@ public class Command {
             String from = (String) data.get("SourceCountry");
             String to = (String) data.get("CountryClicked");
             int player = (Integer) data.get("CurrentPlayer");
+            
+            if (game.getGameState().getCurrentPlayer() != player) return;
+            
             if (game.getBoard().getCountry(from).getOwner() != player || game.getBoard().getCountry(to).getOwner() != player) {
                 // Player doesn't own one of these countries
             } else {
@@ -124,16 +131,22 @@ public class Command {
         }
 
         else if (cmd.equals(Phase.ENDPHASE)) {
+            //if (game.getGameState().getCurrentPlayer() != player) return;
+            
             game.endPhase();
         }
 
-        else if (cmd.equals(CREATE)) {
 
-        }
+        
         else if (cmd.equals(ENDTURN)) {
+            //if (game.getGameState().getCurrentPlayer() != player) return;
+
             game.nextPlayer();
         }
         
+        else if (cmd.equals(CREATE)) {
+
+        }
 
         else if (cmd.equals(JOIN)) {
             String name = (String) data.get("CurrentPlayer");
