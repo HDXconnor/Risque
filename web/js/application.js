@@ -49,14 +49,11 @@
                     var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
                     postData(endPhaseData);
                 }
+                //if current players trooptodeploy has diminished, switch player
                 if($rootScope.obj.Game.GameState.Phase==="Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].TroopsToDeploy===0) {
                     var endTroopDeployData = JSON.stringify({Command: "TroopDone", Data: {CurrentPlayer: name}});
                     postData(endTroopDeployData);
                 }
-                
-                
-                
-
                 $rootScope.$apply();
                 angular.forEach($rootScope.obj.Game.Board, function (index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
@@ -215,18 +212,40 @@
 
                 index[0].addEventListener("mouseover", function () {
                     $rootScope.thisCountryID = index.node.id;
-                    angular.forEach($rootScope.obj.Game.Board, function (index) {
+//                    angular.forEach($rootScope.obj.Game.Board, function (index) {9
+//                        if ($rootScope.thisCountryID === index.CountryID) {
+//                            $rootScope.countryName = index.CountryName;
+//                            $rootScope.owner = index.Owner;
+//                            $rootScope.troops = index.Troops;
+//                        }
+//                        angular.forEach($rootScope.obj.Game.Players, function (player) {
+//                            if ($rootScope.owner === player.PlayerOrder) {
+//                                $rootScope.playerName = player.DisplayName;
+//                            }
+//                        });
+//                    });
+                    angular.forEach($rootScope.obj.Game.Board, function (index){
                         if ($rootScope.thisCountryID === index.CountryID) {
-                            $rootScope.countryName = index.CountryName;
-                            $rootScope.owner = index.Owner;
-                            $rootScope.troops = index.Troops;
-                        }
+                        if($rootScope.obj.Game.GameState.CurrentPlayer!==index.Owner){
+                            $rootScope.defendCountryName = index.CountryName;
+                            $rootScope.defendOwner = index.Owner;
+                            $rootScope.defendTroops = index.Troops;
+                        }else{
+                            $rootScope.attackCountryName = index.CountryName;
+                            $rootScope.attackOwner = index.Owner;
+                            $rootScope.attackTroops = index.Troops;
+                        }}
                         angular.forEach($rootScope.obj.Game.Players, function (player) {
-                            if ($rootScope.owner === player.PlayerOrder) {
-                                $rootScope.playerName = player.DisplayName;
+                            if ($rootScope.attackOwner === player.PlayerOrder) {
+                                $rootScope.attackOwner = player.DisplayName;
+                            };
+                            if($rootScope.defendOwner === player.PlayerOrder){
+                                    $rootScope.defendOwner = player.DisplayName;
                             }
+                                
                         });
                     });
+                    
                 }, true);
 
                 index[0].addEventListener("mouseout", function () {
