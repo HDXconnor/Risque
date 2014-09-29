@@ -32,10 +32,12 @@
                 for (i = 0; i < $rootScope.obj.Game.Players.length; i++) {
                     if ($rootScope.obj.Game.Players[i].DisplayName === $rootScope.username) {
                         $rootScope.thisUserNumber = i;
+                        
+                    }
+                    if ($rootScope.obj.Game.GameState.CurrentPlayer === $rootScope.obj.Game.Players[i].PlayerOrder){
+                        $rootScope.currentUserName = $rootScope.obj.Game.Players[i].DisplayName;
                         $rootScope.troopsToDeploy = $rootScope.obj.Game.Players[i].TroopsToDeploy;
                     }
-                    if ($rootScope.obj.Game.GameState.CurrentPlayer === $rootScope.obj.Game.Players[i].PlayerOrder)
-                        $rootScope.currentUserName = $rootScope.obj.Game.Players[i].DisplayName;
                 }
                 
                 if ($rootScope.host === $rootScope.username) {
@@ -51,7 +53,7 @@
                 }
                 //if current players trooptodeploy has diminished, switch player
                 if($rootScope.obj.Game.GameState.Phase==="Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].TroopsToDeploy===0) {
-                    var endTroopDeployData = JSON.stringify({Command: "TroopDone", Data: {CurrentPlayer: name}});
+                    var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: name}});
                     postData(endTroopDeployData);
                 }
                 $rootScope.$apply();
@@ -166,6 +168,10 @@
                     return false;
                 }
             };
+            this.endTurn = function(){
+                var endTurnData = JSON.stringify({Command: "endTurn", Data: {CurrentPlayer: name}});
+                postData(endTurnData);
+            }
 
             function postData(data) {
                 $http({
@@ -182,7 +188,6 @@
     app.controller("PhaseController", ["$rootScope", '$http', function ($rootScope, $http) {
             this.atkBoxes = function () {
                 if ($rootScope.obj.Game.GameState.Phase === "Attack") {
-                    console.log("HELLO" + $rootScope.obj.Game.GameState.Phase);
                     return $rootScope.isHidden;
                 } else {
                     return true;
@@ -204,6 +209,18 @@
                     return true;
                 }
             };
+            this.attack = function(){
+                var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.attackCountryID, DefendingCountry: $rootScope.defendCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+                            postData(send);
+            };
+            function postData(data) {
+                $http({
+                    method: 'POST',
+                    url: 'GameServlet',
+                    headers: {'Content-Type': 'application/json'},
+                    data: data
+                }).error();
+            };
         }]);
     
     app.controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
@@ -212,18 +229,18 @@
 
                 index[0].addEventListener("mouseover", function () {
                     $rootScope.thisCountryID = index.node.id;
-//                    angular.forEach($rootScope.obj.Game.Board, function (index) {9
-//                        if ($rootScope.thisCountryID === index.CountryID) {
-//                            $rootScope.countryName = index.CountryName;
-//                            $rootScope.owner = index.Owner;
-//                            $rootScope.troops = index.Troops;
-//                        }
-//                        angular.forEach($rootScope.obj.Game.Players, function (player) {
-//                            if ($rootScope.owner === player.PlayerOrder) {
-//                                $rootScope.playerName = player.DisplayName;
-//                            }
-//                        });
-//                    });
+                    angular.forEach($rootScope.obj.Game.Board, function (index) {9
+                        if ($rootScope.thisCountryID === index.CountryID) {
+                            $rootScope.countryName = index.CountryName;
+                            $rootScope.owner = index.Owner;
+                            $rootScope.troops = index.Troops;
+                        }
+                        angular.forEach($rootScope.obj.Game.Players, function (player) {
+                            if ($rootScope.owner === player.PlayerOrder) {
+                                $rootScope.playerName = player.DisplayName;
+                            }
+                        });
+                    });
                     angular.forEach($rootScope.obj.Game.Board, function (index){
                         if ($rootScope.thisCountryID === index.CountryID) {
                         if($rootScope.obj.Game.GameState.CurrentPlayer!==index.Owner){
@@ -265,8 +282,20 @@
                             postData(send);
                         }
                         if ($rootScope.obj.Game.GameState.Phase === "Attack") {
-                            var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.prevCountryID, DefendingCountry: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
-                            postData(send);
+                            angular.forEach($rootScope.obj.Game.Board, function (index){
+                                if ($rootScope.thisCountryID === index.CountryID) {
+                                if($rootScope.obj.Game.GameState.CurrentPlayer === index.Owner){
+                                    $rootScope.attackCountryID = $rootScope.thisCountryID;
+                                    console.log("attack");
+                                }
+                                if($rootScope.obj.Game.GameState.CurrentPlayer !== index.Owner){
+                                    $rootScope.defendCountryID = $rootScope.thisCountryID;
+                                    console.log("defend");
+                                }
+                            }
+                            });
+                            
+                            
                         }
                         if ($rootScope.obj.Game.GameState.Phase === "Move") {
                             var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});

@@ -13,10 +13,7 @@
         <p>{{defendTroops}}</p>
     </div>
     <div>
-        <button id="attack1" class="pretty-button" type="button"><strong>Attack with 1 Troop</strong></button>
-        <button id="attack2" class="pretty-button" type="button"><strong>Attack with 2 Troop</strong></button>
-        <button id="attack3" class="pretty-button" type="button"><strong>Attack with 3 Troop</strong></button>
-        <button id="attackF" class="pretty-button" type="button"><strong>Attack till Resolved</strong></button>
+        <button id="attack1" class="pretty-button" type="button" ng-click="phase.attack()"><strong>Attack (only one troop for now)</strong></button>
     </div>
 </div>
 <div ng-hide="phase.deployBoxes()">

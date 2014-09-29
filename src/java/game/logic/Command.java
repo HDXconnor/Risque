@@ -21,7 +21,7 @@ public class Command {
     private static final String JOIN = "Join";
     private static final String QUIT = "Quit";
     private static final String STARTGAME = "StartGame";
-    private static final String TROOPDONE = "TroopDone";
+    private static final String ENDTURN = "EndTurn";
 
     /*
      Commands to support:
@@ -130,7 +130,7 @@ public class Command {
         else if (cmd.equals(CREATE)) {
 
         }
-        else if (cmd.equals(TROOPDONE)) {
+        else if (cmd.equals(ENDTURN)) {
             game.nextPlayer();
         }
         
