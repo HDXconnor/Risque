@@ -77,13 +77,13 @@ public class GameServlet extends HttpServlet {
     public void tempJoinGame(HttpServletRequest request) {
         try {
             String name = request.getCookies()[0].getValue();
-            HashMap<Integer, Player> players = game.getPlayers().getPlayers();
+            HashMap<Integer, Player> players = game.getPlayerList().getPlayers();
             for (Player p : players.values()) {
                 if (p.getName().equals(name)) {
                     return;
                 }
             }
-            game.getPlayers().joinGame(new Player(name, 20));
+            game.getPlayerList().joinGame(new Player(name, 20));
         } catch (PlayerException | NullPointerException ex) {
         }
     }

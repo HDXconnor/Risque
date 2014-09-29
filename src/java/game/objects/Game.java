@@ -28,7 +28,7 @@ public class Game {
         this.phase = gameState.getPhase();
     }
 
-    public PlayerList getPlayers() {
+    public PlayerList getPlayerList() {
         return playerList;
     }
 

@@ -56,7 +56,7 @@ public class Command {
         else if (cmd.equals(Phase.DEPLOY)) {
             String country = (String) data.get("CountryClicked");
             int player = (Integer) data.get("CurrentPlayer");
-            Player p = (Player) game.getPlayers().getPlayers().get(player);
+            Player p = (Player) game.getPlayerList().getPlayers().get(player);
             
             if (game.getBoard().getCountry(country).getOwner() == player && p.getTroopsToDeploy() > 0) {
                 game.getBoard().getCountry(country).setTroops(game.getBoard().getCountry(country).getTroops() + (Integer) data.get("Troops"));
@@ -70,9 +70,9 @@ public class Command {
             int player = (Integer) data.get("CurrentPlayer");
             String attacker = (String) data.get("AttackingCountry");
             String defender = (String) data.get("DefendingCountry");
-            if (game.getBoard().getCountry(defender).getOwner() == player) {
-                // can't attack yourself
-            } else {
+            
+            if (game.getBoard().getCountry(defender).getOwner() != player) {
+                
                 int attackingTroops = game.getBoard().getCountry(attacker).getTroops();
                 int defendingTroops = game.getBoard().getCountry(defender).getTroops();
                 int attackDice, defendDice;
@@ -102,6 +102,8 @@ public class Command {
                 } catch (DiceException e) {
 
                 }
+            } else {
+                //can't attack yourself
             }
         }
 
@@ -131,7 +133,7 @@ public class Command {
         else if (cmd.equals(JOIN)) {
             String name = (String) data.get("CurrentPlayer");
             try {
-                game.getPlayers().joinGame(new Player(name, 3));
+                game.getPlayerList().joinGame(new Player(name, 3));
             } catch (PlayerException ex) {
                 //join game fails, response?
             }
@@ -143,7 +145,6 @@ public class Command {
         }
         
         else if (cmd.equals(STARTGAME)) {
-
             game.getGameState().closeLobby();
         }       
     }
