@@ -10,16 +10,10 @@
             
             evtSource.addEventListener("gamestate", function (e) {
                 
-                var obj = JSON.parse(e.data);
-                $rootScope.data = obj;
-                $rootScope.game = obj.Game;
-                $rootScope.board = obj.Game.Board;
-                $rootScope.gameState = obj.Game.GameState;
-                $rootScope.players = obj.Game.Players;
-                $rootScope.currentPlayer = obj.Game.GameState.CurrentPlayer;
-                $rootScope.phase = obj.Game.GameState.Phase;
-                $rootScope.countryCount = obj.Game.GameState.Unassigned;
-                $rootScope.gameStarted = obj.Game.GameState.LobbyClosed;
+                $rootScope.obj = JSON.parse(e.data);
+                $rootScope.players = $rootScope.obj.Game.Players;
+                $rootScope.phase = $rootScope.obj.Game.GameState.Phase;
+                $rootScope.gameStarted = $rootScope.obj.Game.GameState.LobbyClosed;
                 $rootScope.lobbySize = 6;
                 $rootScope.playerString = "player";
                 var cookie = readCookie();
@@ -28,35 +22,35 @@
                 }
                 $rootScope.username=name.replace('Username=', '');
                 
-                if ($rootScope.players.length !== 0) {
-                    $rootScope.host = obj.Game.Players[0].DisplayName;
+                if ($rootScope.obj.Game.Players.length !== 0) {
+                    $rootScope.host = $rootScope.obj.Game.Players[0].DisplayName;
                 }
                 
                 
                 
-                for (i = 0; i < $rootScope.players.length; i++) {
-                    if (obj.Game.Players[i].DisplayName === $rootScope.username) {
+                for (i = 0; i < $rootScope.obj.Game.Players.length; i++) {
+                    if ($rootScope.obj.Game.Players[i].DisplayName === $rootScope.username) {
                         $rootScope.thisUserNumber = i;
-                        $rootScope.troopsToDeploy = obj.Game.Players[i].TroopsToDeploy;
+                        $rootScope.troopsToDeploy = $rootScope.obj.Game.Players[i].TroopsToDeploy;
                     }
-                    if($rootScope.currentPlayer == obj.Game.Players[i].PlayerOrder)
-                        $rootScope.currentUserName = obj.Game.Players[i].DisplayName;
+                    if($rootScope.obj.Game.GameState.CurrentPlayer== $rootScope.obj.Game.Players[i].PlayerOrder)
+                        $rootScope.currentUserName = $rootScope.obj.Game.Players[i].DisplayName;
                 }
                 
                 if ($rootScope.host === $rootScope.username) {
-                    if ($rootScope.phase === "Setup" && $rootScope.countryCount === 0) {
+                    if ($rootScope.phase === "Setup" && $rootScope.obj.Game.GameState.Unassigned=== 0) {
                         var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
                         postData(temp);
                     }
                 }
 
-                if ($rootScope.phase === "Deploy" && obj.Game.Players[$rootScope.players.length - 1].troopsToDeploy === 0) {
+                if ($rootScope.phase === "Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.Players.length - 1].troopsToDeploy === 0) {
                     var temp = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
                     postData(temp);
                 }
 
                 $rootScope.$apply();
-                angular.forEach($rootScope.board, function (index) {
+                angular.forEach($rootScope.obj.Game.Board, function (index) {
                     countryOwner[index.Owner].push(mapList[index.CountryID]);
                 });
                 
@@ -110,7 +104,7 @@
     app.controller("LobbyController", ['$rootScope', '$http', function ($rootScope, $http) {
             
             this.lobbyVis = function () {
-                return(document.cookie.indexOf("Username") >= 0 && $rootScope.gameStarted !== true);
+                return(document.cookie.indexOf("Username") >= 0 && $rootScope.obj.Game.GameState.LobbyClosed !== true);
             };
 
             this.startGame = function () {
@@ -155,13 +149,13 @@
 //                moveTroops();
                     $rootScope.phase = "Deploy";
                     // increment currentplayer, mod number of players
-                    $rootScope.currentPlayer = ($rootScope.currentPlayer + 1) % $rootScope.players.length;
-                    $rootScope.currentPlayer = $rootScope.players[$rootScope.currentPlayer].PlayerOrder;
+                    $rootScope.obj.Game.GameState.CurrentPlayer= ($rootScope.obj.Game.GameState.CurrentPlayer + 1) % $rootScope.obj.Game.Players.length;
+                    $rootScope.obj.Game.GameState.CurrentPlayer = $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].PlayerOrder;
                 }
             };
 
             this.endPhaseVis = function () {
-                if ($rootScope.countryCount !== 0) {
+                if ($rootScope.obj.Game.GameState.Unassigned!== 0) {
                     return true;
                 } else {
                     return false;
@@ -213,13 +207,13 @@
 
                 index[0].addEventListener("mouseover", function () {
                     $rootScope.thisCountryID = index.node.id;
-                    angular.forEach($rootScope.board, function (index) {
+                    angular.forEach($rootScope.obj.Game.Board, function (index) {
                         if ($rootScope.thisCountryID === index.CountryID) {
                             $rootScope.countryName = index.CountryName;
                             $rootScope.owner = index.Owner;
                             $rootScope.troops = index.Troops;
                         }
-                        angular.forEach($rootScope.players, function (player) {
+                        angular.forEach($rootScope.obj.Game.Players, function (player) {
                             if ($rootScope.owner === player.PlayerOrder) {
                                 $rootScope.playerName = player.DisplayName;
                             }
@@ -233,22 +227,22 @@
                 index[0].addEventListener("click", function () {
                     $rootScope.thisCountryID = index.node.id;
 
-                    if ($rootScope.currentPlayer === $rootScope.thisUserNumber) {
+                    if ($rootScope.obj.Game.GameState.CurrentPlayer === $rootScope.thisUserNumber) {
                         index.animate(defaultCountry, animationSpeed);
                         if ($rootScope.phase === "Setup") {
-                            var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
                         if ($rootScope.phase === "Deploy") {
-                            var send = JSON.stringify({Command: "Deploy", Data: {Troops: 1, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            var send = JSON.stringify({Command: "Deploy", Data: {Troops: 1, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
                         if ($rootScope.phase === "Attack") {
-                            var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.prevCountryID, DefendingCountry: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.prevCountryID, DefendingCountry: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
                         if ($rootScope.phase === "Move") {
-                            var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
                         $rootScope.prevCountryID = index.node.id;
@@ -277,7 +271,7 @@
 
     function color($rootScope) {
 
-        angular.forEach($rootScope.board, function (country) {
+        angular.forEach($rootScope.obj.Game.Board, function (country) {
             if (country.Owner === -1) {
                 mapList[country.CountryID].attr(blackCountry);
             }
@@ -303,7 +297,7 @@
     };
 
     function moveTroops(troops, id1, id2) {
-        angular.forEach($rootScope.board, function (index) {
+        angular.forEach($rootScope.obj.Game.Board, function (index) {
             if (index.CountryID === id1) {
                 index.Troops = index.Troops - troops;
             }
@@ -314,7 +308,7 @@
     };
 
     function deploy(troops, id1) {
-        angular.forEach($rootScope.board, function (index) {
+        angular.forEach($rootScope.obj.Game.Board, function (index) {
             if (index.CountryID === id1) {
                 index.Troops = index.Troops + troops;
             }
