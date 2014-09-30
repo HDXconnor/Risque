@@ -52,7 +52,7 @@
                     postData(endPhaseData);
                 }
                 //if current players trooptodeploy has diminished, switch player
-                if($rootScope.obj.Game.GameState.Phase==="Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].TroopsToDeploy===0) {
+                if ($rootScope.obj.Game.GameState.Phase==="Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].TroopsToDeploy===0) {
                     var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: name}});
                     postData(endTroopDeployData);
                 }
@@ -286,7 +286,7 @@
                             postData(send);
                         }
                         if ($rootScope.obj.Game.GameState.Phase === "Deploy") {
-                            var send = JSON.stringify({Command: "Deploy", Data: {Troops: 1, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+                            var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
                         if ($rootScope.obj.Game.GameState.Phase === "Attack") {

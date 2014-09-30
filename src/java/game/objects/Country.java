@@ -34,6 +34,10 @@ public class Country {
     public void setTroops(int troops) {
         this.troops = troops;
     }
+    
+    public void incrementTroops() {
+        this.troops++;
+    }
 
     public void removeTroops(int troops) {
         this.troops -= troops;
