@@ -7,6 +7,8 @@ import game.objects.AttackOutcome;
 import game.objects.exceptions.PlayerException;
 import game.objects.exceptions.DiceException;
 import game.logic.Dice;
+import game.objects.Board;
+import game.objects.Country;
 import game.objects.exceptions.TroopsException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +24,7 @@ public class Command {
     private static final String QUIT = "Quit";
     private static final String STARTGAME = "StartGame";
     private static final String ENDTURN = "EndTurn";
+    private static final String DEBUG = "Debug";
 
     /*
      Commands to support:
@@ -70,6 +73,7 @@ public class Command {
         }
 
         else if (cmd.equals(Phase.ATTACK)) {
+            System.out.println("In attack command");
             int player = (Integer) data.get("CurrentPlayer");
             String attacker = (String) data.get("AttackingCountry");
             String defender = (String) data.get("DefendingCountry");
@@ -82,6 +86,7 @@ public class Command {
                 int defendingTroops = game.getBoard().getCountry(defender).getTroops();
                 int attackDice, defendDice;
                 AttackOutcome outcome;
+                System.out.println("INITIATE ATTACK");
                 try {
                     // For now we attack until resolved
                     while (attackingTroops != 1 || defendingTroops != 0) {
@@ -108,7 +113,7 @@ public class Command {
 
                 }
             } else {
-                //can't attack yourself
+                System.out.println("You can't attack yourself!");
             }
         }
 
@@ -164,6 +169,15 @@ public class Command {
         
         else if (cmd.equals(STARTGAME)) {
             game.getGameState().closeLobby();
-        }       
+        }
+        
+        else if (cmd.equals(DEBUG)) {
+            Board b = game.getBoard();
+            for (Object country: b.getAllCountries().keySet()) {
+                game.getBoard().getCountry((String) country).setOwner(game.getGameState().getCurrentPlayer());
+                game.getBoard().getCountry((String) country).setTroops(1);
+                game.nextPlayer();
+            }
+        }  
     }
 }

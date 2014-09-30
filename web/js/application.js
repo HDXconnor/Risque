@@ -129,11 +129,19 @@
                 document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                 postData(quitData);
             };
-            this.magicButton = function(){
+            
+            this.magicButton = function () {
                 console.log($rootScope.host);
                 console.log($rootScope.username);
-                
-            }
+
+            };
+
+            this.debugButton = function () {
+                console.log("STARTING DEBUG");
+                var debugData = JSON.stringify({Command: "Debug", Data: {}});
+                postData(debugData);
+            };
+            
             function postData(data) {
                 $http({
                     method: 'POST',
@@ -171,7 +179,7 @@
             this.endTurn = function(){
                 var endTurnData = JSON.stringify({Command: "endTurn", Data: {CurrentPlayer: name}});
                 postData(endTurnData);
-            }
+            };
 
             function postData(data) {
                 $http({
@@ -229,7 +237,7 @@
 
                 index[0].addEventListener("mouseover", function () {
                     $rootScope.thisCountryID = index.node.id;
-                    angular.forEach($rootScope.obj.Game.Board, function (index) {9
+                    angular.forEach($rootScope.obj.Game.Board, function (index) {
                         if ($rootScope.thisCountryID === index.CountryID) {
                             $rootScope.countryName = index.CountryName;
                             $rootScope.owner = index.Owner;
@@ -309,7 +317,7 @@
                     }
                 }, true);
             });
-            
+
             function postData(data) {
                 $http({
                     method: 'POST',
