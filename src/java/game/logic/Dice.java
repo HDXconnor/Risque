@@ -24,7 +24,7 @@ public class Dice {
     public static AttackOutcome Roll(int numberOfAttackerDice, int numberOfDefenderDice) throws DiceException {
         
         // Attacker must have 1, 2, or 3 dice. Defender must have 1 or 2 dice.
-        if (numberOfAttackerDice < 1 || numberOfAttackerDice > 3 || numberOfDefenderDice < 1 || numberOfDefenderDice > 2) throw new DiceException("Invalid number of dice");
+        if (numberOfAttackerDice < 1 || numberOfAttackerDice > 3 || numberOfDefenderDice < 1 || numberOfDefenderDice > 2) throw new DiceException("Invalid number of dice: nAttDice=" + numberOfAttackerDice + ", nDefDice=" + numberOfDefenderDice);
         
         int troopsLostByAttacker = 0;
         int troopsLostByDefender = 0;

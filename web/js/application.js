@@ -170,7 +170,7 @@
             };
 
             this.endPhaseVis = function () {
-                if ($rootScope.obj.Game.GameState.Unassigned!== 0) {
+                if ($rootScope.obj.Game.GameState.Unassigned !== 0) {
                     return true;
                 } else {
                     return false;
@@ -286,7 +286,7 @@
                             postData(send);
                         }
                         if ($rootScope.obj.Game.GameState.Phase === "Deploy") {
-                            var send = JSON.stringify({Command: "Deploy", Data: {Troops: 1, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+                            var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                             postData(send);
                         }
                         if ($rootScope.obj.Game.GameState.Phase === "Attack") {
