@@ -42,18 +42,18 @@
                 
                 if ($rootScope.host === $rootScope.username) {
                     if ($rootScope.obj.Game.GameState.Phase === "Setup" && $rootScope.obj.Game.GameState.Unassigned === 0) {
-                        var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
+                        var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                         postData(endPhaseData);
                     }
                 }
                 //sends out end phase when the last player has finished deploying
                 if ($rootScope.obj.Game.GameState.Phase === "Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.Players.length - 1].TroopsToDeploy === 0) {
-                    var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: name}});
+                    var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                     postData(endPhaseData);
                 }
                 //if current players trooptodeploy has diminished, switch player
                 if($rootScope.obj.Game.GameState.Phase==="Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].TroopsToDeploy===0) {
-                    var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: name}});
+                    var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                     postData(endTroopDeployData);
                 }
                 $rootScope.$apply();
@@ -92,7 +92,7 @@
                     var name = cookie[index];
                 }
                 name = name.replace('Username=', '');
-                var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
+                var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                 document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                 postData(quitData);
                 $rootScope.$apply();
@@ -115,7 +115,7 @@
             };
 
             this.startGame = function () {
-                var startGameData = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: name}});
+                var startGameData = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                 postData(startGameData);
             };
 
@@ -125,7 +125,7 @@
                     var name = cookie[index];
                 }
                 name = name.replace('Username=', '');
-                var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: name}});
+                var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                 document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
                 postData(quitData);
             };
@@ -177,7 +177,7 @@
                 }
             };
             this.endTurn = function(){
-                var endTurnData = JSON.stringify({Command: "endTurn", Data: {CurrentPlayer: name}});
+                var endTurnData = JSON.stringify({Command: "endTurn", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                 postData(endTurnData);
             };
 
