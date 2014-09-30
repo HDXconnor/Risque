@@ -177,7 +177,7 @@
                 }
             };
             this.endTurn = function(){
-                var endTurnData = JSON.stringify({Command: "endTurn", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+                var endTurnData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                 postData(endTurnData);
             };
 
