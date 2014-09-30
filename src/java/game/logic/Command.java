@@ -101,6 +101,7 @@ public class Command {
                             defendDice = defendingTroops;
                         }
                         outcome = Dice.Roll(attackDice, defendDice);
+                        System.out.println(outcome);
                         attackingTroops -= outcome.getTroopsLostByAttacker();
                         defendingTroops -= outcome.getTroopsLostByDefender();
                     }
@@ -110,7 +111,7 @@ public class Command {
                         game.getBoard().getCountry(attacker).setTroops(1);
                     }
                 } catch (DiceException e) {
-
+                    System.err.println(e);
                 }
             } else {
                 System.out.println("You can't attack yourself!");
@@ -174,8 +175,8 @@ public class Command {
         else if (cmd.equals(DEBUG)) {
             Board b = game.getBoard();
             for (Object country: b.getAllCountries().keySet()) {
-                game.getBoard().getCountry((String) country).setOwner(game.getGameState().getCurrentPlayer());
-                game.getBoard().getCountry((String) country).setTroops(1);
+                b.getCountry((String) country).setOwner(game.getGameState().getCurrentPlayer());
+                b.getCountry((String) country).setTroops(1);
                 game.nextPlayer();
             }
         }  

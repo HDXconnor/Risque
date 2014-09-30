@@ -12,10 +12,22 @@ import org.json.JSONObject;
 public class PlayerList {
     private final HashMap<Integer, Player> players;
     
+    /**
+     *
+     */
     public PlayerList() {
         players = new HashMap<>();
     }
         
+    /**
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @param e
+     * @param f
+     */
     public PlayerList(String a, String b, String c, String d, String e, String f) {
         players = new HashMap<>();
         players.put(0, new Player(a, 3));
@@ -26,6 +38,11 @@ public class PlayerList {
         players.put(5, new Player(f, 3));
     }
     
+    /**
+     *
+     * @param newPlayer
+     * @throws PlayerException
+     */
     public void joinGame(Player newPlayer) throws PlayerException {
         if (players.size() >= 6) throw new PlayerException("Games are limited to 6 players!");
         int nextAvailableSpot = getNextAvailableSpot();
@@ -40,10 +57,20 @@ public class PlayerList {
         return -1;
     }
     
+    /**
+     *
+     * @return
+     */
     public HashMap getPlayers() {
         return players;
     }
 
+    /**
+     *
+     * @param player
+     * @return
+     * @throws PlayerException
+     */
     public Player getPlayerByName(String player) throws PlayerException {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getName().equals(player)) {
@@ -53,6 +80,10 @@ public class PlayerList {
         throw new PlayerException("Player not found");
     }
     
+    /**
+     *
+     * @param player
+     */
     public void removePlayer(String player) {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getName().equals(player)) {
@@ -62,6 +93,11 @@ public class PlayerList {
         }
     }
     
+    /**
+     *
+     * @return
+     * @throws JSONException
+     */
     public JSONArray getPlayersJSON() throws JSONException {
         JSONArray arr = new JSONArray();
         for (int key:players.keySet()) {
@@ -76,6 +112,10 @@ public class PlayerList {
         return arr;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getNumberOfPlayers() {
         return players.size();
     } 

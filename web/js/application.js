@@ -170,7 +170,7 @@
             };
 
             this.endPhaseVis = function () {
-                if ($rootScope.obj.Game.GameState.Unassigned!== 0) {
+                if ($rootScope.obj.Game.GameState.Unassigned !== 0) {
                     return true;
                 } else {
                     return false;
