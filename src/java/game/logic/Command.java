@@ -104,6 +104,10 @@ public class Command {
             if (defendingCountry.getOwner() == player)
                 throw new CommandException("Player " + player + " cannot attack his own country.");
             
+            // do nothing if attacking player has less than 2 troops
+            if (attackingCountry.getTroops() < 2)
+                throw new CommandException("Country needs at least 2 troops to be able to attack another country.");
+            
             // set the number of dice to be rolled
             int attackingDice = attackingCountry.getTroops();
             int defendingDice = defendingCountry.getTroops();
