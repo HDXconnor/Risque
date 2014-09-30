@@ -40,7 +40,7 @@ public class Command {
      Server checks player but currently client always sends '1'
     
      */
-    public static void parseInput(JSONObject json, Game game) throws JSONException, TroopsException, CommandException {
+    public static void parseInput(JSONObject json, Game game) throws JSONException, TroopsException, CommandException, DiceException {
         
         // Get command data from the sent JSON
         String cmd = (String) json.get("Command");
@@ -111,23 +111,20 @@ public class Command {
             if (defendingDice > 2) defendingDice = 2;
             
             // roll the dice
-            try {
-                AttackOutcome outcome = Dice.Roll(attackingDice, defendingDice);
-                System.out.println(outcome);
+            AttackOutcome outcome = Dice.Roll(attackingDice, defendingDice);
+            System.out.println(outcome);
 
-                // country loses troops
-                attackingCountry.removeTroops(outcome.getTroopsLostByAttacker());
-                defendingCountry.removeTroops(outcome.getTroopsLostByDefender());
+            // country loses troops
+            attackingCountry.removeTroops(outcome.getTroopsLostByAttacker());
+            defendingCountry.removeTroops(outcome.getTroopsLostByDefender());
 
-                // check if takeover occurred
-                if (defendingCountry.getTroops() == 0) {
-                    defendingCountry.setOwner(player);
-                    defendingCountry.setTroops(attackingCountry.getTroops() - 1);
-                    attackingCountry.setTroops(1);
-                }
-            } catch (DiceException e) {
-                System.err.println(e);
+            // check if takeover occurred
+            if (defendingCountry.getTroops() == 0) {
+                defendingCountry.setOwner(player);
+                defendingCountry.setTroops(attackingCountry.getTroops() - 1);
+                attackingCountry.setTroops(1);
             }
+
 
         }
 
