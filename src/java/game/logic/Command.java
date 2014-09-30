@@ -9,6 +9,7 @@ import game.objects.exceptions.DiceException;
 import game.logic.Dice;
 import game.objects.Board;
 import game.objects.Country;
+import game.objects.exceptions.CommandException;
 import game.objects.exceptions.TroopsException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +40,7 @@ public class Command {
      Server checks player but currently client always sends '1'
     
      */
-    public static void parseInput(JSONObject json, Game game) throws JSONException, TroopsException {
+    public static void parseInput(JSONObject json, Game game) throws JSONException, TroopsException, CommandException {
         String cmd = (String) json.get("Command");
         JSONObject data = (JSONObject) json.get("Data");
         if (cmd.equals(Phase.SETUP)) {
@@ -73,49 +74,46 @@ public class Command {
         }
 
         else if (cmd.equals(Phase.ATTACK)) {
-            System.out.println("In attack command");
+            System.out.println("In attack command"); //remove
+            
+            // Get data from the sent JSON
             int player = (Integer) data.get("CurrentPlayer");
             String attacker = (String) data.get("AttackingCountry");
             String defender = (String) data.get("DefendingCountry");
+            Country attackingCountry = game.getBoard().getCountry(attacker);
+            Country defendingCountry = game.getBoard().getCountry(defender);
             
+            // do nothing if it is not the player's turn
             if (game.getGameState().getCurrentPlayer() != player) return;
             
-            if (game.getBoard().getCountry(defender).getOwner() != player) {
-                
-                int attackingTroops = game.getBoard().getCountry(attacker).getTroops();
-                int defendingTroops = game.getBoard().getCountry(defender).getTroops();
-                int attackDice, defendDice;
-                AttackOutcome outcome;
-                System.out.println("INITIATE ATTACK");
-                try {
-                    // For now we attack until resolved
-                    while (attackingTroops != 1 || defendingTroops != 0) {
-                        if (attackingTroops >= 3) {
-                            attackDice = 3;
-                        } else {
-                            attackDice = attackingTroops;
-                        }
-                        if (defendingTroops >= 2) {
-                            defendDice = 3;
-                        } else {
-                            defendDice = defendingTroops;
-                        }
-                        outcome = Dice.Roll(attackDice, defendDice);
-                        System.out.println(outcome);
-                        attackingTroops -= outcome.getTroopsLostByAttacker();
-                        defendingTroops -= outcome.getTroopsLostByDefender();
-                    }
-                    if (defendingTroops == 0) {
-                        game.getBoard().getCountry(defender).setOwner(player);
-                        game.getBoard().getCountry(defender).setTroops(attackingTroops);
-                        game.getBoard().getCountry(attacker).setTroops(1);
-                    }
-                } catch (DiceException e) {
-                    System.err.println(e);
+            // do nothing if attacking player owns the country he is trying to attack
+            if (defendingCountry.getOwner() == player) return;
+            
+            // set the number of dice to be rolled
+            int attackingDice = attackingCountry.getTroops();
+            int defendingDice = defendingCountry.getTroops();
+            if (attackingDice > 3) attackingDice = 3;
+            if (defendingDice > 2) defendingDice = 2;
+            
+            // roll the dice
+            try {
+                AttackOutcome outcome = Dice.Roll(attackingDice, defendingDice);
+                System.out.println(outcome); //remove
+
+                // country loses troops
+                attackingCountry.removeTroops(outcome.getTroopsLostByAttacker());
+                defendingCountry.removeTroops(outcome.getTroopsLostByDefender());
+
+                // check if takeover occurred
+                if (defendingCountry.getTroops() == 0) {
+                    defendingCountry.setOwner(player);
+                    defendingCountry.setTroops(attackingCountry.getTroops() - 1);
+                    attackingCountry.setTroops(1);
                 }
-            } else {
-                System.out.println("You can't attack yourself!");
+            } catch (DiceException e) {
+                System.err.println(e);
             }
+
         }
 
         else if (cmd.equals(Phase.MOVE)) {
