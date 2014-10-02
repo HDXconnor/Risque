@@ -25,6 +25,8 @@ public class Phase {
      * Increments the current phase to the next one.
      */
     public void nextPhase() {
+        System.out.println("in nextPhase()");
+        System.out.println("current phase: "+currentPhase);
         switch (currentPhase) {
             case SETUP:
                 this.currentPhase = DEPLOY;
@@ -41,5 +43,6 @@ public class Phase {
             default:
                 break;
         }
+        System.out.println("new current phase: "+currentPhase);
     }
 }

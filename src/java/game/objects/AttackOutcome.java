@@ -31,6 +31,11 @@ public class AttackOutcome {
     public ArrayList<Integer> getDefenderDice() {
         return defenderDice;
     }
+    
+    @Override
+    public String toString() {
+        return "ATTACKOUTCOME: Attacker rolled: " + attackerDice + ", Defender Rolled: " + defenderDice + ", Attacker lost " + troopsLostByAttacker + " troops, Defender lost " + troopsLostByDefender + " troops.";
+    }
 
     @Override
     public String toString() {

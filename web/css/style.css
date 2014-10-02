@@ -35,8 +35,37 @@
 
 .lobby-area
 {
-    width: 40%;
+    width: 45%;
     display: inline-block;
+    margin: 2%;
+}
+
+#lobby-box
+{
+
+}
+
+.player-box
+{
+    margin-top: 4px;
+}
+.player-name
+{
+    display: inline-block;
+}
+.player-color
+{
+    height: 10px;
+    width: 10px;
+}
+
+.remove-button
+{
+    display: inline-block;
+    float: right;
+    border: none;
+    background-color: red;
+    color: white;
 }
 
 #lobby-box
