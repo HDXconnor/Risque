@@ -1,8 +1,5 @@
 package game.objects;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Phase {
     private String currentPhase;
     public static final String SETUP = "Setup";
@@ -14,11 +11,19 @@ public class Phase {
     public Phase() {
         this.currentPhase = SETUP;
     }
-    
+
+    /**
+     * Returns the current phase name.
+     *
+     * @return the current phase string.
+     */
     public String getPhase() {
         return currentPhase;
     }
-    
+
+    /**
+     * Increments the current phase to the next one.
+     */
     public void nextPhase() {
         switch (currentPhase) {
             case SETUP:

@@ -1,25 +1,35 @@
 package game.logic;
 
-import game.objects.Game;
-import game.objects.Phase;
-import game.objects.Player;
-import game.objects.AttackOutcome;
-import game.objects.exceptions.PlayerException;
+import game.data.CountriesData;
+import game.objects.*;
+import game.objects.exceptions.CommandException;
 import game.objects.exceptions.DiceException;
-import game.logic.Dice;
+import game.objects.exceptions.PlayerException;
+import game.objects.exceptions.TroopsException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- *
- * @author Simeon
+ * Translates the JSON commands sent to the server from player actions
+ * into the method calls. Supported Commands:
+ * <ul>
+ * <li>Create</li> <li>Join</li><li>Quit</li><li>StartGame</li>
+ * <li>EndTurn</li><li>Debug</li>
+ * </ul>
+ * <p>
+ * Also, Setup, Deploy, Attack, Move, and EndPhase commands are supported.
+ * </p>
+ * <p>
+ * A player's command will not be successful if it is not their turn.
+ * </p>
  */
 public class Command {
-
     private static final String CREATE = "Create";
     private static final String JOIN = "Join";
     private static final String QUIT = "Quit";
     private static final String STARTGAME = "StartGame";
+    private static final String ENDTURN = "EndTurn";
+    private static final String DEBUG = "Debug";
 
     /*
      Commands to support:
@@ -28,118 +38,189 @@ public class Command {
      Attack
      Move
      EndPhase (end phase command)
-    
      TODO:
      Need to check which player sent the command - other players are able to send another players commands currently
      Server checks player but currently client always sends '1'
-    
      */
-    public static void parseInput(JSONObject json, Game game) throws JSONException {
-        String cmd = (String) json.get("Command");
+
+    public static void parseInput(JSONObject json, Game game) throws JSONException, TroopsException, CommandException, DiceException, PlayerException {
         JSONObject data = (JSONObject) json.get("Data");
-        if (cmd.equals(Phase.SETUP)) {
-            String country = (String) data.get("CountryClicked");
-            int player = (Integer) data.get("CurrentPlayer");
-            
-            if (game.getGameState().getCurrentPlayer() != player) return;
-            
-            if (game.getBoard().getCountry(country).getOwner() == -1) {
-                game.getBoard().getCountry(country).setOwner(player);
-                game.nextPlayer();//game.endTurn();
-            } else {
-                // country already owned by another player
-            }
-        }
+        String cmd = json.getString("Command");
 
-        else if (cmd.equals(Phase.DEPLOY)) {
-            String country = (String) data.get("CountryClicked");
-            int player = (Integer) data.get("CurrentPlayer");
-            if (game.getBoard().getCountry(country).getOwner() != player) {
-                // country aint yours bitch
-            } else {
-                game.getBoard().getCountry(country).setTroops(game.getBoard().getCountry(country).getTroops() + (Integer) data.get("Troops"));
-            }
-        }
+        switch (cmd) {
+            case JOIN:
+                String name = (String) data.get("CurrentPlayer");
 
-        else if (cmd.equals(Phase.ATTACK)) {
-            int player = (Integer) data.get("CurrentPlayer");
-            String attacker = (String) data.get("AttackingCountry");
-            String defender = (String) data.get("DefendingCountry");
-            if (game.getBoard().getCountry(defender).getOwner() == player) {
-                // can't attack yourself
-            } else {
-                int attackingTroops = game.getBoard().getCountry(attacker).getTroops();
-                int defendingTroops = game.getBoard().getCountry(defender).getTroops();
-                int attackDice, defendDice;
-                AttackOutcome outcome;
-                try {
-                    // For now we attack until resolved
-                    while (attackingTroops != 1 || defendingTroops != 0) {
-                        if (attackingTroops >= 3) {
-                            attackDice = 3;
-                        } else {
-                            attackDice = attackingTroops;
-                        }
-                        if (defendingTroops >= 2) {
-                            defendDice = 3;
-                        } else {
-                            defendDice = defendingTroops;
-                        }
-                        outcome = Dice.Roll(attackDice, defendDice);
-                        attackingTroops -= outcome.getTroopsLostByAttacker();
-                        defendingTroops -= outcome.getTroopsLostByDefender();
-                    }
-                    if (defendingTroops == 0) {
-                        game.getBoard().getCountry(defender).setOwner(player);
-                        game.getBoard().getCountry(defender).setTroops(attackingTroops);
-                        game.getBoard().getCountry(attacker).setTroops(1);
-                    }
-                } catch (DiceException e) {
+                game.getPlayerList().joinGame(new Player(name, 3));
 
+                return;
+            case STARTGAME:
+                game.getGameState().closeLobby();
+                return;
+            case Phase.ENDPHASE:
+                game.endPhase();
+                return;
+        }   
+
+        Player commandingPlayer = game.getPlayerList().getPlayerByName(data.getInt("CurrentPlayer"));
+
+        if (game.getGameState().isCurrentPlayer(commandingPlayer.getPlayerNum())) {
+
+            Board board = game.getBoard();
+            Country selectedCountry = board.getCountry(data.getString("CountryClicked"));
+
+            // issue command from player
+            switch (cmd) {
+                case Phase.SETUP:
+                    claimSetupCountry(selectedCountry, commandingPlayer.getPlayerNum(), game);
+                    break;
+                case Phase.DEPLOY: {
+                    deploy(commandingPlayer, selectedCountry);
+                    break;
                 }
-            }
-        }
+                case Phase.ATTACK: {
+                    // Get data from the sent JSON
+                    String attacker = data.getString("AttackingCountry");
+                    String defender = data.getString("DefendingCountry");
+                    Country attackingCountry = board.getCountry(attacker);
+                    Country defendingCountry = board.getCountry(defender);
 
-        else if (cmd.equals(Phase.MOVE)) {
-            String from = (String) data.get("SourceCountry");
-            String to = (String) data.get("CountryClicked");
-            int player = (Integer) data.get("CurrentPlayer");
-            if (game.getBoard().getCountry(from).getOwner() != player || game.getBoard().getCountry(to).getOwner() != player) {
-                // Player doesn't own one of these countries
-            } else {
-                if (BoardLogic.isNeighbour(to, from)) {
-                    int troops = (Integer) data.getInt("Troops");
-                    game.getBoard().getCountry(to).setTroops(game.getBoard().getCountry(to).getTroops() + troops);
-                    game.getBoard().getCountry(from).setTroops(game.getBoard().getCountry(from).getTroops() - troops);
+                    // do nothing if attacking player owns the country he is trying to attack
+                    if (defendingCountry.isOwnedBy(commandingPlayer.getPlayerNum()))
+                        throw new CommandException("Player " + commandingPlayer + " cannot attack his own country.");
+
+                    // do nothing if attacking player has less than 2 troops
+                    if (attackingCountry.getTroops() < 2)
+                        throw new CommandException("Country needs at least 2 troops to be able to attack another country.");
+
+                    attack(commandingPlayer, attackingCountry, defendingCountry);
+                    break;
                 }
+                case Phase.MOVE: {
+                    // Get data from the sent JSON
+                    String from = data.getString("SourceCountry");
+                    String to = data.getString("CountryClicked");
+
+                    // player doesn't own both countries
+                    if (board.getCountry(from).getOwner() != commandingPlayer.getPlayerNum() || board.getCountry(to).getOwner() != commandingPlayer.getPlayerNum())
+                        throw new CommandException("Player " + commandingPlayer + " does not own both countries");
+
+                    // check if the two countries are neighbours
+                    if (CountriesData.isNeighbour(to, from)) {
+                        // move troops
+                        int troops = data.getInt("Troops");
+                        board.getCountry(to).setTroops(board.getCountry(to).getTroops() + troops);
+                        board.getCountry(from).setTroops(board.getCountry(from).getTroops() - troops);
+                    }
+                    break;
+                }
+                case ENDTURN:
+                    game.nextPlayer();
+                    break;
+                case CREATE:
+                    // TODO
+                    break;
+                case QUIT: {
+                    game.removePlayer(commandingPlayer.getName());
+                    break;
+                }
+                // temp command for debug purposes
+                case DEBUG:
+                    for (Object country : board.getAllCountries().keySet()) {
+                        board.getCountry((String) country).setOwner(game.getGameState().getCurrentPlayer());
+                        board.getCountry((String) country).setTroops(1);
+                        game.nextPlayer();
+                    }
+                    break;
             }
         }
+    }
 
-        else if (cmd.equals(Phase.ENDPHASE)) {
-            game.endPhase();
+    /**
+     * Claims a country and adds a troop to it for the curreant player if currently
+     * in the Setup phase.
+     * <p>
+     * To reach this method, it must be both the Setup phase and the commanding
+     * player's turn in the game. After checking to see if selected country has
+     * no owner, selected country gets +1 troop, commanding player becomes owner
+     * and the turn is passed to next player.
+     * </p>
+     *
+     * @param selectedCountry   country clicked by player
+     * @param commandingPlayer  player issuing the command
+     * @param game              current game instance
+     * @see game.objects.Country#hasOwner() hasOwner
+     */
+    private static void claimSetupCountry(Country selectedCountry, int commandingPlayer, Game game) {
+        if (!selectedCountry.hasOwner()) {
+            selectedCountry.setOwner(commandingPlayer);
+            selectedCountry.setTroops(1);
+            game.nextPlayer();//game.endTurn();
+        } else {
+            // country already owned by another player
         }
+    }
 
-        else if (cmd.equals(CREATE)) {
-
+    /**
+     * Deploys one troop unit from the commanding player's army to the
+     * specified country if it is owned by them and it is the Deploy
+     * phase.
+     * <p>
+     * One troop unit will be deployed to the target country only if
+     * it is both the Deploy phase and the commanding player's turn.
+     * Player must have troops to deploy.
+     * </p>
+     * <p>
+     * Selected country's troop count is incremented while player's
+     * troop count is decremented.
+     * </p>
+     *
+     * @param commandingPlayer  player object of commanding player
+     * @param selectedCountry   country clicked by player
+     * @throws TroopsException  ASK SIMEON :)
+     * @throws CommandException if country does not belong to the
+     *                          commanding player or commanding
+     *                          player has no troops.
+     */
+    private static void deploy(Player commandingPlayer, Country selectedCountry) throws TroopsException, CommandException {
+        // if country is owned by player, and player has troops to deploy, deploy 1x troop
+        if (selectedCountry.isOwnedBy(commandingPlayer.getPlayerNum()) && commandingPlayer.getTroopsToDeploy() > 0) {
+            selectedCountry.incrementTroops();
+            commandingPlayer.decrementTroopsToDeploy();
+        } else {
+            throw new CommandException("DEPLOY: Country is not the player's, or player has no troops to deploy");
         }
+    }
 
-        else if (cmd.equals(JOIN)) {
-            String name = (String) data.get("CurrentPlayer");
-            try {
-                game.getPlayers().joinGame(new Player(name, 20));
-            } catch (PlayerException ex) {
-                //join game fails, response?
-            }
+    private static void attack(Player commandingPlayer, Country attackingCountry, Country defendingCountry){
+        // set the number of dice to be rolled
+        int attackingDice = attackingCountry.getTroops();
+        int defendingDice = defendingCountry.getTroops();
+        if (attackingDice > 3) attackingDice = 3;
+        if (defendingDice > 2) defendingDice = 2;
+
+        // roll the dice
+        AttackOutcome outcome = null;
+        try {
+            outcome = Dice.Roll(attackingDice, defendingDice);
+        } catch (DiceException e) {
+            e.printStackTrace();
         }
+        System.out.println(outcome);
 
-        else if (cmd.equals(QUIT)) {
-            String name = (String) data.get("CurrentPlayer");
-            game.removePlayer(name);
+        // country loses troops
+        attackingCountry.removeTroops(outcome.getTroopsLostByAttacker());
+        defendingCountry.removeTroops(outcome.getTroopsLostByDefender());
+
+        // check if takeover occurred
+        if (defendingCountry.getTroops() == 0) {
+            defendingCountry.setOwner(commandingPlayer.getPlayerNum());
+            defendingCountry.setTroops(attackingCountry.getTroops() - 1);
+            attackingCountry.setTroops(1);
         }
-        
-        else if (cmd.equals(STARTGAME)) {
+    }
 
-            game.getGameState().closeLobby();
-        }       
+    private static void move(){
+
     }
 }

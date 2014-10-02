@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.server;
 
 import java.io.IOException;
@@ -20,10 +15,6 @@ import org.scribe.model.Verb;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
-/**
- *
- * @author Johannes
- */
 public class OAuthServlet extends HttpServlet {
 
     private static final Token EMPTY_TOKEN = null;

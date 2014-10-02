@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.objects;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Simeon
- */
 public class AttackOutcome {
 
     private final int troopsLostByAttacker;
@@ -41,4 +32,8 @@ public class AttackOutcome {
         return defenderDice;
     }
 
+    @Override
+    public String toString() {
+        return "ATTACKOUTCOME: Attacker rolled: " + attackerDice + ", Defender Rolled: " + defenderDice + ", Attacker lost " + troopsLostByAttacker + " troops, Defender lost " + troopsLostByDefender + " troops.";
+    }
 }

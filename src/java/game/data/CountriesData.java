@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.data;
 
 import java.util.ArrayList;
@@ -10,14 +5,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- *
- * @author Connor
+ * CountriesData class contains hash maps containing all map identification information for the
+ * countries in the current map. The hash maps that can be accessed include:
+ * <ul>
+ * <li>countriesMap</li>
+ * <li>neighboursMap</li>
+ * <li>continentsMap</li>
+ * </ul>
+ * <p>
+ * The countriesMap keys being each country's 4-digit code and value being the country's name.
+ * The neighboursMap key-value pairs indicate countries that border each other on the map.
+ * The continentsMap contains the names of the continents with the keys being the continent's
+ * 2-digit code and value being the continent's full name.
+ * </p>
+ * <p>
+ * The 4-digit country codes contain as their firt two digits the code corresponding to the
+ * continent they each belong to. Thus, this code can be parsed to calculate contiental bonuses.
+ * </p>
  */
 public class CountriesData {
-
-    public static final HashMap<String, String> continentsMap;
     public static final HashMap<String, String> countriesMap;
     public static final HashMap<String, ArrayList<String>> neighboursMap;
+    public static final HashMap<String, String> continentsMap;
 
     static {
         continentsMap = new HashMap<>();
@@ -129,7 +138,23 @@ public class CountriesData {
         neighboursMap.put("NA07", new ArrayList(Arrays.asList("NA06", "NA05", "NA08", "NA09")));
         neighboursMap.put("NA08", new ArrayList(Arrays.asList("NA04", "NA05", "NA07", "NA09", "AF02", "SA01")));
         neighboursMap.put("NA09", new ArrayList(Arrays.asList("NA07", "NA08", "SA03")));
-
     }
 
+    /**
+     * Returns whether or not two countries are neighbors.
+     * <p>
+     * Checks if the neighboursMap contains a key equal to country1
+     * with a value equal to country2. If there is no key-value pair equal to the
+     * two provided countries, the method will return false.
+     * </p>
+     *
+     * @param country1  the 4 digit country code
+     * @param country2  the 4 digit country code
+     * @return          <code>true</code> if the two countries
+     *                  are neighbors;
+     *                  <code>false</code> otherwise.
+     */
+    public static boolean isNeighbour(String country1, String country2) {
+        return neighboursMap.get(country1).contains(country2);
+    }
 }

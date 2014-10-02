@@ -1,36 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.server;
 
 import game.logic.Command;
 import game.objects.Game;
 import game.objects.Player;
 import game.objects.PlayerList;
+import game.objects.exceptions.CommandException;
+import game.objects.exceptions.DiceException;
 import game.objects.exceptions.PlayerException;
+import game.objects.exceptions.TroopsException;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
- *
- * @author Simeon
+ * Implementation of the game Servlet and its high level methods.
  */
 public class GameServlet extends HttpServlet {
-
-    //Game game = new Game(new PlayerList("Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player...","Awaiting player..."));
-    Game game = new Game(new PlayerList());
-    boolean useSSE = true;
+    private Game game = new Game(new PlayerList());
+    private boolean useSSE = true;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,22 +64,24 @@ public class GameServlet extends HttpServlet {
             Command.parseInput(json, game);
         } catch (JSONException ex) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CommandException | DiceException | TroopsException | PlayerException e) {
+            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
+            e.printStackTrace();
         }
-
-
     }
 
     public void tempJoinGame(HttpServletRequest request) {
         try {
             String name = request.getCookies()[0].getValue();
-            HashMap<Integer, Player> players = game.getPlayers().getPlayers();
+            HashMap<Integer, Player> players = game.getPlayerList().getPlayers();
             for (Player p : players.values()) {
                 if (p.getName().equals(name)) {
                     return;
                 }
             }
-            game.getPlayers().joinGame(new Player(name, 20));
+            game.getPlayerList().joinGame(new Player(name, 20));
         } catch (PlayerException | NullPointerException ex) {
+            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -91,5 +89,4 @@ public class GameServlet extends HttpServlet {
     public String getServletInfo() {
         return "Risque Game Servlet.";
     }
-
 }

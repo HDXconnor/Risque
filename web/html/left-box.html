@@ -10,8 +10,8 @@
     <div id="game-state" class="display-box">
         <h3>{{phase}} Phase</h3>
         <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
-        <p ng-hide="phase=='Setup'">Current Player: {{currentPlayer}}</p>
-        <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{game.current.TroopsToDeploy}}</p>
+        <p ng-hide="phase=='Setup'">Current Player: {{currentUserName}}</p>
+        <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{troopsToDeploy}}</p>
     </div>
     <div ng-hide="game.endPhaseVis()">
     <button id="endphase" class="pretty-button" type="button" ng-click="game.endphase()" > End Phase</button>

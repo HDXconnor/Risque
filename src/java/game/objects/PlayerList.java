@@ -1,14 +1,12 @@
 package game.objects;
 
 import game.objects.exceptions.PlayerException;
-import java.util.HashMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-/**
- *
- * @author Simeon
- */
+
+import java.util.HashMap;
+
 public class PlayerList {
     private final HashMap<Integer, Player> players;
     
@@ -18,12 +16,12 @@ public class PlayerList {
         
     public PlayerList(String a, String b, String c, String d, String e, String f) {
         players = new HashMap<>();
-        players.put(0, new Player(a, 20));
-        players.put(1, new Player(b, 20));
-        players.put(2, new Player(c, 20));
-        players.put(3, new Player(d, 20));
-        players.put(4, new Player(e, 20));
-        players.put(5, new Player(f, 20));
+        players.put(0, new Player(a,20));
+        players.put(1, new Player(b,20));
+        players.put(2, new Player(c,20));
+        players.put(3, new Player(d,20));
+        players.put(4, new Player(e,20));
+        players.put(5, new Player(f,20));
     }
     
     public void joinGame(Player newPlayer) throws PlayerException {
@@ -31,8 +29,15 @@ public class PlayerList {
         int nextAvailableSpot = getNextAvailableSpot();
         if (nextAvailableSpot == -1) throw new PlayerException("Invalid player number!");
         players.put(nextAvailableSpot, newPlayer);
+        newPlayer.setPlayerNum(nextAvailableSpot);
     }
-    
+
+    /**
+     * Finds the next spot in the players list.
+     *
+     * @return  a number indicating an available
+     *          spot in the list.
+     */
     private int getNextAvailableSpot() {
         for (int i=0; i<6; i++) {
             if (players.get(i) == null) return i;
@@ -41,7 +46,37 @@ public class PlayerList {
     }
     
     public HashMap getPlayers() {return players;}
-    
+
+    /**
+     *
+     *
+     * @param player
+     * @return
+     * @throws PlayerException
+     */
+    public Player getPlayerByName(String player) throws PlayerException {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(player)) {
+                return players.get(i);
+            }
+        }
+        throw new PlayerException("Player not found");
+    }
+
+    public Player getPlayerByName(int player) throws PlayerException {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPlayerNum() == player) {
+                return players.get(i);
+            }
+        }
+        throw new PlayerException("Player not found");
+    }
+
+    /**
+     * Removes a specified player from the game.
+     *
+     * @param player    player name.
+     */
     public void removePlayer(String player) {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getName().equals(player)) {
@@ -64,7 +99,12 @@ public class PlayerList {
         }
         return arr;
     }
-    
+
+    /**
+     * Returns the number of players in the game.
+     *
+     * @return  the number of players.
+     */
     public int getNumberOfPlayers() {
         return players.size();
     } 

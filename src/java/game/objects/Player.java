@@ -1,19 +1,17 @@
 package game.objects;
 
 import game.objects.exceptions.TroopsException;
-/**
- *
- * @author Simeon
- */
+
 public class Player {
     private final String name;
     private final String playerImage;
     private int troopsToDeploy;
-    
+    private int playerNum;
+
     public Player(String name, int troopsToDeploy) {
         this.name = name;
+        this.troopsToDeploy = troopsToDeploy;
         this.playerImage = "image.jpg";
-        this.troopsToDeploy = 0;
     }
 
     public int getTroopsToDeploy() {
@@ -24,7 +22,7 @@ public class Player {
         if (troopsToDeploy < 0) throw new TroopsException("Cannot have negative number of troops.");
         this.troopsToDeploy = troopsToDeploy;
     }
-    
+
     public void decrementTroopsToDeploy() throws TroopsException {
         if (this.troopsToDeploy <= 0) throw new TroopsException("Cannot have negative number of troops.");
         this.troopsToDeploy--;
@@ -33,8 +31,16 @@ public class Player {
     public String getName() {
         return name;
     }
-    
+
     public String getPlayerImage() {
         return playerImage;
-    } 
+    }
+
+    public int getPlayerNum() {
+        return playerNum;
+    }
+
+    public void setPlayerNum(int playerNum) {
+        this.playerNum = playerNum;
+    }
 }

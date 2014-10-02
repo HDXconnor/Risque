@@ -11,7 +11,6 @@ import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/GameSocket")
 public class GameSocket {
-    
     private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
     
     @OnOpen
@@ -28,5 +27,4 @@ public class GameSocket {
     public void onClose (Session peer) {
         clients.remove(peer);
     }
-    
 }

@@ -1,35 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package game.objects;
 
-import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- *
- * @author Simeon
- */
-
 public class Game {
-    private final PlayerList players;
+    private final PlayerList playerList;
     private final Board board;
     private final GameState gameState;
     private final Phase phase;
-    
+
     public Game(PlayerList players) {
-        this.players = players;
+        this.playerList = players;
         this.board = new Board();
         this.gameState = new GameState(board); // board is a parameter here for the GameState field "Unassigned". TODO - find a better way of doing this
         this.phase = gameState.getPhase();
     }
 
-    public PlayerList getPlayers() {
-        return players;
+    public PlayerList getPlayerList() {
+        return playerList;
     }
 
     public GameState getGameState() {
@@ -39,11 +27,11 @@ public class Game {
     public Board getBoard() {
         return board;
     }
-    
+
     public boolean updated() {
         return true; //TODO
     }
-    
+
     public void endPhase() {
         switch (phase.getPhase()) {
             case Phase.SETUP:
@@ -57,30 +45,37 @@ public class Game {
         }
         phase.nextPhase();
     }
-    
+
     public void endTurn() {
         nextPlayer();
         gameState.nextTurn();
     }
-    
+
     public void nextPlayer () {
-        gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % players.getNumberOfPlayers());
+        gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
     }
-    
+
     public Player getCurrentPlayerObject() {
-        return (Player) players.getPlayers().get(gameState.getCurrentPlayer());
+        return (Player) playerList.getPlayers().get(gameState.getCurrentPlayer());
     }
-    
+
+    /**
+     * Removes a specified player from the game.
+     *
+     * @param playerName    name of user to be removed
+     * @see game.objects.PlayerList
+     */
     public void removePlayer(String playerName) {
-        players.removePlayer(playerName);
+        if (playerList.getNumberOfPlayers() > 0) {
+            playerList.removePlayer(playerName);
+        }
     }
-    
+
     public JSONObject getGameJSON() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("Players", players.getPlayersJSON());
+        json.put("Players", playerList.getPlayersJSON());
         json.put("GameState", gameState.getGameStateJSON());
         json.put("Board", board.getBoardJSON());
         return new JSONObject().put("Game", json);
     }
-    
 }

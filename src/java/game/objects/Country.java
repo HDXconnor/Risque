@@ -1,15 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package game.objects;
 
-/**
- *
- * @author Simeon
- */
 public class Country {
     private int troops;
     private int owner;
@@ -30,11 +20,27 @@ public class Country {
     public int getOwner() {
         return owner;
     }
-    
+
+    public boolean hasOwner(){
+        return (getOwner() != -1);
+    }
+
+    public boolean isOwnedBy(int player){
+        return (getOwner() == player);
+    }
+
     public void setTroops(int troops) {
         this.troops = troops;
     }
-    
+
+    public void incrementTroops() {
+        this.troops++;
+    }
+
+    public void removeTroops(int troops) {
+        this.troops -= troops;
+    }
+
     public int getTroops() {
         return troops;
     }
@@ -46,7 +52,6 @@ public class Country {
     public void setName(String name) {
         this.name = name;
     }
-
 //    public String getId() {
 //        return id;
 //    }
@@ -54,6 +59,4 @@ public class Country {
 //    public void setId(String id) {
 //        this.id = id;
 //    }
-    
-    
 }
