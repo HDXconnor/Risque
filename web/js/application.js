@@ -56,9 +56,7 @@
                 postData(endTroopDeployData);
             }
             $rootScope.$apply();
-            angular.forEach($rootScope.obj.Game.Board, function (index) {
-                countryOwner[index.Owner].push($rootScope.mapList[index.CountryID]);
-            });
+
 
             function postData(data) {
                 $http({
@@ -77,31 +75,31 @@
         }, false);
     }]);
 
-////    function color($rootScope) {
-////        angular.forEach($rootScope.obj.Game.Board, function (country) {
-////            if (country.Owner === -1) {
-////                $rootScope.mapList[country.CountryID].attr(blackCountry);
-////            }
-////            else if (country.Owner === 0) {
-////                $rootScope.mapList[country.CountryID].attr(redCountry);
-////            }
-////            else if (country.Owner === 1) {
-////                $rootScope.mapList[country.CountryID].attr(greenCountry);
-////            }
-////            else if (country.Owner === 2) {
-////                $rootScope.mapList[country.CountryID].attr(yellowCountry);
-////            }
-////            else if (country.Owner === 3) {
-////                $rootScope.mapList[country.CountryID].attr(pinkCountry);
-////            }
-////            else if (country.Owner === 4) {
-////                $rootScope.mapList[country.CountryID].attr(brownCountry);
-////            }
-////            else if (country.Owner === 5) {
-////                $rootScope.mapList[country.CountryID].attr(blueCountry);
-////            }
-////        });
-////   }
+    function color($rootScope) {
+        angular.forEach($rootScope.obj.Game.Board, function (country) {
+            if (country.Owner === -1) {
+                $rootScope.mapList[country.CountryID].attr(blackCountry);
+            }
+            else if (country.Owner === 0) {
+                $rootScope.mapList[country.CountryID].attr(redCountry);
+            }
+            else if (country.Owner === 1) {
+                $rootScope.mapList[country.CountryID].attr(greenCountry);
+            }
+            else if (country.Owner === 2) {
+                $rootScope.mapList[country.CountryID].attr(yellowCountry);
+            }
+            else if (country.Owner === 3) {
+                $rootScope.mapList[country.CountryID].attr(pinkCountry);
+            }
+            else if (country.Owner === 4) {
+                $rootScope.mapList[country.CountryID].attr(brownCountry);
+            }
+            else if (country.Owner === 5) {
+                $rootScope.mapList[country.CountryID].attr(blueCountry);
+            }
+        });
+   }
 
     function moveTroops(troops, id1, id2) {
         angular.forEach($rootScope.obj.Game.Board, function (index) {
@@ -158,18 +156,7 @@
         console.log("Server says " + evt.data());
     }
 
-    var countryOwner = {};
-    countryOwner["-1"] = [];
-    countryOwner["0"] = [];
-    countryOwner["1"] = [];
-    countryOwner["2"] = [];
-    countryOwner["3"] = [];
-    countryOwner["4"] = [];
-    countryOwner["5"] = [];
 
-    var MapWidth = 900;
-    var MapHeight = 900;
-    var animationSpeed = 500;
 
     var defaultCountry = {
         fill: "#ddd",
@@ -243,7 +230,7 @@
         cursor: "pointer"
     };
 
-//    map.setViewBox(0, innerHeight / 2, window.innerWidth / 1.5, window.innerHeight / 1.5, true);
+
     app.directive("rightBox", function () {
         return{
             restrict: "E",

@@ -5,18 +5,16 @@ angular.module('gameApp')
 
         //Make an SVG Container
         window.svgMap = d3.select("#svgMap").append("svg")
-            .attr("width", 800)
+            .attr("width", 900)
             .attr("height", 900);
 
 
         $rootScope.mapList = {};
         $http.get('json/mapPaths.json').success(function (mapData){
-            console.log(mapData);
+
 
             //Add Countries to SVG Container
             angular.forEach(mapData.Map, function(index) {
-                console.log(index);
-                console.log(mapData);
                 $rootScope.mapList[index.id] = svgMap.append("path")
                     .attr("id", index.id)
                     .attr("d", index.d)
