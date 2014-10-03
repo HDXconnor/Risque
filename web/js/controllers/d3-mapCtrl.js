@@ -74,7 +74,7 @@ angular.module('gameApp')
                             $rootScope.thisCountryID = index.node.id;
 
                             if ($rootScope.currentPlayer === $rootScope.thisUserNumber) {
-                                index.animate(defaultCountry, animationSpeed);
+//                                index.animate(defaultCountry, animationSpeed);
                                 if ($rootScope.phase === "Setup") {
                                     var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
                                     postData(send);
