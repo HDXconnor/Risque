@@ -25,8 +25,8 @@ import java.util.logging.Logger;
  * Implementation of the game Servlet and its high level methods.
  */
 public class GameServlet extends HttpServlet {
-    private Game game = new Game(new PlayerList());
-    private boolean useSSE = true;
+    private final Game game = new Game(new PlayerList());
+    private final boolean useSSE = true;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,6 +42,7 @@ public class GameServlet extends HttpServlet {
                     out.write("event: gamestate\ndata: " + json + "\n\n"); // SSE requires a blank line: \n\n
                 }
             } catch (JSONException e) {
+                Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
             }
 
             // keeping the old method around for testing purposes...
@@ -52,6 +53,7 @@ public class GameServlet extends HttpServlet {
                 out.print(json);
                 System.out.println("GET data sending:   " + json);
             } catch (JSONException e) {
+                Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }
@@ -62,11 +64,8 @@ public class GameServlet extends HttpServlet {
             JSONObject json = new JSONObject(request.getReader().readLine());
             System.out.println("POST data received: " + json);
             Command.parseInput(json, game);
-        } catch (JSONException ex) {
-            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CommandException | DiceException | TroopsException | PlayerException e) {
+        } catch (JSONException | CommandException | DiceException | TroopsException | PlayerException e) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
-            e.printStackTrace();
         }
     }
 
