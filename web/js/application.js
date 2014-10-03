@@ -78,7 +78,11 @@
     function color($rootScope) {
         angular.forEach($rootScope.obj.Game.Board, function (country) {
             if (country.Owner === -1) {
-                $rootScope.mapList[country.CountryID].attr(blackCountry);
+                $rootScope.mapList[country.CountryID].attr("fill", "black")
+                    .attr("stroke", "#aaa")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-linejoin", "round")
+                    .attr("cursor", "pointer");
             }
             else if (country.Owner === 0) {
                 $rootScope.mapList[country.CountryID].attr(redCountry);
@@ -158,21 +162,8 @@
 
 
 
-    var defaultCountry = {
-        fill: "#ddd",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
 
-    var blackCountry = {
-        fill: "black",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
+
 
     var redCountry = {
         fill: "#FF3B30",

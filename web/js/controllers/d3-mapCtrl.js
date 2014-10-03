@@ -4,7 +4,7 @@ angular.module('gameApp')
     .controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
 
         //Make an SVG Container
-        window.svgMap = d3.select("#svgMap").append("svg")
+        $rootScope.svgMap = d3.select("#svgMap").append("svg")
             .attr("width", 900)
             .attr("height", 900);
 
@@ -15,13 +15,16 @@ angular.module('gameApp')
 
             //Add Countries to SVG Container
             angular.forEach(mapData.Map, function(index) {
-                $rootScope.mapList[index.id] = svgMap.append("path")
+                $rootScope.mapList[String(index.id)] = $rootScope.svgMap.append("path")
                     .attr("id", index.id)
                     .attr("d", index.d)
                     .attr("stroke", index.stroke)
-                    .attr("fill", index.fill)
+                    .attr("fill", index.fill);
             });
+
         });
+
+        console.log($rootScope.mapList);
 
         angular.forEach($rootScope.mapList, function (index) {
 
