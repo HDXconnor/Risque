@@ -7,9 +7,11 @@ public class Player {
     private final String playerImage;
     private int troopsToDeploy;
     private int playerNum;
+    public Oauth auth;
 
     public Player(String name, int troopsToDeploy) {
         this.name = name;
+        this.auth = new Oauth(name);
         this.troopsToDeploy = troopsToDeploy;
         this.playerImage = "image.jpg";
     }
