@@ -210,7 +210,7 @@ public class Command {
         }
     }
 
-    private static void attack(Player commandingPlayer, Country attackingCountry, Country defendingCountry) {
+    private static void attack(Player commandingPlayer, Country attackingCountry, Country defendingCountry) throws DiceException {
         // set the number of dice to be rolled
         int attackingDice = attackingCountry.getTroops();
         int defendingDice = defendingCountry.getTroops();
@@ -223,11 +223,7 @@ public class Command {
 
         // roll the dice
         AttackOutcome outcome = null;
-        try {
-            outcome = Dice.Roll(attackingDice, defendingDice);
-        } catch (DiceException e) {
-            e.printStackTrace();
-        }
+        outcome = Dice.Roll(attackingDice, defendingDice);
         System.out.println(outcome);
 
         // country loses troops

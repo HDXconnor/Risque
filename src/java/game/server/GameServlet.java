@@ -80,21 +80,6 @@ public class GameServlet extends HttpServlet {
         }
     }
 
-    public void tempJoinGame(HttpServletRequest request) {
-        try {
-            String name = request.getCookies()[0].getValue();
-            HashMap<Integer, Player> players = game.getPlayerList().getPlayers();
-            for (Player p : players.values()) {
-                if (p.getName().equals(name)) {
-                    return;
-                }
-            }
-            game.getPlayerList().joinGame(new Player(name, 20));
-        } catch (PlayerException | NullPointerException ex) {
-            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     @Override
     public String getServletInfo() {
         return "Risque Game Servlet.";
