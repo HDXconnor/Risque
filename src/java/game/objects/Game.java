@@ -8,12 +8,14 @@ public class Game {
     private final Board board;
     private final GameState gameState;
     private final Phase phase;
+    private long lastModified;
 
     public Game(PlayerList players) {
         this.playerList = players;
         this.board = new Board();
         this.gameState = new GameState(board); // board is a parameter here for the GameState field "Unassigned". TODO - find a better way of doing this
         this.phase = gameState.getPhase();
+        this.lastModified = System.currentTimeMillis();
     }
 
     public PlayerList getPlayerList() {
@@ -26,10 +28,6 @@ public class Game {
 
     public Board getBoard() {
         return board;
-    }
-
-    public boolean updated() {
-        return true; //TODO
     }
 
     public void endPhase() {
@@ -77,5 +75,13 @@ public class Game {
         json.put("GameState", gameState.getGameStateJSON());
         json.put("Board", board.getBoardJSON());
         return new JSONObject().put("Game", json);
+    }
+
+    public long getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified() {
+        this.lastModified = System.currentTimeMillis();
     }
 }

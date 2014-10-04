@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 
 /**
  * Implementation of the game Servlet and its high level methods.
@@ -32,15 +33,25 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //tempJoinGame(request);
         if (useSSE) {
+
             response.setContentType("text/event-stream");
             response.setCharacterEncoding("UTF-8");
             response.setHeader("Connection", "keep-alive");
+            response.setHeader("Cache-Control", "no-cache");
+
+            HttpSession session = request.getSession();
+            
+            if (session.getAttribute("lastModified") != null) {
+                if ((long) session.getAttribute("lastModified") == game.getLastModified()) return;
+            }
+            
+            session.setAttribute("lastModified", game.getLastModified());
+
             try (PrintWriter out = response.getWriter()) {
                 JSONObject json = game.getGameJSON();
                 System.out.println("GET data sending:   " + json);
-                if (game.updated()) {
-                    out.write("event: gamestate\ndata: " + json + "\n\n"); // SSE requires a blank line: \n\n
-                }
+                out.write("event: gamestate\ndata: " + json + "\n\n"); // SSE requires a blank line: \n\n
+                out.flush();
             } catch (JSONException e) {
                 Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
             }
