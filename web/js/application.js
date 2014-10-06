@@ -24,11 +24,11 @@
 
             console.log($rootScope.Game + "GAME!");
             var cookie = readCookie();
-            for (index in cookie) {
-                var name = cookie[index];
-            }
-            $rootScope.username=name.replace('Username=', '');
-            console.log("line31 username: "+$rootScope.username);
+            console.log(cookie);
+            var name = cookie["Username="];
+            console.log(name);
+//            $rootScope.username=name.replace('Username=', '');
+
 
             //sets player 1 to host
             if ($rootScope.players.length !== 0) {
@@ -44,7 +44,8 @@
                 if ($rootScope.players[i].DisplayName === $rootScope.username) {
                     $rootScope.thisUserNumber = i;
                 }
-                else{console.log("NO USER NUMBER FOR YOU!")};
+                else{console.log("NO USER NUMBER FOR YOU!");
+                }
 
                 if ($rootScope.CurrentPlayer === $rootScope.players[i].PlayerOrder){
                     $rootScope.currentUserName = $rootScope.players[i].DisplayName;
