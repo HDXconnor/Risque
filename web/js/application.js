@@ -18,7 +18,7 @@
             $rootScope.phase = $rootScope.Game.GameState.Phase;
             $rootScope.lobbySize = 6;
             $rootScope.playerString = "player";
-            $rootScope.CurrentPlayer = $rootScope.Game.GameState;
+            $rootScope.CurrentPlayer = $rootScope.Game.GameState.CurrentPlayer;
             $rootScope.board = $rootScope.Game.Board;
 
 

@@ -44,7 +44,7 @@ public class Command {
      Server checks player but currently client always sends '1'
      */
     public static void parseInput(JSONObject json, Game game) throws JSONException, TroopsException, CommandException, DiceException, PlayerException {
-        
+
         JSONObject data = (JSONObject) json.get("Data");
         String cmd = json.getString("Command");
 
@@ -55,13 +55,13 @@ public class Command {
                 game.setLastModified();
                 return;
             }
-            
+
             case STARTGAME: {
                 game.getGameState().closeLobby();
                 game.setLastModified();
                 return;
             }
-            
+
             case Phase.ENDPHASE: {
                 game.endPhase();
                 game.setLastModified();
@@ -70,24 +70,26 @@ public class Command {
         }
 
         Player commandingPlayer = game.getPlayerList().getPlayerByName(data.getInt("CurrentPlayer"));
+        System.out.println(commandingPlayer.getName() + " + " + commandingPlayer.getPlayerNum());
 
         if (game.getGameState().isCurrentPlayer(commandingPlayer.getPlayerNum())) {
 
             Board board = game.getBoard();
-            Country selectedCountry = board.getCountry(data.getString("CountryClicked"));
 
             // issue command from player
             switch (cmd) {
                 case Phase.SETUP: {
+                    Country selectedCountry = board.getCountry(data.getString("CountryClicked"));
                     claimSetupCountry(selectedCountry, commandingPlayer.getPlayerNum(), game);
                     break;
                 }
-                
+
                 case Phase.DEPLOY: {
+                    Country selectedCountry = board.getCountry(data.getString("CountryClicked"));
                     deploy(commandingPlayer, selectedCountry);
                     break;
                 }
-                
+
                 case Phase.ATTACK: {
                     // Get data from the sent JSON
                     String attacker = data.getString("AttackingCountry");
@@ -108,7 +110,7 @@ public class Command {
                     attack(commandingPlayer, attackingCountry, defendingCountry);
                     break;
                 }
-                
+
                 case Phase.MOVE: {
                     // Get data from the sent JSON
                     String from = data.getString("SourceCountry");
@@ -132,16 +134,16 @@ public class Command {
                     game.nextPlayer();
                     break;
                 }
-                
+
                 case CREATE:
                     // TODO
                     break;
-                    
+
                 case QUIT: {
                     game.removePlayer(commandingPlayer.getName());
                     break;
                 }
-                
+
                 // temp command for debug purposes
                 case DEBUG: {
                     for (Object country : board.getAllCountries().keySet()) {
