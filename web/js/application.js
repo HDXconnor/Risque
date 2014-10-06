@@ -173,6 +173,15 @@
         console.log("Server says " + evt.data());
     }
 
+    function discoverOrderNo(name) {
+        angular.forEach($rootScope.players, function (index){
+            if (index.DisplayName == name) {
+                return index.PlayerOrder;
+
+            }
+        });
+    }
+    
     var redCountry = {
         fill: "#FF3B30",
         stroke: "#aaa",
