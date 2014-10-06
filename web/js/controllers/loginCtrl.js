@@ -23,7 +23,7 @@ angular.module('gameApp')
                 var name = cookie[index];
             }
             name = name.replace('Username=', '');
-            var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
+            var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.thisPlayer}});
             document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
             postData(quitData);
             $rootScope.$apply();

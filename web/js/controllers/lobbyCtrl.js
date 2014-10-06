@@ -13,9 +13,8 @@ angular.module('gameApp')
                 };
 
                 this.delCookie = function () {
-                    console.log("Deleting cookie...");
                     name.replace('Username=', '');
-                    var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
+                    var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.thisPlayer}});
                     document.cookie = 'Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
                     postData(quitData);
                 };
@@ -37,14 +36,13 @@ angular.module('gameApp')
                     } else {
                         return false;
                     }
-                }
+                };
 
                 function readCookie() {
                     var x = document.cookie;
                     var keyArray = x.split("; ");
                     return keyArray;
                 }
-
                 function postData(data) {
                     $http({
                         method: 'POST',
