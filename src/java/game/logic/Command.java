@@ -70,7 +70,6 @@ public class Command {
         }
 
         Player commandingPlayer = game.getPlayerList().getPlayerByName(data.getInt("CurrentPlayer"));
-        System.out.println(commandingPlayer.getName() + " + " + commandingPlayer.getPlayerNum());
 
         if (game.getGameState().isCurrentPlayer(commandingPlayer.getPlayerNum())) {
 

@@ -22,18 +22,18 @@
             $rootScope.board = $rootScope.Game.Board;
 
 
-            console.log($rootScope.Game + "GAME!");
+            //console.log($rootScope.Game + "GAME!");
             var cookie = readCookie();
-            console.log(cookie);
-            var name = cookie["Username="];
-            console.log(name);
-//            $rootScope.username=name.replace('Username=', '');
+            //console.log(cookie);
+            var name = cookie[0];
+            //console.log(name);
+            $rootScope.username=name.replace('Username=', '');
 
 
             //sets player 1 to host
             if ($rootScope.players.length !== 0) {
                 console.log("host name:? " +$rootScope.players[0].DisplayName);
-                $rootScope.host = $rootScope.players[0].name;
+                $rootScope.host = $rootScope.players[0].DisplayName;
                 console.log("host DisplayName: " +$rootScope.players[0].DisplayName);
             }
 
