@@ -1,8 +1,13 @@
 
 <div  id="login-box" class="display-box" ng-controller="LoginController as login" ng-hide="login.loginVis()">
+
     <form id="login-form">
         <input id="login-textbox" type="text" class="input-type" name="username" placeholder="username">
         <!--<input type="password" class="input-type" name="password" placeholder="password">-->
         <button id="login-button" class="pretty-button" type="button"  ng-click="login.setUser()"> Get Started </button>
     </form>
+    <div class="center">
+        <img src="images/facebook-round.png" class="login-button" />
+        <img src="images/google-plus-round.png" class="login-button" />
+    </div>
 </div>
