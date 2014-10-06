@@ -1,4 +1,4 @@
-'use strict';
+
 
 angular.module('gameApp')
     .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
@@ -19,7 +19,7 @@ angular.module('gameApp')
 //                //var name = cookie[index];
 //                index.replace('Username=','');
 //            }
-            //name.replace('Username=', '');
+            name.replace('Username=', '');
             var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
             document.cookie = 'Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
             postData(quitData);

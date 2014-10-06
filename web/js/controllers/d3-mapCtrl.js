@@ -1,4 +1,4 @@
-'use strict';
+
 
 angular.module('gameApp')
     .controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
