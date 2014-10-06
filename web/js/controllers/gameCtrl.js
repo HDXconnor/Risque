@@ -6,16 +6,16 @@ angular.module('gameApp')
 
         this.endphase = function () {
             // Deploy -> Attack -> Move
-            if ($rootScope.obj.Game.GameState.Phase === "Setup" || $rootScope.obj.Game.GameState.Phase === "Deploy")
-                $rootScope.obj.Game.GameState.Phase = "Attack";
-            else if ($rootScope.obj.Game.GameState.Phase === "Attack")
-                $rootScope.obj.Game.GameState.Phase = "Move";
-            else if ($rootScope.obj.Game.GameState.Phase === "Move") {
+            if ($rootScope.Game.GameState.Phase === "Setup" || $rootScope.Game.GameState.Phase === "Deploy")
+                $rootScope.Game.GameState.Phase = "Attack";
+            else if ($rootScope.Game.GameState.Phase === "Attack")
+                $rootScope.Game.GameState.Phase = "Move";
+            else if ($rootScope.Game.GameState.Phase === "Move") {
 //                moveTroops();
-                $rootScope.obj.Game.GameState.Phase = "Deploy";
+                $rootScope.Game.GameState.Phase = "Deploy";
                 // increment currentplayer, mod number of players
-                $rootScope.obj.Game.GameState.CurrentPlayer= ($rootScope.obj.Game.GameState.CurrentPlayer + 1) % $rootScope.obj.Game.Players.length;
-                $rootScope.obj.Game.GameState.CurrentPlayer = $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].PlayerOrder;
+                $rootScope.Game.GameState.CurrentPlayer= ($rootScope.Game.GameState.CurrentPlayer + 1) % $rootScope.Game.Players.length;
+                $rootScope.Game.GameState.CurrentPlayer = $rootScope.Game.Players[$rootScope.Game.GameState.CurrentPlayer].PlayerOrder;
             }
         };
 
@@ -27,7 +27,7 @@ angular.module('gameApp')
             }
         };
         this.endTurn = function(){
-            var endTurnData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+            var endTurnData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.Game.GameState.CurrentPlayer}});
             postData(endTurnData);
         };
 

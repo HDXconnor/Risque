@@ -11,48 +11,61 @@
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
         evtSource.addEventListener("gamestate", function (e) {
             $rootScope.obj = JSON.parse(e.data);
-            $rootScope.players = $rootScope.obj.Game.Players;
-            $rootScope.gameStarted = $rootScope.obj.Game.GameState.LobbyClosed;
-            $rootScope.countryCount = $rootScope.obj.Game.GameState.Unassigned;
-            $rootScope.phase = $rootScope.obj.Game.GameState.Phase;
+            $rootScope.Game = $rootScope.obj.Game;
+            $rootScope.players = $rootScope.Game.Players;
+            $rootScope.gameStarted = $rootScope.Game.GameState.LobbyClosed;
+            $rootScope.countryCount = $rootScope.Game.GameState.Unassigned;
+            $rootScope.phase = $rootScope.Game.GameState.Phase;
             $rootScope.lobbySize = 6;
             $rootScope.playerString = "player";
-            $rootScope.CurrentPlayer = $rootScope.obj.Game.GameState;
+            $rootScope.CurrentPlayer = $rootScope.Game.GameState;
+            $rootScope.board = $rootScope.Game.Board;
+
+
+            console.log($rootScope.Game + "GAME!");
             var cookie = readCookie();
             for (index in cookie) {
                 var name = cookie[index];
             }
             $rootScope.username=name.replace('Username=', '');
+            console.log("line31 username: "+$rootScope.username);
 
-            if ($rootScope.obj.Game.Players.length !== 0) {
-                $rootScope.host = $rootScope.obj.Game.Players[0].DisplayName;
+            //sets player 1 to host
+            if ($rootScope.players.length !== 0) {
+                console.log("host name:? " +$rootScope.players[0].DisplayName);
+                $rootScope.host = $rootScope.players[0].name;
+                console.log("host DisplayName: " +$rootScope.players[0].DisplayName);
             }
 
-            for (var i = 0; i < $rootScope.obj.Game.Players.length; i++) {
-                if ($rootScope.obj.Game.Players[i].DisplayName === $rootScope.username) {
+
+            for (var i = 0; i < $rootScope.players.length; i++) {
+                console.log("DisplayName Check: "+$rootScope.players[i].DisplayName);
+                console.log("Username Check: "+$rootScope.username);
+                if ($rootScope.players[i].DisplayName === $rootScope.username) {
                     $rootScope.thisUserNumber = i;
                 }
+                else{console.log("NO USER NUMBER FOR YOU!")};
 
-                if ($rootScope.obj.Game.GameState.CurrentPlayer === $rootScope.obj.Game.Players[i].PlayerOrder){
-                    $rootScope.currentUserName = $rootScope.obj.Game.Players[i].DisplayName;
-                    $rootScope.troopsToDeploy = $rootScope.obj.Game.Players[i].TroopsToDeploy;
+                if ($rootScope.CurrentPlayer === $rootScope.players[i].PlayerOrder){
+                    $rootScope.currentUserName = $rootScope.players[i].DisplayName;
+                    $rootScope.troopsToDeploy = $rootScope.players[i].troopsToDeploy;
                 }
             }
 
             if ($rootScope.host === $rootScope.username) {
-                if ($rootScope.obj.Game.GameState.Phase === "Setup" && $rootScope.obj.Game.GameState.Unassigned === 0) {
-                    var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+                if ($rootScope.Game.GameState.Phase === "Setup" && $rootScope.Game.GameState.Unassigned === 0) {
+                    var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                     postData(endPhaseData);
                 }
             }
             //sends out end phase when the last player has finished deploying
-            if ($rootScope.obj.Game.GameState.Phase === "Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.Players.length - 1].TroopsToDeploy === 0) {
-                var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+            if ($rootScope.Game.GameState.Phase === "Deploy" && $rootScope.players[$rootScope.players.length - 1].troopsToDeploy === 0) {
+                var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                 postData(endPhaseData);
             }
             //if current players trooptodeploy has diminished, switch player
-            if($rootScope.obj.Game.GameState.Phase==="Deploy" && $rootScope.obj.Game.Players[$rootScope.obj.Game.GameState.CurrentPlayer].TroopsToDeploy===0) {
-                var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+            if($rootScope.Game.GameState.Phase==="Deploy" && $rootScope.players[$rootScope.CurrentPlayer].troopsToDeploy===0) {
+                var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                 postData(endTroopDeployData);
             }
             $rootScope.$apply();
@@ -68,15 +81,14 @@
             }
             function readCookie() {
                 var x = document.cookie;
-                var keyArray = x.split("; ");
-                return keyArray;
+                return x.split("; ");
             }
 //            color($rootScope);
         }, false);
     }]);
 
     function color($rootScope) {
-        angular.forEach($rootScope.obj.Game.Board, function (country) {
+        angular.forEach($rootScope.Game.Board, function (country) {
             if (country.Owner === -1) {
                 $rootScope.mapList[country.CountryID].attr("fill", "black")
                     .attr("stroke", "#aaa")
@@ -106,7 +118,7 @@
    }
 
     function moveTroops(troops, id1, id2) {
-        angular.forEach($rootScope.obj.Game.Board, function (index) {
+        angular.forEach($rootScope.Game.Board, function (index) {
             if (index.CountryID === id1) {
                 index.Troops = index.Troops - troops;
             }
@@ -159,11 +171,6 @@
     function webSockRecv(evt) {
         console.log("Server says " + evt.data());
     }
-
-
-
-
-
 
     var redCountry = {
         fill: "#FF3B30",

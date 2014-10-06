@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('gameApp')
-
     .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
 
         this.lobbyVis = function () {
@@ -9,25 +8,26 @@ angular.module('gameApp')
         };
 
         this.startGame = function () {
-            var startGameData = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
+            var startGameData = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
             postData(startGameData);
         };
 
         this.delCookie = function () {
+            console.log("Deleting cookie...");
             var cookie = readCookie();
-            for (var index in cookie) {
-                var name = cookie[index];
-            }
-            name = name.replace('Username=', '');
+//            for (var index in cookie) {
+//                //var name = cookie[index];
+//                index.replace('Username=','');
+//            }
+            //name.replace('Username=', '');
             var quitData = JSON.stringify({Command: "Quit", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
-            document.cookie = "Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            document.cookie = 'Username=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
             postData(quitData);
         };
 
         this.magicButton = function () {
             console.log($rootScope.host);
             console.log($rootScope.username);
-
         };
 
         this.debugButton = function () {
