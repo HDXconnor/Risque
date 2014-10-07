@@ -7,6 +7,7 @@
     });
 
     var evtSource = new EventSource("GameServlet");
+    var me;
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
             evtSource.addEventListener("gamestate", function (e) {
@@ -28,21 +29,18 @@
                 var name = cookie[0];
                 //console.log(name);
                 $rootScope.username = name.replace('Username=', '');
-                $rootScope.thisPlayer = discoverOrderNo($rootScope.username);
-                console.log("This player is " + $rootScope.thisPlayer)
+                discoverOrderNo($rootScope.username);
+                console.log("This player is " + me);
+                $rootScope.thisPlayer = me;
 
 
                 //sets player 1 to host
                 if ($rootScope.players.length !== 0) {
-                    console.log("host name:? " + $rootScope.players[0].DisplayName);
                     $rootScope.host = $rootScope.players[0].DisplayName;
-                    console.log("host DisplayName: " + $rootScope.players[0].DisplayName);
                 }
 
 
                 for (var i = 0; i < $rootScope.players.length; i++) {
-                    console.log("DisplayName Check: " + $rootScope.players[i].DisplayName);
-                    console.log("Username Check: " + $rootScope.username);
                     if ($rootScope.players[i].DisplayName === $rootScope.username) {
                         $rootScope.thisUserNumber = i;
                     }
@@ -85,10 +83,8 @@
                 }
                 function discoverOrderNo(name) {
                     angular.forEach($rootScope.players, function (index) {
-                        console.log(index.DisplayName);
                         if (index.DisplayName === name) {
-                            console.log("This player is " + index.PlayerOrder);
-                            return index.PlayerOrder;
+                            me = index.PlayerOrder;
                         }
                     });
                 }
