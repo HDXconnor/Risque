@@ -6,6 +6,7 @@ import game.objects.exceptions.CommandException;
 import game.objects.exceptions.DiceException;
 import game.objects.exceptions.PlayerException;
 import game.objects.exceptions.TroopsException;
+import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,18 +33,7 @@ public class Command {
     private static final String ENDTURN = "EndTurn";
     private static final String DEBUG = "Debug";
 
-    /*
-     Commands to support:
-     Setup
-     Deploy
-     Attack
-     Move
-     EndPhase (end phase command)
-     TODO:
-     Need to check which player sent the command - other players are able to send another players commands currently
-     Server checks player but currently client always sends '1'
-     */
-    public static void parseInput(JSONObject json, Game game) throws JSONException, TroopsException, CommandException, DiceException, PlayerException {
+    public static void parseInput(JSONObject json, HttpSession session, Game game) throws JSONException, TroopsException, CommandException, DiceException, PlayerException {
 
         JSONObject data = (JSONObject) json.get("Data");
         String cmd = json.getString("Command");
@@ -51,7 +41,7 @@ public class Command {
         switch (cmd) {
             case JOIN: {
                 String name = (String) data.get("CurrentPlayer");
-                game.getPlayerList().joinGame(new Player(name, 3));
+                game.getPlayerList().joinGame(new Player(name, session, 3));
                 game.setLastModified();
                 return;
             }
@@ -69,7 +59,7 @@ public class Command {
             }
         }
 
-        Player commandingPlayer = game.getPlayerList().getPlayerByName(data.getInt("CurrentPlayer"));
+        Player commandingPlayer = (Player) game.getPlayerList().getPlayerById(data.getInt("CurrentPlayer"));
 
         if (game.getGameState().isCurrentPlayer(commandingPlayer.getPlayerNum())) {
 
@@ -139,7 +129,8 @@ public class Command {
                     break;
 
                 case QUIT: {
-                    game.removePlayer(commandingPlayer.getName());
+                    game.getPlayerList().removePlayer(session);
+                    session.invalidate();
                     break;
                 }
 

@@ -6,22 +6,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import javax.servlet.http.HttpSession;
 
 public class PlayerList {
     private final HashMap<Integer, Player> players;
     
     public PlayerList() {
         players = new HashMap<>();
-    }
-        
-    public PlayerList(String a, String b, String c, String d, String e, String f) {
-        players = new HashMap<>();
-        players.put(0, new Player(a,20));
-        players.put(1, new Player(b,20));
-        players.put(2, new Player(c,20));
-        players.put(3, new Player(d,20));
-        players.put(4, new Player(e,20));
-        players.put(5, new Player(f,20));
     }
     
     public void joinGame(Player newPlayer) throws PlayerException {
@@ -39,13 +30,21 @@ public class PlayerList {
      *          spot in the list.
      */
     private int getNextAvailableSpot() {
-        for (int i=0; i<6; i++) {
-            if (players.get(i) == null) return i;
+        for (int i = 0; i < 6; i++) {
+            if (players.get(i) == null) {
+                return i;
+            }
         }
         return -1;
     }
     
-    public HashMap getPlayers() {return players;}
+    public HashMap getPlayerHashMap() {
+        return players;
+    }
+
+    public Player getPlayerById(int player) {
+        return players.get(player);
+    }
 
     /**
      *
@@ -63,27 +62,27 @@ public class PlayerList {
         throw new PlayerException("Player not found");
     }
 
-    public Player getPlayerByName(int player) throws PlayerException {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getPlayerNum() == player) {
-                return players.get(i);
-            }
-        }
-        throw new PlayerException("Player not found");
-    }
-
     /**
      * Removes a specified player from the game.
      *
      * @param player    player name.
      */
-    public void removePlayer(String player) {
+//    public void removePlayer(String player) {
+//        for (int i = 0; i < players.size(); i++) {
+//            if (players.get(i).getName().equals(player)) {
+//                players.remove(i);
+//                return;
+//            }
+//        }
+//    }
+    public void removePlayer(HttpSession session) throws PlayerException {
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getName().equals(player)) {
+            if (players.get(i).getSession().equals(session)) {
                 players.remove(i);
                 return;
             }
         }
+        throw new PlayerException("Player not found");
     }
     
     public JSONArray getPlayersJSON() throws JSONException {
