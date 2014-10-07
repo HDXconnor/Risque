@@ -4,11 +4,9 @@ public class Country {
     private int troops;
     private int owner;
     private String name;
-    //private String id;
     
     public Country(String name) {
         this.name = name;
-        //this.id = id;
         this.troops = 0;
         this.owner = -1;
     }
@@ -52,11 +50,4 @@ public class Country {
     public void setName(String name) {
         this.name = name;
     }
-//    public String getId() {
-//        return id;
-//    }
-//
-//    public void setId(String id) {
-//        this.id = id;
-//    }
 }
