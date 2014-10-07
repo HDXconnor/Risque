@@ -4,20 +4,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Game {
+    private static int numOfGames = 0;
     private final PlayerList playerList;
     private final Board board;
     private final GameState gameState;
     private final Phase phase;
     private long lastModified;
     private final String gameName;
+    private final int gameID;
 
     public Game(String gameName) {
         this.gameName = gameName;
         this.playerList = new PlayerList();
         this.board = new Board();
-        this.gameState = new GameState(board); // board is a parameter here for the GameState field "Unassigned". TODO - find a better way of doing this
+        this.gameState = new GameState(board);
         this.phase = gameState.getPhase();
         this.lastModified = System.currentTimeMillis();
+        this.gameID = numOfGames++;
     }
 
     public PlayerList getPlayerList() {
@@ -77,5 +80,14 @@ public class Game {
     
     public String getGameName() {
         return gameName;
+    }
+    
+    public int getGameID() {
+        return gameID;
+    }
+    
+    @Override
+    public String toString() {
+        return "Game named \"" + gameName + "\" with " + playerList.getNumberOfPlayers() + " players.";
     }
 }

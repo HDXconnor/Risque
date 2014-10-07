@@ -46,6 +46,12 @@ public class Command {
                 return;
             }
 
+            case QUIT: {
+                game.getPlayerList().removePlayer(session);
+                session.invalidate();
+                return;
+            }
+
             case STARTGAME: {
                 game.getGameState().closeLobby();
                 game.setLastModified();
@@ -127,12 +133,6 @@ public class Command {
                 case CREATE:
                     // TODO
                     break;
-
-                case QUIT: {
-                    game.getPlayerList().removePlayer(session);
-                    session.invalidate();
-                    break;
-                }
 
                 // temp command for debug purposes
                 case DEBUG: {
