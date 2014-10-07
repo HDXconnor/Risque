@@ -22,13 +22,13 @@ angular.module('gameApp')
                 this.magicButton = function () {
                     console.log($rootScope.host);
                     console.log($rootScope.username);
-                };
+                }
 
                 this.debugButton = function () {
                     console.log("STARTING DEBUG");
                     var debugData = JSON.stringify({Command: "Debug", Data: {}});
                     postData(debugData);
-                };
+                }
 
                 this.hostControls = function () {
                     if ($rootScope.username === $rootScope.host) {

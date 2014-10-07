@@ -13,7 +13,7 @@ angular.module('gameApp')
 
             //Add Countries to SVG Container
             angular.forEach(mapData.Map, function (index) {
-                $rootScope.mapList[String(index.id)] = $rootScope.svgMap.append("path")
+                $rootScope.mapList[index.id] = $rootScope.svgMap.append("path")
                     .attr("id", index.id)
                     .attr("d", index.d)
                     .attr("stroke", index.stroke)
@@ -24,7 +24,8 @@ angular.module('gameApp')
             angular.forEach($rootScope.mapList, function (index) {
 
                 index[0][0].addEventListener("mouseover", function () {
-                    $rootScope.thisCountryID = index.node.id;
+                    $rootScope.thisCountryID = index.id;
+                    console.log($rootScope.thisCountryID);
 
                     angular.forEach($rootScope.board, function (index) {
                         if ($rootScope.thisCountryID === index.CountryID) {
