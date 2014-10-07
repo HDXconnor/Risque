@@ -9,9 +9,11 @@ public class Game {
     private final GameState gameState;
     private final Phase phase;
     private long lastModified;
+    private final String gameName;
 
-    public Game(PlayerList players) {
-        this.playerList = players;
+    public Game(String gameName) {
+        this.gameName = gameName;
+        this.playerList = new PlayerList();
         this.board = new Board();
         this.gameState = new GameState(board); // board is a parameter here for the GameState field "Unassigned". TODO - find a better way of doing this
         this.phase = gameState.getPhase();
@@ -54,19 +56,7 @@ public class Game {
     }
 
     public Player getCurrentPlayerObject() {
-        return (Player) playerList.getPlayers().get(gameState.getCurrentPlayer());
-    }
-
-    /**
-     * Removes a specified player from the game.
-     *
-     * @param playerName    name of user to be removed
-     * @see game.objects.PlayerList
-     */
-    public void removePlayer(String playerName) {
-        if (playerList.getNumberOfPlayers() > 0) {
-            playerList.removePlayer(playerName);
-        }
+        return (Player) playerList.getPlayerById(gameState.getCurrentPlayer());
     }
 
     public JSONObject getGameJSON() throws JSONException {
@@ -83,5 +73,9 @@ public class Game {
 
     public void setLastModified() {
         this.lastModified = System.currentTimeMillis();
+    }
+    
+    public String getGameName() {
+        return gameName;
     }
 }

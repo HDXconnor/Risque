@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
  * Implementation of the game Servlet and its high level methods.
  */
 public class GameServlet extends HttpServlet {
-    private final Game game = new Game(new PlayerList());
+    private final Game game = new Game("test_game_name");
     private final boolean useSSE = true;
 
     @Override
