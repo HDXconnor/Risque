@@ -19,6 +19,14 @@ body
     top: 0; left: 0; bottom: 0; right: 0;
 }
 
+#game-frame{
+    height: 100%;
+}
+
+#svgMap
+{
+    height: 100%;
+}
 #top-logo
 {
     width: 30%;
@@ -112,8 +120,6 @@ body
     background-color: red;
     color: white;
 }
-
-
 
 .player-box
 {

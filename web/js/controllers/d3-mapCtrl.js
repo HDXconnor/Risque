@@ -25,8 +25,8 @@ angular.module('gameApp')
             angular.forEach($rootScope.mapList, function (index) {
 
                 index[0][0].addEventListener("mouseover", function () {
-                    $rootScope.thisCountryID = index.id;
-                    console.log($rootScope.thisCountryID);
+
+                    $rootScope.thisCountryID = index[0][0].id;
 
                     angular.forEach($rootScope.board, function (index) {
                         if ($rootScope.thisCountryID === index.CountryID) {
@@ -72,10 +72,9 @@ angular.module('gameApp')
                 }, true);
 
                 index[0][0].addEventListener("click", function () {
-                    $rootScope.thisCountryID = index.node.id;
+                    $rootScope.thisCountryID = index[0][0].id;
 
                     if ($rootScope.CurrentPlayer === $rootScope.thisUserNumber) {
-//                                index.animate(defaultCountry, animationSpeed);
                         if ($rootScope.phase === "Setup") {
                             var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
                             postData(send);
