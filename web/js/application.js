@@ -7,6 +7,7 @@
     });
 
     var evtSource = new EventSource("GameServlet");
+    var me;
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
             evtSource.addEventListener("gamestate", function (e) {
@@ -21,28 +22,22 @@
                 $rootScope.CurrentPlayer = $rootScope.Game.GameState.CurrentPlayer;
                 $rootScope.board = $rootScope.Game.Board;
 
-
-                //console.log($rootScope.Game + "GAME!");
                 var cookie = readCookie();
-                //console.log(cookie);
                 var name = cookie[0];
-                //console.log(name);
+
                 $rootScope.username = name.replace('Username=', '');
-                $rootScope.thisPlayer = discoverOrderNo($rootScope.username);
-                console.log("This player is " + $rootScope.thisPlayer)
+                discoverOrderNo($rootScope.username);
+                console.log("This player is " + me);
+                $rootScope.thisPlayer = me;
 
 
                 //sets player 1 to host
                 if ($rootScope.players.length !== 0) {
-                    console.log("host name:? " + $rootScope.players[0].DisplayName);
                     $rootScope.host = $rootScope.players[0].DisplayName;
-                    console.log("host DisplayName: " + $rootScope.players[0].DisplayName);
                 }
 
 
                 for (var i = 0; i < $rootScope.players.length; i++) {
-                    console.log("DisplayName Check: " + $rootScope.players[i].DisplayName);
-                    console.log("Username Check: " + $rootScope.username);
                     if ($rootScope.players[i].DisplayName === $rootScope.username) {
                         $rootScope.thisUserNumber = i;
                     }
@@ -85,10 +80,8 @@
                 }
                 function discoverOrderNo(name) {
                     angular.forEach($rootScope.players, function (index) {
-                        console.log(index.DisplayName);
                         if (index.DisplayName === name) {
-                            console.log("This player is " + index.PlayerOrder);
-                            return index.PlayerOrder;
+                            me = index.PlayerOrder;
                         }
                     });
                 }
@@ -96,13 +89,14 @@
                     var x = document.cookie;
                     return x.split("; ");
                 }
-//            color($rootScope);
+            color($rootScope);
             }, false);
         }]);
 
     function color($rootScope) {
         angular.forEach($rootScope.Game.Board, function (country) {
             if (country.Owner === -1) {
+                console.log($rootScope.mapList[country.CountryID]);
                 $rootScope.mapList[country.CountryID].attr("fill", "black")
                         .attr("stroke", "#aaa")
                         .attr("stroke-width", 1)
@@ -110,22 +104,52 @@
                         .attr("cursor", "pointer");
             }
             else if (country.Owner === 0) {
-                $rootScope.mapList[country.CountryID].attr(redCountry);
+                console.log($rootScope.mapList[country.CountryID]);
+                $rootScope.mapList[country.CountryID].attr("fill", "#FF3B30")
+                    .attr("stroke", "#aaa")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-linejoin", "round")
+                    .attr("cursor", "pointer");
             }
             else if (country.Owner === 1) {
-                $rootScope.mapList[country.CountryID].attr(greenCountry);
+                console.log($rootScope.mapList[country.CountryID]);
+                $rootScope.mapList[country.CountryID].attr("fill", "#00ff1b")
+                    .attr("stroke", "#aaa")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-linejoin", "round")
+                    .attr("cursor", "pointer");
             }
             else if (country.Owner === 2) {
-                $rootScope.mapList[country.CountryID].attr(yellowCountry);
+                console.log($rootScope.mapList[country.CountryID]);
+                $rootScope.mapList[country.CountryID].attr("fill", "#ff5400")
+                    .attr("stroke", "#aaa")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-linejoin", "round")
+                    .attr("cursor", "pointer");
             }
             else if (country.Owner === 3) {
-                $rootScope.mapList[country.CountryID].attr(pinkCountry);
+                console.log($rootScope.mapList[country.CountryID]);
+                $rootScope.mapList[country.CountryID].attr("fill", "#4A4A4A")
+                    .attr("stroke", "#aaa")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-linejoin", "round")
+                    .attr("cursor", "pointer");
             }
             else if (country.Owner === 4) {
-                $rootScope.mapList[country.CountryID].attr(brownCountry);
+                console.log($rootScope.mapList[country.CountryID]);
+                $rootScope.mapList[country.CountryID].attr("fill", "#6f3ed6")
+                    .attr("stroke", "#aaa")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-linejoin", "round")
+                    .attr("cursor", "pointer");
             }
             else if (country.Owner === 5) {
-                $rootScope.mapList[country.CountryID].attr(blueCountry);
+                console.log($rootScope.mapList[country.CountryID]);
+                $rootScope.mapList[country.CountryID].attr("fill", "#007AFF")
+                    .attr("stroke", "#aaa")
+                    .attr("stroke-width", 1)
+                    .attr("stroke-linejoin", "round")
+                    .attr("cursor", "pointer");
             }
         });
     }
@@ -184,54 +208,6 @@
     function webSockRecv(evt) {
         console.log("Server says " + evt.data());
     }
-
-    var redCountry = {
-        fill: "#FF3B30",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
-
-    var yellowCountry = {
-        fill: "#ff5400",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
-
-    var pinkCountry = {
-        fill: "#4A4A4A",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
-
-    var brownCountry = {
-        fill: "#6f3ed6",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
-
-    var greenCountry = {
-        fill: "#00ff1b",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
-
-    var blueCountry = {
-        fill: "#007AFF",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
 
     var hoverCountry = {
         fill: "#fff",
