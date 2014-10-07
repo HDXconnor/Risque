@@ -13,16 +13,6 @@ public class PlayerList {
     public PlayerList() {
         players = new HashMap<>();
     }
-        
-    public PlayerList(String a, String b, String c, String d, String e, String f) {
-        players = new HashMap<>();
-        players.put(0, new Player(a,20));
-        players.put(1, new Player(b,20));
-        players.put(2, new Player(c,20));
-        players.put(3, new Player(d,20));
-        players.put(4, new Player(e,20));
-        players.put(5, new Player(f,20));
-    }
     
     public void joinGame(Player newPlayer) throws PlayerException {
         if (players.size() >= 6) throw new PlayerException("Games are limited to 6 players!");

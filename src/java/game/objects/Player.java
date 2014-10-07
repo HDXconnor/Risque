@@ -1,6 +1,7 @@
 package game.objects;
 
 import game.objects.exceptions.TroopsException;
+import javax.servlet.http.HttpSession;
 
 public class Player {
     private final String name;
@@ -8,12 +9,14 @@ public class Player {
     private int troopsToDeploy;
     private int playerNum;
     public Oauth auth;
+    public HttpSession session;
 
-    public Player(String name, int troopsToDeploy) {
+    public Player(String name, HttpSession session, int troopsToDeploy) {
         this.name = name;
         this.auth = new Oauth(name);
         this.troopsToDeploy = troopsToDeploy;
         this.playerImage = "image.jpg";
+        this.session = session;
     }
 
     public int getTroopsToDeploy() {
@@ -44,5 +47,9 @@ public class Player {
 
     public void setPlayerNum(int playerNum) {
         this.playerNum = playerNum;
+    }
+    
+    public HttpSession getSession() {
+        return session;
     }
 }

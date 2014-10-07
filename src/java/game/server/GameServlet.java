@@ -71,10 +71,11 @@ public class GameServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         try {
             JSONObject json = new JSONObject(request.getReader().readLine());
             System.out.println("POST data received: " + json);
-            Command.parseInput(json, game);
+            Command.parseInput(json, session, game);
         } catch (JSONException | CommandException | DiceException | TroopsException | PlayerException e) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
         }
