@@ -27,13 +27,13 @@ public class SessionManager {
         games.put(new Game(gameName), sessionSet);
     }
     
-    public static void joinGame(String gameName, HttpSession session) throws SessionManagerException {
-        Game game = getGameByName(gameName);
+    public static void joinGame(int gameID, HttpSession session) throws SessionManagerException {
+        Game game = getGameByID(gameID);
         games.get(game).add(session);
     }
     
-    public static void leaveGame(String gameName, HttpSession session) throws SessionManagerException, PlayerException {
-        Game game = getGameByName(gameName);
+    public static void leaveGame(int gameID, HttpSession session) throws SessionManagerException, PlayerException {
+        Game game = getGameByID(gameID);
         game.getPlayerList().removePlayer(session);
     }
     
@@ -44,9 +44,9 @@ public class SessionManager {
         games.remove(game);
     }
     
-    private static Game getGameByName(String gameName) throws SessionManagerException {
+    private static Game getGameByID(int gameID) throws SessionManagerException {
         for (Game game : games.keySet()) {
-            if (game.getGameName().equals(gameName)) return game;
+            if (game.getGameID() == gameID) return game;
         }
         throw new SessionManagerException("Cannot find game with that game name");
     }
