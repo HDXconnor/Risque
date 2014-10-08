@@ -41,6 +41,11 @@ public class GameServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             
+            if (session.getAttribute("Game") == null) {
+                // no game has been joined, show the lobby?
+                return;
+            }
+            
             if (session.getAttribute("lastModified") != null) {
                 if ((long) session.getAttribute("lastModified") == game.getLastModified()) return;
             }

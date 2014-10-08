@@ -1,5 +1,11 @@
 package game.objects;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,8 +92,17 @@ public class Game {
         return gameID;
     }
     
+    public Set<HttpSession> getSessions() {
+        Set<HttpSession> sessions = new HashSet<>();
+        Map<String, Player> players = playerList.getPlayerHashMap();
+        for (String key:players.keySet()) {
+            sessions.add(players.get(key).getSession());
+        }
+        return sessions;
+    }
+    
     @Override
     public String toString() {
-        return "Game named \"" + gameName + "\" with " + playerList.getNumberOfPlayers() + " players.";
+        return "Game ID: " + gameID + ", Name: \"" + gameName + "\" with " + playerList.getNumberOfPlayers() + " players.";
     }
 }

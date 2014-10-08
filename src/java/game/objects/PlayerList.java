@@ -61,6 +61,15 @@ public class PlayerList {
         }
         throw new PlayerException("Player not found");
     }
+    
+    public Player getPlayerBySession(HttpSession session) throws PlayerException {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getSession().equals(session)) {
+                return players.get(i);
+            }
+        }
+        throw new PlayerException("Player not found");
+    }
 
     /**
      * Removes a specified player from the game.

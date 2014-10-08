@@ -35,12 +35,12 @@ public class Command {
 
     public static void parseInput(JSONObject json, HttpSession session, Game game) throws JSONException, TroopsException, CommandException, DiceException, PlayerException {
 
-        JSONObject data = (JSONObject) json.get("Data");
+        JSONObject data = json.getJSONObject("Data");
         String cmd = json.getString("Command");
 
         switch (cmd) {
             case JOIN: {
-                String name = (String) data.get("CurrentPlayer");
+                String name = data.getString("CurrentPlayer");
                 game.getPlayerList().joinGame(new Player(name, session, 3));
                 game.setLastModified();
                 return;
@@ -149,7 +149,7 @@ public class Command {
     }
 
     /**
-     * Claims a country and adds a troop to it for the curreant player if
+     * Claims a country and adds a troop to it for the current player if
      * currently in the Setup phase.
      * <p>
      * To reach this method, it must be both the Setup phase and the commanding
