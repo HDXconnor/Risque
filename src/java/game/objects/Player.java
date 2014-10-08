@@ -5,18 +5,16 @@ import javax.servlet.http.HttpSession;
 
 public class Player {
     private final String name;
-    private final String playerImage;
     private int troopsToDeploy;
     private int playerNum;
     public Oauth auth;
     public HttpSession session;
 
-    public Player(String name, HttpSession session, int troopsToDeploy) {
+    public Player(String name, HttpSession session) {
         this.name = name;
-        this.auth = new Oauth(name);
-        this.troopsToDeploy = troopsToDeploy;
-        this.playerImage = "image.jpg";
         this.session = session;
+        this.auth = new Oauth(name);
+        this.troopsToDeploy = 3;
     }
 
     public int getTroopsToDeploy() {
@@ -35,10 +33,6 @@ public class Player {
 
     public String getName() {
         return name;
-    }
-
-    public String getPlayerImage() {
-        return playerImage;
     }
 
     public int getPlayerNum() {

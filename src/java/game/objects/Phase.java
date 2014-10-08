@@ -6,7 +6,6 @@ public class Phase {
     public static final String DEPLOY = "Deploy";
     public static final String ATTACK = "Attack";
     public static final String MOVE = "Move";
-    public static final String ENDPHASE = "EndPhase";
     
     public Phase() {
         this.currentPhase = SETUP;
@@ -25,8 +24,6 @@ public class Phase {
      * Increments the current phase to the next one.
      */
     public void nextPhase() {
-        System.out.println("in nextPhase()");
-        System.out.println("current phase: "+currentPhase);
         switch (currentPhase) {
             case SETUP:
                 this.currentPhase = DEPLOY;
@@ -43,6 +40,5 @@ public class Phase {
             default:
                 break;
         }
-        System.out.println("new current phase: "+currentPhase);
     }
 }

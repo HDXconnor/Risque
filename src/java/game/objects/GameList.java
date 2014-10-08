@@ -5,9 +5,7 @@
  */
 package game.objects;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,18 +16,41 @@ import org.json.JSONObject;
  * @author Simeon
  */
 public class GameList {
-    
-    //private static final List<Game> games = new ArrayList<>();
+
     private static final Map<Integer, Game> games = new HashMap<>();
+    private static long lastModified = System.currentTimeMillis();
     
-    public static JSONObject getAllGames() throws JSONException {
+    public static void add(Game game) {
+        games.put(game.getGameID(), game);
+    }
+    
+    public static void remove(Game game) {
+        games.remove(game.getGameID());
+    }
+    
+    public static Game getGame(int gameID) {
+        return games.get(gameID);
+    }
+    
+    public static JSONObject getGameListJSON() throws JSONException {
         JSONArray arr = new JSONArray();
-        for (int game:games.keySet()) {
-            games.get(game);
+        for (int gameID:games.keySet()) {
+            Game game = games.get(gameID);
+            JSONObject json = new JSONObject();
+            json.put("GameID", game.getGameID());
+            json.put("GameName", game.getGameName());
+            json.put("Players", game.getPlayerList().getNumberOfPlayers());
+            arr.put(json);
         }
-        
-        
         return new JSONObject().put("GameList", arr);
     }
     
+    public static long getLastModified() {
+        return lastModified;
+    }
+
+    public static void setLastModified() {
+        lastModified = System.currentTimeMillis();
+    }
+
 }

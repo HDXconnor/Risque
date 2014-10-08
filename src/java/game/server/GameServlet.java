@@ -1,7 +1,9 @@
 package game.server;
 
 import game.logic.Command;
+import game.logic.Commands;
 import game.objects.Game;
+import game.objects.GameList;
 import game.objects.Player;
 import game.objects.PlayerList;
 import game.objects.exceptions.CommandException;
@@ -26,51 +28,59 @@ import javax.servlet.http.HttpSession;
  * Implementation of the game Servlet and its high level methods.
  */
 public class GameServlet extends HttpServlet {
-    private final Game game = new Game("test_game_name");
+    //private final Game game = new Game("test_game_name");
     private final boolean useSSE = true;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //tempJoinGame(request);
         if (useSSE) {
-
             response.setContentType("text/event-stream");
             response.setCharacterEncoding("UTF-8");
             response.setHeader("Connection", "keep-alive");
             response.setHeader("Cache-Control", "no-cache");
-
             HttpSession session = request.getSession();
             
+            // If session does not contain a game, show the game list instead
             if (session.getAttribute("Game") == null) {
-                // no game has been joined, show the lobby?
+                
+                if (session.getAttribute("gameListLastModified") != null) {
+                    // exit early if gamelist has not changed
+                    if ((long) session.getAttribute("lastModified") == GameList.getLastModified()) return;
+                }
+                session.setAttribute("gameListLastModified", GameList.getLastModified());
+                
+                // send out the gamelist json
+                try (PrintWriter out = response.getWriter()) {
+                    JSONObject json = GameList.getGameListJSON();
+                    System.out.println("GET data sending:   " + json);
+                    out.write("event: gamelist\ndata: " + json + "\n\n");
+                    out.flush();
+                } catch (JSONException e) {
+                    Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
+                }
                 return;
             }
             
+            // GAME EXISTS PAST THIS POINT
+            Game game = (Game) session.getAttribute("Game");
             if (session.getAttribute("lastModified") != null) {
+                // exit early if game has not changed
                 if ((long) session.getAttribute("lastModified") == game.getLastModified()) return;
             }
-            
             session.setAttribute("lastModified", game.getLastModified());
-
+            
+            // send out the gamestate json
             try (PrintWriter out = response.getWriter()) {
                 JSONObject json = game.getGameJSON();
                 System.out.println("GET data sending:   " + json);
-                out.write("event: gamestate\ndata: " + json + "\n\n"); // SSE requires a blank line: \n\n
+                out.write("event: gamestate\ndata: " + json + "\n\n");
                 out.flush();
             } catch (JSONException e) {
                 Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
             }
 
-            // keeping the old method around for testing purposes...
         } else {
-            response.setContentType("application/json");
-            try (PrintWriter out = response.getWriter()) {
-                JSONObject json = game.getGameJSON();
-                out.print(json);
-                System.out.println("GET data sending:   " + json);
-            } catch (JSONException e) {
-                Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
-            }
+            //nonSSEGet(response);
         }
     }
 
@@ -78,15 +88,27 @@ public class GameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println(request.getContextPath());
         HttpSession session = request.getSession();
+        
         try {
             JSONObject json = new JSONObject(request.getReader().readLine());
             System.out.println("POST data received: " + json);
-            Command.parseInput(json, session, game);
-        } catch (JSONException | CommandException | DiceException | TroopsException | PlayerException e) {
+            Commands.doCommand(json, session);
+        } catch (JSONException |  CommandException | DiceException | TroopsException | PlayerException e) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
+//    private void nonSSEGet(HttpServletResponse response, Game game) throws IOException {
+//        response.setContentType("application/json");
+//        try (PrintWriter out = response.getWriter()) {
+//            JSONObject json = game.getGameJSON();
+//            out.print(json);
+//            System.out.println("GET data sending:   " + json);
+//        } catch (JSONException e) {
+//            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
+//        }
+//    }
+    
     @Override
     public String getServletInfo() {
         return "Risque Game Servlet.";

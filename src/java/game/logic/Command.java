@@ -41,7 +41,7 @@ public class Command {
         switch (cmd) {
             case JOIN: {
                 String name = data.getString("CurrentPlayer");
-                game.getPlayerList().joinGame(new Player(name, session, 3));
+                game.getPlayerList().joinGame(new Player(name, session));
                 game.setLastModified();
                 return;
             }
@@ -58,11 +58,11 @@ public class Command {
                 return;
             }
 
-            case Phase.ENDPHASE: {
-                game.endPhase();
-                game.setLastModified();
-                return;
-            }
+//            case Phase.ENDPHASE: {
+//                game.endPhase();
+//                game.setLastModified();
+//                return;
+//            }
         }
 
         Player commandingPlayer = (Player) game.getPlayerList().getPlayerById(data.getInt("CurrentPlayer"));

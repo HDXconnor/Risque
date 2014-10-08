@@ -102,7 +102,6 @@ public class PlayerList {
             json.put("DisplayName", players.get(key).getName());
             json.put("PlayerOrder", key);
             json.put("TroopsToDeploy", players.get(key).getTroopsToDeploy());
-            json.put("PlayerImage", players.get(key).getPlayerImage());
             arr.put(json);
         }
         return arr;
