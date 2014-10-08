@@ -1,5 +1,6 @@
 package game.logic;
 
+import game.objects.Board;
 import game.objects.Game;
 import game.objects.GameList;
 import game.objects.Phase;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
  */
 public class Commands {
 
+    private static final String LOGIN = "Login";
     private static final String CREATE = "Create";
     private static final String JOIN = "Join";
     private static final String QUIT = "Quit";
@@ -23,6 +25,7 @@ public class Commands {
     private static final String CLOSELOBBY = "CloseLobby";
     private static final String DEBUG = "Debug";
     private static final String ENDPHASE = "EndPhase";
+    private static final String ENDTURN = "EndTurn";
     private static final String SETUP = Phase.SETUP;
     private static final String DEPLOY = Phase.DEPLOY;
     private static final String ATTACK = Phase.ATTACK;
@@ -35,12 +38,20 @@ public class Commands {
         JSONObject data = json.getJSONObject("Data");
         String command = json.getString("Command");
         
-        // CREATE AND JOIN - GAME SHOULDN'T EXIST
-        // Create - additional data parameters required:
+        // LOGIN, CREATE AND JOIN - GAME NEED NOT EXIST FOR THESE
+        
+        // Login:
         // Username = a string of the player's name
+        if (command.equals(LOGIN)) {
+            String name = data.getString("Username");
+            session.setAttribute("Username", name);
+        }
+        
+        // Create:
+        // Username = a string of the player's name - TODO USE SESSION ATTRIBUTE USERNAME
         // GameName = a string of the game's name
         if (command.equals(CREATE)) {
-            String name = data.getString("Username");
+            String name = data.getString("Username"); // = session.getAttribute("Username");
             String gameName = data.getString("GameName");
             Game game = new Game(gameName);
             game.getPlayerList().joinGame(new Player(name, session));
@@ -49,10 +60,13 @@ public class Commands {
             game.pushChanges();
         }
         
+        // Join:
+        // Username = a string of the player's name - TODO USE SESSION ATTRIBUTE USERNAME
+        // GameID = an int of the target game's gameid
         else if (command.equals(JOIN)) {
             if (session.getAttribute("Game") != null)
                 throw new CommandException("Command: JOIN. You are already in game.");
-            String name = data.getString("Username");
+            String name = data.getString("Username"); // = session.getAttribute("Username");
             int gameID = data.getInt("GameID");
             Game game = GameList.getGame(gameID);
             game.getPlayerList().joinGame(new Player(name, session));
@@ -61,9 +75,10 @@ public class Commands {
         }
         
         
-        // GAME MUST EXIST PAST THIS POINT
-        // QUIT, STARTGAME, ENDPHASE
-        
+        // QUIT, STARTGAME, ENDPHASE, ENDTURN - GAME MUST EXIST PAST THIS POINT
+
+        // Quit:
+        // No additional params required.
         else if (command.equals(QUIT)) {
             if (session.getAttribute("Game") == null)
                 throw new CommandException("Command: QUIT. You are not in a game.");
@@ -73,28 +88,57 @@ public class Commands {
             game.pushChanges();
         }
         
-        // TODO - only host can close the lobby
+        // Closelobby:
+        // No additional params required.
+        // TODO - only host should be able to close the lobby
         else if (command.equals(CLOSELOBBY)) {
-            if (session.getAttribute("GameID") == null)
+            if (session.getAttribute("Game") == null)
                 throw new CommandException("Command: CLOSELOBBY. You are not in a game.");
             Game game = (Game) session.getAttribute("Game");
             game.getGameState().closeLobby();
             game.pushChanges();
         }
         
+        // Endphase
+        // No additional params required.
         else if (command.equals(ENDPHASE)) {
-            if (session.getAttribute("GameID") == null)
+            if (session.getAttribute("Game") == null)
                 throw new CommandException("Command: ENDPHASE. You are not in a game.");
             Game game =(Game) session.getAttribute("Game");
+            if (!session.equals(game.getCurrentPlayerObject().getSession()))
+                throw new CommandException("Command: ENDPHASE. Not your turn. (session mismatch)");
             game.endPhase();
             game.pushChanges();
         }
         
+        // Endturn
+        // No additional params required.
+        else if (command.equals(ENDTURN)) {
+            if (session.getAttribute("Game") == null)
+                throw new CommandException("Command: ENDTURN. You are not in a game.");
+            Game game =(Game) session.getAttribute("Game");
+            if (!session.equals(game.getCurrentPlayerObject().getSession()))
+                throw new CommandException("Command: ENDTURN. Not your turn. (session mismatch)");
+            game.nextPlayer();
+            game.pushChanges();
+        }
         
-        // GAME PHASES - 
         
+        // GAME PHASES - SETUP, DEPLOY, ATTACK, MOVE
         
         // DEBUG
+        else if (command.equals(DEBUG)) {
+            if (session.getAttribute("Game") == null)
+                throw new CommandException("Command: DEBUG. You are not in a game.");
+            Game game = (Game) session.getAttribute("Game");
+            Board board = game.getBoard();
+            for (Object country : board.getAllCountries().keySet()) {
+                board.getCountry((String) country).setOwner(game.getGameState().getCurrentPlayer());
+                board.getCountry((String) country).setTroops(1);
+                game.nextPlayer();
+            }
+            game.pushChanges();
+        }
     }
 
 }

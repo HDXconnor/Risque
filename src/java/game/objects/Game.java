@@ -60,7 +60,7 @@ public class Game {
         gameState.nextTurn();
     }
 
-    public void nextPlayer () {
+    public void nextPlayer() {
         gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
     }
 

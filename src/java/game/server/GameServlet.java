@@ -28,7 +28,9 @@ import javax.servlet.http.HttpSession;
  * Implementation of the game Servlet and its high level methods.
  */
 public class GameServlet extends HttpServlet {
+
     //private final Game game = new Game("test_game_name");
+
     private final boolean useSSE = true;
 
     @Override
@@ -39,19 +41,24 @@ public class GameServlet extends HttpServlet {
             response.setHeader("Connection", "keep-alive");
             response.setHeader("Cache-Control", "no-cache");
             HttpSession session = request.getSession();
-            
+
             // If session does not contain a game, show the game list instead
             if (session.getAttribute("Game") == null) {
-                
+
                 if (session.getAttribute("gameListLastModified") != null) {
                     // exit early if gamelist has not changed
-                    if ((long) session.getAttribute("lastModified") == GameList.getLastModified()) return;
+                    if ((long) session.getAttribute("lastModified") == GameList.getLastModified()) {
+                        return;
+                    }
                 }
                 session.setAttribute("gameListLastModified", GameList.getLastModified());
-                
+
                 // send out the gamelist json
                 try (PrintWriter out = response.getWriter()) {
                     JSONObject json = GameList.getGameListJSON();
+                    if (session.getAttribute("Username") != null) {
+                        json.put("Username", session.getAttribute("Username"));
+                    }
                     System.out.println("GET data sending:   " + json);
                     out.write("event: gamelist\ndata: " + json + "\n\n");
                     out.flush();
@@ -60,18 +67,23 @@ public class GameServlet extends HttpServlet {
                 }
                 return;
             }
-            
+
             // GAME EXISTS PAST THIS POINT
             Game game = (Game) session.getAttribute("Game");
             if (session.getAttribute("lastModified") != null) {
                 // exit early if game has not changed
-                if ((long) session.getAttribute("lastModified") == game.getLastModified()) return;
+                if ((long) session.getAttribute("lastModified") == game.getLastModified()) {
+                    return;
+                }
             }
             session.setAttribute("lastModified", game.getLastModified());
-            
+
             // send out the gamestate json
             try (PrintWriter out = response.getWriter()) {
                 JSONObject json = game.getGameJSON();
+                if (session.getAttribute("Username") != null) {
+                    json.put("Username", session.getAttribute("Username"));
+                }
                 System.out.println("GET data sending:   " + json);
                 out.write("event: gamestate\ndata: " + json + "\n\n");
                 out.flush();
@@ -88,12 +100,12 @@ public class GameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println(request.getContextPath());
         HttpSession session = request.getSession();
-        
+
         try {
             JSONObject json = new JSONObject(request.getReader().readLine());
             System.out.println("POST data received: " + json);
             Commands.doCommand(json, session);
-        } catch (JSONException |  CommandException | DiceException | TroopsException | PlayerException e) {
+        } catch (JSONException | CommandException | DiceException | TroopsException | PlayerException e) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
         }
     }
@@ -108,7 +120,6 @@ public class GameServlet extends HttpServlet {
 //            Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
 //        }
 //    }
-    
     @Override
     public String getServletInfo() {
         return "Risque Game Servlet.";
