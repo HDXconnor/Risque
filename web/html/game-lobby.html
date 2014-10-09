@@ -1,28 +1,44 @@
 <div id="game-lobby" ng-controller="LobbyController as lobby" ng-show="lobby.lobbyVis()">
     <div id="lobby-box" class="display-box">
         <h1> Lobby </h1>
-        <div id="player-area" class="lobby-area">
-            <h3> Players </h3>
-            <div>
-                <div class="player-box" ng-repeat="player in players">
-                    <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
-                    <p  class="player-name"> {{player.DisplayName}} </p>
-                    <button class="remove-button" type="button" ng-show="host==username" > Remove </button>
-                </div>
+        <h4> Player: {{userName}}</h4>
+        <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.delCookie()"> Log Out </button>
 
-                <div class="player-box" ng-repeat="n in [0,1,2,3,4,5] | limitTo:lobbySize - players.length">
-                    <p class="player-name"> Empty Slot </p>
-                </div>
+        <div id="pre-game">
+            <h3> Games List </h3>
+            <div id="games-list">
+
+            </div>
+
+            <div id="create-game">
+
             </div>
         </div>
-        <div id="chat-area" class="lobby-area">
-            <form>
-                <input type="text" class="input-type" name="username" placeholder="chat">
-            </form>
+
+        <div id="in-game">
+            <div id="player-area" class="lobby-area">
+                <h3> Players </h3>
+                <div>
+                    <div class="player-box" ng-repeat="player in players">
+                        <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
+                        <p  class="player-name"> {{player.DisplayName}} </p>
+                        <button class="remove-button" type="button" ng-show="host==username" > Remove </button>
+                    </div>
+
+                    <div class="player-box" ng-repeat="n in [0,1,2,3,4,5] | limitTo:lobbySize - players.length">
+                        <p class="player-name"> Empty Slot </p>
+                    </div>
+                </div>
+            </div>
+            <div id="chat-area" class="lobby-area">
+                <form>
+                    <input type="text" class="input-type" name="username" placeholder="chat">
+                </form>
+            </div>
+            <button id="start-button" class="pretty-button" type="button" ng-show="lobby.hostControls()" ng-click="lobby.closeGame()"> Start Game </button>
+            <button id="magic-button" class="pretty-button" type="button" ng-click="lobby.magicButton()"> Magic Button </button>
         </div>
-        
-        <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.delCookie()"> Log Out </button>
-        <button id="start-button" class="pretty-button" type="button" ng-show="lobby.hostControls()" ng-click="lobby.startGame()"> Start Game </button>
-        <button id="magic-button" class="pretty-button" type="button" ng-click="lobby.magicButton()"> Magic Button </button>
+
+
     </div>
 </div>

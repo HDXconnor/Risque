@@ -4,11 +4,11 @@ angular.module('gameApp')
         .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
 
                 this.lobbyVis = function () {
-                    return(document.cookie.indexOf("Username") >= 0 && $rootScope.gameStarted !== true);
+                    return(typeof $rootScope.userName !== "undefined"  && $rootScope.gameStarted !== true);
                 };
 
-                this.startGame = function () {
-                    var startGameData = JSON.stringify({Command: "StartGame", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
+                this.closeLobby = function () {
+                    var startGameData = JSON.stringify({Command: "CloseLobby", Data: {}});
                     postData(startGameData);
                 };
 
