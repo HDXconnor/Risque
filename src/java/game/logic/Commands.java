@@ -167,8 +167,11 @@ public class Commands {
             } else {
                 throw new CommandException("Command: SETUP. Country already has an owner!");
             }
+            game.pushChanges();
         }
         
+        // Deploy
+        // CountryClicked - string
         else if (command.equals(DEPLOY)) {
             if (session.getAttribute("Game") == null) {
                 throw new CommandException("Command: DEPLOY. You are not in a game.");
@@ -187,8 +190,12 @@ public class Commands {
             } else {
                 throw new CommandException("Command: DEPLOY. Country is not the player's, or player has no troops to deploy");
             }
+            game.pushChanges();
         }
         
+        // Attack
+        // AttackingCountry - string
+        // DefendingCountry - string
         else if (command.equals(ATTACK)) {
             if (session.getAttribute("Game") == null) {
                 throw new CommandException("Command: ATTACK. You are not in a game.");
@@ -240,10 +247,40 @@ public class Commands {
                 defendingCountry.setTroops(attackingCountry.getTroops() - 1);
                 attackingCountry.setTroops(1);
             }
+            game.pushChanges();
         }
         
+        // Move
+        // SourceCountry - from this country...
+        // CountryClicked - to this country
         else if (command.equals(MOVE)) {
+            if (session.getAttribute("Game") == null) {
+                throw new CommandException("Command: MOVE. You are not in a game.");
+            }
+            Game game = (Game) session.getAttribute("Game");
+            Board board = game.getBoard();
+            Player player = game.getCurrentPlayerObject();
+            if (!session.equals(player.getSession())) {
+                throw new CommandException("Command: MOVE. Not your turn. (session mismatch)");
+            }
             
+            // Get data from the sent JSON
+            String to = data.getString("CountryClicked");
+            String from = data.getString("SourceCountry");
+            
+            // player doesn't own both countries
+            if (board.getCountry(from).getOwner() != player.getPlayerNum() || board.getCountry(to).getOwner() != player.getPlayerNum()) {
+                throw new CommandException("Player " + player + " does not own both countries");
+            }
+
+            // check if the two countries are neighbours
+            if (BoardLogic.isNeighbour(to, from)) {
+                // move troops
+                int troops = data.getInt("Troops");
+                board.getCountry(to).setTroops(board.getCountry(to).getTroops() + troops);
+                board.getCountry(from).setTroops(board.getCountry(from).getTroops() - troops);
+            }
+            game.pushChanges();
         }
         
         // DEBUG
