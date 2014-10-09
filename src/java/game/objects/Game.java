@@ -15,11 +15,11 @@
  */
 package game.objects;
 
-import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -84,7 +84,7 @@ public class Game {
                 loser = false;
             }
         }
-        if (loser == true) {
+        if (loser) {
             nextPlayer();
         }
     }
