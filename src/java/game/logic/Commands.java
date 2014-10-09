@@ -62,6 +62,8 @@ public class Commands {
             Game game = new Game(gameName);
             game.getPlayerList().joinGame(new Player(name, session));
             session.setAttribute("Game", game);
+            session.removeAttribute("gameListLastModified");
+            session.removeAttribute("lastModified");
             GameList.add(game);
             game.pushChanges();
         }
@@ -77,6 +79,8 @@ public class Commands {
             Game game = GameList.getGame(gameID);
             game.getPlayerList().joinGame(new Player(name, session));
             session.setAttribute("Game", game);
+            session.removeAttribute("gameListLastModified");
+            session.removeAttribute("lastModified");
             game.pushChanges();
         }
         
@@ -92,6 +96,8 @@ public class Commands {
             Game game = (Game) session.getAttribute("Game");
             game.getPlayerList().removePlayer(session);
             session.removeAttribute("Game");
+            session.removeAttribute("gameListLastModified");
+            session.removeAttribute("lastModified");
             game.pushChanges();
         }
         
