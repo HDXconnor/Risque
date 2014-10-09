@@ -42,15 +42,15 @@ public class Commands {
     private static final String DEPLOY = Phase.DEPLOY;
     private static final String ATTACK = Phase.ATTACK;
     private static final String MOVE = Phase.MOVE;
-    
+
     public static void doCommand(JSONObject json, HttpSession session)
             throws JSONException, CommandException, DiceException, TroopsException, PlayerException {
-        
+
         JSONObject data = json.getJSONObject("Data");
         String command = json.getString("Command");
-        
+
         // LOGIN, CREATE AND JOIN - GAME NEED NOT EXIST FOR THESE
-        
+
         // Login:
         // Username = a string of the player's name
         switch (command) {
@@ -205,7 +205,7 @@ public class Commands {
                 if (!selectedCountry.hasOwner()) {
                     selectedCountry.setOwner(player.getPlayerNum());
                     selectedCountry.setTroops(1);
-                    game.nextPlayer();
+                    game.endTurn();
                 } else {
                     throw new CommandException("Command: SETUP. Country already has an owner!");
                 }
@@ -291,6 +291,18 @@ public class Commands {
                     defendingCountry.setTroops(attackingCountry.getTroops() - 1);
                     attackingCountry.setTroops(1);
                 }
+                // Win condition - if all countries owned by player, win.
+//                boolean win = true;
+//                HashMap<String, Country> countries = board.getAllCountries();
+//                for (String key : countries.keySet()) {
+//                    if (countries.get(key).getOwner() != game.getGameState().getCurrentPlayer()) {
+//                        win = false;
+//                    }
+//                }
+//                if (win) {
+//                    // TODO Something interesting
+//                }
+
                 game.pushChanges();
                 break;
             }

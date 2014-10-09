@@ -19,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -77,16 +76,16 @@ public class Game {
 
     public void nextPlayer() {
         gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
-        boolean loser = true;
-        HashMap<String, Country> countries = board.getAllCountries();
-        for (String key : countries.keySet()) {
-            if (countries.get(key).getOwner() == gameState.getCurrentPlayer()) {
-                loser = false;
-            }
-        }
-        if (loser) {
-            nextPlayer();
-        }
+//        boolean loser = true;
+//        HashMap<String, Country> countries = board.getAllCountries();
+//        for (String key : countries.keySet()) {
+//            if (countries.get(key).getOwner() == gameState.getCurrentPlayer()) {
+//                loser = false;
+//            }
+//        }
+//        if (loser) {
+//            nextPlayer();
+//        }
     }
 
     public Player getCurrentPlayerObject() {
