@@ -11,7 +11,12 @@ angular.module('gameApp')
                         }
                     }
                 };
-
+                
+                this.debug = function(){
+                    var debug = JSON.stringify({Command: "Debug", Data: {}});
+                    postData(debug);
+                };
+                   
                 this.setGameName= function () {
                     var gameName = document.getElementById("create-input").value;
                     var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName}});
