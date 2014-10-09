@@ -15,6 +15,7 @@
  */
 package game.objects;
 
+import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -76,6 +77,16 @@ public class Game {
 
     public void nextPlayer() {
         gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
+        boolean loser = true;
+        HashMap<String, Country> countries = board.getAllCountries();
+        for (String key : countries.keySet()) {
+            if (countries.get(key).getOwner() == gameState.getCurrentPlayer()) {
+                loser = false;
+            }
+        }
+        if (loser == true) {
+            nextPlayer();
+        }
     }
 
     public Player getCurrentPlayerObject() {
