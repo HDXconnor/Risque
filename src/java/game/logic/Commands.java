@@ -49,10 +49,9 @@ public class Commands {
         }
         
         // Create:
-        // Username = a string of the player's name - TODO USE SESSION ATTRIBUTE USERNAME
         // GameName = a string of the game's name
         if (command.equals(CREATE)) {
-            String name = data.getString("Username"); // = session.getAttribute("Username");
+            String name = (String) session.getAttribute("Username");
             String gameName = data.getString("GameName");
             Game game = new Game(gameName);
             game.getPlayerList().joinGame(new Player(name, session));
@@ -62,13 +61,12 @@ public class Commands {
         }
         
         // Join:
-        // Username = a string of the player's name - TODO USE SESSION ATTRIBUTE USERNAME
         // GameID = an int of the target game's gameid
         else if (command.equals(JOIN)) {
             if (session.getAttribute("Game") != null) {
                 throw new CommandException("Command: JOIN. You are already in game.");
             }
-            String name = data.getString("Username"); // = session.getAttribute("Username");
+            String name = (String) session.getAttribute("Username");
             int gameID = data.getInt("GameID");
             Game game = GameList.getGame(gameID);
             game.getPlayerList().joinGame(new Player(name, session));
