@@ -56,7 +56,6 @@ body
     margin-left: 9.5%;
     margin-right: 9.5%;
     opacity: 1;
-    blend-mode: screen;
 }
 .display-box
 {
@@ -65,12 +64,15 @@ body
     vertical-align: middle;
 }
 
-#left-bar, #map, #right-bar
+#left-bar, #right-bar
 {
     float: left;
-    width: 25%;
+    width: 22%;
 }
-
+#svgMap
+{
+    float: left;
+}
 
 #lobby-box
 {

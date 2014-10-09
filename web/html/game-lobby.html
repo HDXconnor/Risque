@@ -3,7 +3,6 @@
         <h1> Lobby </h1>
         <h4> Player: {{userName}}</h4>
         <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.logOut()"> Log Out </button>
-        <button id="create-button" class="pretty-button" type="button"  ng-click="lobby.debug()"> Debug </button>
         <div id="pre-game" ng-show="obj==null">
             <h3> Games List </h3>
             <div id="games-list">
@@ -46,6 +45,7 @@
             <button id="start-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>           
         </div>
         <button id="magic-button" class="pretty-button" type="button" ng-click="lobby.magicButton()"> Magic Button </button>
+        <button id="debug-button" class="pretty-button" type="button"  ng-click="lobby.debug()"> Debug </button>
 
     </div>
 </div>
