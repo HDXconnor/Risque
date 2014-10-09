@@ -1,7 +1,5 @@
 (function () {
-    var app = angular.module("gameApp", [
-        'ngCookies'
-    ]).config(function ($httpProvider) {
+    var app = angular.module("gameApp", []).config(function ($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
@@ -15,19 +13,20 @@
             var nameObj = JSON.parse(e.data);
             $rootScope.userName = nameObj.Username;
             $rootScope.$apply();
-        })
+        });
 
         evtSource.addEventListener("gamestate", function (e) {
             $rootScope.obj = JSON.parse(e.data);
             $rootScope.Game = $rootScope.obj.Game;
+            $rootScope.GameState = $rootScope.Game.GameState;
             $rootScope.players = $rootScope.Game.Players;
-            $rootScope.gameStarted = $rootScope.Game.GameState.LobbyClosed;
-            $rootScope.countryCount = $rootScope.Game.GameState.Unassigned;
-            $rootScope.phase = $rootScope.Game.GameState.Phase;
+            $rootScope.board = $rootScope.Game.Board;
+            $rootScope.gameStarted = $rootScope.GameState.LobbyClosed;
+            $rootScope.countryCount = $rootScope.GameState.Unassigned;
+            $rootScope.phase = $rootScope.GameState.Phase;
+            $rootScope.CurrentPlayer = $rootScope.GameState.CurrentPlayer;
             $rootScope.lobbySize = 6;
             $rootScope.playerString = "player";
-            $rootScope.CurrentPlayer = $rootScope.Game.GameState.CurrentPlayer;
-            $rootScope.board = $rootScope.Game.Board;
 
             //sets first player to host
             if ($rootScope.players.length !== 0) {
@@ -49,18 +48,18 @@
             }
 
             if ($rootScope.host === $rootScope.username) {
-                if ($rootScope.Game.GameState.Phase === "Setup" && $rootScope.Game.GameState.Unassigned === 0) {
+                if ($rootScope.phase === "Setup" && $rootScope.countryCount === 0) {
                     var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                     postData(endPhaseData);
                 }
             }
             //sends out end phase when the last player has finished deploying
-            if ($rootScope.Game.GameState.Phase === "Deploy" && $rootScope.players[$rootScope.players.length - 1].troopsToDeploy === 0) {
+            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.players.length - 1].troopsToDeploy === 0) {
                 var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                 postData(endPhaseData);
             }
             //if current players trooptodeploy has diminished, switch player
-            if ($rootScope.Game.GameState.Phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].troopsToDeploy === 0) {
+            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].troopsToDeploy === 0) {
                 var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                 postData(endTroopDeployData);
             }
@@ -81,16 +80,12 @@
                     }
                 });
             }
-            function readCookie() {
-                var x = document.cookie;
-                return x.split("; ");
-            }
             color($rootScope);
         }, false);
     }]);
 
     function color($rootScope) {
-        angular.forEach($rootScope.Game.Board, function (country) {
+        angular.forEach($rootScope.board, function (country) {
             if (country.Owner === -1) {
                 $rootScope.mapList[country.CountryID].attr("fill", "black")
                     .attr("stroke", "#aaa")
@@ -144,70 +139,6 @@
             }
         });
     }
-
-    function moveTroops(troops, id1, id2) {
-        angular.forEach($rootScope.Game.Board, function (index) {
-            if (index.CountryID === id1) {
-                index.Troops = index.Troops - troops;
-            }
-            if (index.CountryID === id2) {
-                index.Troops = index.Troops + troops;
-            }
-        });
-    }
-
-    function deploy(troops, id1) {
-        angular.forEach($rootScope.obj.Game.Board, function (index) {
-            if (index.CountryID === id1) {
-                index.Troops = index.Troops + troops;
-            }
-        });
-    }
-
-    function writeCookie(key, value) {
-        document.cookie = key + "=" + value + "; ";
-    }
-
-    function appendCookie(key, value) {
-        var x = document.cookie;
-        document.cookie = x + key + "=" + value + "; ";
-    }
-
-    function webSockConnect() {
-        var socketURI = "ws://" + document.location.host + "GameSocket";
-        var ws = new WebSocket(socketURI);
-
-        ws.onmessage = function (evt) {
-            webSockRecv(evt);
-        };
-
-        ws.onerror = function (evt) {
-            console.log(evt);
-        };
-
-        return ws;
-    }
-
-    function webSockSend(json) {
-        if (conn.readyState !== 1) {
-            conn.send(json);
-        } else {
-            console.log("Not connected to websocket, cannot send.");
-        }
-    }
-
-    function webSockRecv(evt) {
-        console.log("Server says " + evt.data());
-    }
-
-    var hoverCountry = {
-        fill: "#fff",
-        stroke: "#aaa",
-        "stroke-width": 1,
-        "stroke-linejoin": "round",
-        cursor: "pointer"
-    };
-
 
     app.directive("rightBox", function () {
         return{

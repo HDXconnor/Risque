@@ -2,7 +2,7 @@
 
 angular.module('gameApp')
 
-        .controller('LoginController', ['$rootScope', '$cookieStore', '$http', function ($rootScope, $cookieStore, $http) {
+        .controller('LoginController', ['$rootScope', '$http', function ($rootScope, $http) {
                 this.setUser = function () {
                     var loginName = document.getElementById("login-textbox").value;
                     var joinData = JSON.stringify({Command: "Login", Data: {Username: loginName}});
