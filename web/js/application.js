@@ -60,12 +60,12 @@
                 }
             }
             //sends out end phase when the last player has finished deploying
-            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.players.length - 1].troopsToDeploy === 0) {
+            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.players.length - 1].TroopsToDeploy === 0) {
                 var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                 postData(endPhaseData);
             }
             //if current players trooptodeploy has diminished, switch player
-            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].troopsToDeploy === 0) {
+            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].TroopsToDeploy === 0) {
                 var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                 postData(endTroopDeployData);
             }
