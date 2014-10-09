@@ -60,7 +60,7 @@ public class GameServlet extends HttpServlet {
 
                 if (session.getAttribute("gameListLastModified") != null) {
                     // exit early if gamelist has not changed
-                    if ((long) session.getAttribute("lastModified") == GameList.getLastModified()) {
+                    if ((long) session.getAttribute("gameListLastModified") == GameList.getLastModified()) {
                         return;
                     }
                 }
