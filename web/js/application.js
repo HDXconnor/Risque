@@ -17,7 +17,7 @@
         
         evtSource.addEventListener("gamelist", function (e) {
             $rootScope.lobbyObj = JSON.parse(e.data);
-//            $rootScope.lobbyList = $rootScope.lobbyObj[0].GameName;
+            $rootScope.lobbyList = $rootScope.lobbyObj.GameList;
             $rootScope.$apply();
         }, false);
 

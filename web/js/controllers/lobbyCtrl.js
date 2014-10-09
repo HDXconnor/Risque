@@ -33,7 +33,7 @@ angular.module('gameApp')
                 };
 
                 this.magicButton = function () {
-                    console.log($rootScope.lobbyObj);
+                    console.log($rootScope.lobbyList);
                 }
 
                 this.debugButton = function () {
