@@ -40,12 +40,10 @@
             }
 
             for (var i = 0; i < $rootScope.players.length; i++) {
-                if ($rootScope.players[i].DisplayName === $rootScope.username) {
+                if ($rootScope.players[i].DisplayName === $rootScope.userName) {
                     $rootScope.thisUserNumber = i;
                 }
                 else {
-                    console.log("Displayname: " + $rootScope.players[i].DisplayName);
-                    console.log("username: " + $rootScope.userName);
                     console.log("NO USER NUMBER FOR YOU!");
                 }
 
@@ -55,7 +53,7 @@
                 }
             }
 
-            if ($rootScope.host === $rootScope.username) {
+            if ($rootScope.host === $rootScope.userName) {
                 if ($rootScope.phase === "Setup" && $rootScope.countryCount === 0) {
                     var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                     postData(endPhaseData);
