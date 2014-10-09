@@ -47,6 +47,7 @@ public class Commands {
         if (command.equals(LOGIN)) {
             String name = data.getString("Username");
             session.setAttribute("Username", name);
+            session.removeAttribute("UsernameSent");
         }
     
         else if (command.equals(LOGOUT)) {
