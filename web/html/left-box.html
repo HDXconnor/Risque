@@ -3,14 +3,17 @@
     <div id="player-state" class="display-box" >
         <h3> Players </h3>
         <div>
-            <p  ng-repeat="player in players">{{player.DisplayName}}</p>
+            <div class="player-box" ng-repeat="player in players">
+                <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
+                <p class="player-name">{{player.DisplayName}}</p>
+            </div>
         </div>
     </div>
 
     <div id="game-state" class="display-box">
         <h3>{{phase}} Phase</h3>
         <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
-        <p ng-hide="phase=='Setup'">Current Player: {{currentUserName}}</p>
+        <p>Current Player: {{currentUserName}}</p>
         <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{troopsToDeploy}}</p>
     </div>
     <div ng-hide="game.endPhaseVis()">

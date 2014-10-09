@@ -29,10 +29,36 @@ angular.module('gameApp')
                     .attr("transform", "scale(" + scale + ")");
             });
 
-            angular.forEach($rootScope.mapList, function (index) {
+
+            function color($rootScope) {
+                angular.forEach($rootScope.board, function (country) {
+                    if (country.Owner === -1) {
+                        $rootScope.mapList[country.CountryID].attr("fill", "black");
+                    }
+                    else if (country.Owner === 0) {
+                        $rootScope.mapList[country.CountryID].attr("fill", "#FF3B30");
+                    }
+                    else if (country.Owner === 1) {
+                        $rootScope.mapList[country.CountryID].attr("fill", "#00ff1b");
+                    }
+                    else if (country.Owner === 2) {
+                        $rootScope.mapList[country.CountryID].attr("fill", "#66FFE7");
+                    }
+                    else if (country.Owner === 3) {
+                        $rootScope.mapList[country.CountryID].attr("fill", "#4A4A4A");
+                    }
+                    else if (country.Owner === 4) {
+                        $rootScope.mapList[country.CountryID].attr("fill", "#6f3ed6");
+                    }
+                    else if (country.Owner === 5) {
+                        $rootScope.mapList[country.CountryID].attr("fill", "#007AFF");
+                    }
+                });
+            }
+
+                angular.forEach($rootScope.mapList, function (index) {
 
                 index[0][0].addEventListener("mouseover", function () {
-
                     $rootScope.thisCountryID = index[0][0].id;
 
                     angular.forEach($rootScope.board, function (index) {
@@ -72,10 +98,12 @@ angular.module('gameApp')
 
                         });
                     });
-
+                    d3.select(index[0][0]).attr("fill", "white")
+                                          .duration(2000);
                 }, true);
 
                 index[0][0].addEventListener("mouseout", function () {
+                    color($rootScope);
                 }, true);
 
                 index[0][0].addEventListener("click", function () {

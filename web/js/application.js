@@ -113,7 +113,7 @@
                 $rootScope.mapList[country.CountryID].attr("fill", "#00ff1b");
             }
             else if (country.Owner === 2) {
-                $rootScope.mapList[country.CountryID].attr("fill", "#ff5400");
+                $rootScope.mapList[country.CountryID].attr("fill", "#66FFE7");
             }
             else if (country.Owner === 3) {
                 $rootScope.mapList[country.CountryID].attr("fill", "#4A4A4A");
@@ -125,6 +125,7 @@
                 $rootScope.mapList[country.CountryID].attr("fill", "#007AFF");
             }
         });
+
     }
 
     app.directive("rightBox", function () {

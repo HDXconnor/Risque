@@ -23,7 +23,7 @@ angular.module('gameApp')
             postData(endPhaseData);
         }
         this.endPhaseVis = function () {
-            if ($rootScope.countryCount !== 0) {
+            if ($rootScope.countryCount != 0) {
                 return true;
             } else {
                 return false;

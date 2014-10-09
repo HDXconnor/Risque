@@ -28,7 +28,7 @@
                 <div>
                     <div class="player-box" ng-repeat="player in players">
                         <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
-                        <p  class="player-name"> {{player.DisplayName}} </p>
+                        <p class="player-name"> {{player.DisplayName}} </p>
                         <button class="remove-button" type="button" ng-show="lobby.isHost()" > Remove </button>
                     </div>
 
