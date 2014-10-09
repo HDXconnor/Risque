@@ -218,12 +218,12 @@ public class Commands {
 
             // do nothing if attacking player owns the country he is trying to attack
             if (defendingCountry.isOwnedBy(player.getPlayerNum())) {
-                throw new CommandException("Player " + player + " cannot attack his own country.");
+                throw new CommandException("Command: ATTACK. Player " + player + " cannot attack his own country.");
             }
 
             // do nothing if attacking player has less than 2 troops
             if (attackingCountry.getTroops() < 2) {
-                throw new CommandException("Country needs at least 2 troops to be able to attack another country.");
+                throw new CommandException("Command: ATTACK. Country needs at least 2 troops to be able to attack another country.");
             }
 
             // set the number of dice to be rolled
@@ -273,7 +273,7 @@ public class Commands {
             
             // player doesn't own both countries
             if (board.getCountry(from).getOwner() != player.getPlayerNum() || board.getCountry(to).getOwner() != player.getPlayerNum()) {
-                throw new CommandException("Player " + player + " does not own both countries");
+                throw new CommandException("Command: MOVE. Player " + player + " does not own both countries");
             }
 
             // check if the two countries are neighbours
