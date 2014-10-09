@@ -8,16 +8,13 @@ package game.server;
 import game.objects.Game;
 import game.objects.exceptions.PlayerException;
 import game.objects.exceptions.SessionManagerException;
+
+import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author Simeon
- */
 public class SessionManager {
     static Map<Game, Set<HttpSession>> games = new ConcurrentHashMap<>();
     

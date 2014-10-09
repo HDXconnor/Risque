@@ -8,7 +8,7 @@
     var me;
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
-        $rootScope.userName = null;g
+        $rootScope.userName = null;
         evtSource.addEventListener("username", function (e) {
             $rootScope.nameObj = JSON.parse(e.data);
             $rootScope.userName = $rootScope.nameObj.Username;
@@ -44,6 +44,8 @@
                     $rootScope.thisUserNumber = i;
                 }
                 else {
+                    console.log("Displayname: " + $rootScope.players[i].DisplayName);
+                    console.log("username: " + $rootScope.userName);
                     console.log("NO USER NUMBER FOR YOU!");
                 }
 
