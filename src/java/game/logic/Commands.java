@@ -61,10 +61,10 @@ public class Commands {
             String gameName = data.getString("GameName");
             Game game = new Game(gameName);
             game.getPlayerList().joinGame(new Player(name, session));
+            GameList.add(game);
             session.setAttribute("Game", game);
             session.removeAttribute("gameListLastModified");
             session.removeAttribute("lastModified");
-            GameList.add(game);
             game.pushChanges();
         }
         
