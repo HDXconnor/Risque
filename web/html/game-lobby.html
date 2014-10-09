@@ -8,7 +8,7 @@
             <h3> Games List </h3>
             <div id="games-list">
                 <div ng-repeat="game in lobbyList">
-                    <p>{{game}}</p>
+                    <p>{{game.GameName}}</p>
                 </div>
             </div>
 
@@ -40,11 +40,9 @@
                     <input type="text" class="input-type" name="username" placeholder="chat">
                 </form>
             </div>
-            <button id="start-button" class="pretty-button" type="button" ng-show="lobby.hostControls()" ng-click="lobby.closeGame()"> Start Game </button>
-            <button id="magic-button" class="pretty-button" type="button" ng-click="lobby.magicButton()"> Magic Button </button>
+            <button id="start-button" class="pretty-button" type="button"  ng-click="lobby.closeGame()"> Start Game </button>           
         </div>
-
+        <button id="magic-button" class="pretty-button" type="button" ng-click="lobby.magicButton()"> Magic Button </button>
 
     </div>
-</div>
 </div>

@@ -8,18 +8,18 @@
     var me;
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
-        $rootScope.username = null;
+        $rootScope.userName = null;g
         evtSource.addEventListener("username", function (e) {
-            var nameObj = JSON.parse(e.data);
-            $rootScope.userName = nameObj.Username;
+            $rootScope.nameObj = JSON.parse(e.data);
+            $rootScope.userName = $rootScope.nameObj.Username;
             $rootScope.$apply();
-        });
+        }, false);
         
         evtSource.addEventListener("gamelist", function (e) {
-            var lobbyObj = JSON.parse(e.data);
-            $rootScope.lobbyList = nameObj.Username;
+            $rootScope.lobbyObj = JSON.parse(e.data);
+//            $rootScope.lobbyList = $rootScope.lobbyObj[0].GameName;
             $rootScope.$apply();
-        })
+        }, false);
 
         evtSource.addEventListener("gamestate", function (e) {
             $rootScope.obj = JSON.parse(e.data);

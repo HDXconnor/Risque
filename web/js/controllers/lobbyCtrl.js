@@ -9,6 +9,7 @@ angular.module('gameApp')
                     postData(startGameData);
                     
                 };
+                
                 this.lobbyVis = function () {
                     return($rootScope.userName != null  && $rootScope.gameStarted !== true);
                 };
@@ -36,8 +37,7 @@ angular.module('gameApp')
                 };
 
                 this.magicButton = function () {
-                    console.log($rootScope.host);
-                    console.log($rootScope.username);
+                    console.log($rootScope.lobbyObj);
                 }
 
                 this.debugButton = function () {
