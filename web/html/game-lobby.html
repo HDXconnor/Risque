@@ -7,10 +7,12 @@
         <div id="pre-game" >
             <h3> Games List </h3>
             <div id="games-list">
-
+                <div ng-repeat="game in lobbyList">
+                    <p>{{game}}</p>
+                </div>
             </div>
 
-            <div id="create-game">
+            <div id="create-game" ng-show="obj==null">
                 <form>
                     <input id="create-input" type="text" class="input-type" name="gamename" placeholder="Lobby Name">
                     <button id="create-button" class="pretty-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
@@ -18,7 +20,7 @@
             </div>
         </div>
 
-        <div id="in-game">
+        <div id="in-game" ng-show="obj!=null">
             <div id="player-area" class="lobby-area">
                 <h3> Players </h3>
                 <div>
@@ -44,4 +46,5 @@
 
 
     </div>
+</div>
 </div>

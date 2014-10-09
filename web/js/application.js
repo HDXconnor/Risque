@@ -14,6 +14,12 @@
             $rootScope.userName = nameObj.Username;
             $rootScope.$apply();
         });
+        
+        evtSource.addEventListener("gamelist", function (e) {
+            var lobbyObj = JSON.parse(e.data);
+            $rootScope.lobbyList = nameObj.Username;
+            $rootScope.$apply();
+        })
 
         evtSource.addEventListener("gamestate", function (e) {
             $rootScope.obj = JSON.parse(e.data);
