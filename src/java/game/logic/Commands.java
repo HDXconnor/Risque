@@ -85,21 +85,6 @@ public class Commands {
                 break;
             }
 
-            // Delete
-            // GameID = ID of the target game
-            case DELETE: {
-                int gameID = data.getInt("GameID");
-                Game game = GameList.getGame(gameID);
-                GameList.remove(game);
-
-                game.pushChanges();
-                GameList.pushChanges();
-                session.removeAttribute("Game");
-                session.removeAttribute("gameListLastModified");
-                session.removeAttribute("lastmodified");
-                break;
-            }
-
             // Join:
             // GameID = an int of the target game's gameid
             case JOIN: {
@@ -130,7 +115,9 @@ public class Commands {
                 }
                 Game game = (Game) session.getAttribute("Game");
                 game.getPlayerList().removePlayer(session);
-
+                if (game.getPlayerList().getNumberOfPlayers() == 0) {
+                    GameList.remove(game);
+                }
                 game.pushChanges();
                 GameList.pushChanges();
                 session.removeAttribute("Game");
