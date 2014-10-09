@@ -5,6 +5,8 @@ angular.module('gameApp')
         $rootScope.mapList = {};
         var scale = String(window.innerWidth/1800);
         var canvas = String((window.innerWidth/1800)*900);
+        $rootScope.moveFrom = null;
+        $rootScope.moveTo = null;
 
         //Make an SVG Container
         $rootScope.svgMap = d3.select("#svgMap").append("svg")
@@ -85,6 +87,9 @@ angular.module('gameApp')
                                 $rootScope.attackOwner = index.Owner;
                                 $rootScope.attackTroops = index.Troops;
                             }
+//                            $rootScope.moveFromCountryName = index.CountryName;
+//                            $rootScope.moveFromOwner = index.Owner;
+//                            $rootScope.moveFromTroops = index.Troops;
                         }
 
                         angular.forEach($rootScope.players, function (player) {
@@ -133,8 +138,16 @@ angular.module('gameApp')
                             });
                         }
                         if ($rootScope.phase === "Move") {
-                            var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-                            postData(send);
+                            if($rootScope.moveFrom==null){
+                                $rootScope.moveFrom=$rootScope.thisCountryID;
+                            }else if($rootScope.moveTo==null){
+                                $rootScope.moveTo=$rootScope.thisCountryID;
+                            }else{
+                                $rootScope.moveFrom=$rootScope.thisCountryID;
+                                $rootScope.moveTo=$rootScope.thisCountryID;
+                            }
+//                            var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+//                            postData(send);
                         }
                         $rootScope.prevCountryID = index.node.id;
 
