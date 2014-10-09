@@ -144,7 +144,7 @@ angular.module('gameApp')
                                 $rootScope.moveTo=$rootScope.thisCountryID;
                             }else{
                                 $rootScope.moveFrom=$rootScope.thisCountryID;
-                                $rootScope.moveTo=$rootScope.thisCountryID;
+                                $rootScope.moveTo=null;
                             }
 //                            var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
 //                            postData(send);
