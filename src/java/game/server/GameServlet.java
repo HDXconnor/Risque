@@ -108,9 +108,7 @@ public class GameServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getContextPath());
         HttpSession session = request.getSession();
-
         try {
             JSONObject json = new JSONObject(request.getReader().readLine());
             System.out.println("POST data received: " + json);
