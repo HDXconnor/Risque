@@ -3,6 +3,7 @@
 angular.module('gameApp')
     .controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
         $rootScope.mapList = {};
+        $rootScope.joinList = {};
         var scale = String(window.innerWidth/1800);
         var canvas = String((window.innerWidth/1800)*900);
         $rootScope.moveFrom = null;
@@ -19,16 +20,27 @@ angular.module('gameApp')
 
             //Add Countries to SVG Container
             angular.forEach(mapData.Map, function (index) {
-                $rootScope.mapList[index.id] = $rootScope.svgMap.append("path")
-                    .attr("id", index.id)
-                    .attr("d", index.d)
-                    .attr("stroke", "#aaa")
-                    .attr("stroke-width", 1)
-                    .attr("stroke-linejoin", "round")
-                    .attr("cursor", "pointer")
-                    .attr("fill", index.fill)
-                    .attr("class", "countryShape")
-                    .attr("transform", "scale(" + scale + ")");
+                if (index.id.indexOf("Join") != -1) {
+                    $rootScope.joinList[index.id] = $rootScope.svgMap.append("path")
+                        .attr("id", index.id)
+                        .attr("d", index.d)
+                        .attr("stroke", "black")
+                        .attr("fill", "none")
+                        .attr("stroke-width", 1)
+                        .attr("stroke-linejoin", "round")
+                        .attr("transform", "scale(" + scale + ")");
+                } else {
+                    $rootScope.mapList[index.id] = $rootScope.svgMap.append("path")
+                        .attr("id", index.id)
+                        .attr("d", index.d)
+                        .attr("stroke", "#aaa")
+                        .attr("stroke-width", 1)
+                        .attr("stroke-linejoin", "round")
+                        .attr("cursor", "pointer")
+                        .attr("fill", index.fill)
+                        .attr("class", "countryShape")
+                        .attr("transform", "scale(" + scale + ")");
+                }
             });
 
 
