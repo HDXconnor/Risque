@@ -2,7 +2,13 @@
 
 angular.module('gameApp')
         .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
-                
+                this.isHost = function(){
+                    if ($rootScope.userName==$rootScope.players[0].DisplayName){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
                 this.setGameName= function () {
                     var gameName = document.getElementById("create-input").value;
                     var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName}});
