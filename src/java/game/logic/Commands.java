@@ -19,6 +19,7 @@ import org.json.JSONObject;
 public class Commands {
 
     private static final String LOGIN = "Login";
+    private static final String LOGOUT = "Logout";
     private static final String CREATE = "Create";
     private static final String JOIN = "Join";
     private static final String QUIT = "Quit";
@@ -47,10 +48,14 @@ public class Commands {
             String name = data.getString("Username");
             session.setAttribute("Username", name);
         }
+    
+        else if (command.equals(LOGOUT)) {
+            session.invalidate();
+        }
         
         // Create:
         // GameName = a string of the game's name
-        if (command.equals(CREATE)) {
+        else if (command.equals(CREATE)) {
             String name = (String) session.getAttribute("Username");
             String gameName = data.getString("GameName");
             Game game = new Game(gameName);
