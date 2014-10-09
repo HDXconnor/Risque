@@ -34,7 +34,7 @@ angular.module('gameApp')
 
                 this.loginVis = function () {
 //                    return(document.cookie.indexOf("Username") >= 0);
-                    if (typeof $rootScope.userName === "undefined") {
+                    if ($rootScope.userName == null) {
                         return true;
                     } else {
                         return false;

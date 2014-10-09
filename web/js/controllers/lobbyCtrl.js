@@ -4,11 +4,17 @@ angular.module('gameApp')
         .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
 
                 this.lobbyVis = function () {
-                    return(typeof $rootScope.userName !== "undefined"  && $rootScope.gameStarted !== true);
+                    return($rootScope.userName != null  && $rootScope.gameStarted !== true);
                 };
 
                 this.closeLobby = function () {
                     var startGameData = JSON.stringify({Command: "CloseLobby", Data: {}});
+                    postData(startGameData);
+                };
+
+                this.logOut = function () {
+                    var startGameData = JSON.stringify({Command:"Logout",Data:{}});
+                    $rootScope.userName = null;
                     postData(startGameData);
                 };
 

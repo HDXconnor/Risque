@@ -10,6 +10,7 @@
     var me;
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
+        $rootScope.username = null;
         evtSource.addEventListener("username", function (e) {
             var nameObj = JSON.parse(e.data);
             $rootScope.userName = nameObj.Username;
