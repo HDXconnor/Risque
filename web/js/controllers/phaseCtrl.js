@@ -31,13 +31,13 @@ angular.module('gameApp')
             postData(send);
         };
         this.move = function(){
-            $rootScope.amountTroopsSent = 1;
+            $rootScope.amountTroopsSent = document.getElementById("troop-amount").value;;
             var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.moveFrom, CountryClicked: $rootScope.moveTo, CurrentPlayer: $rootScope.currentPlayer,Troops: $rootScope.amountTroopsSent}});
             postData(send);
             $rootScope.moveFrom=null;
             $rootScope.moveTo=null;
         };
-
+        
         function postData(data) {
             $http({
                 method: 'POST',
