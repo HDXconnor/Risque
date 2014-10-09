@@ -38,7 +38,6 @@ public class GameServlet extends HttpServlet {
             HttpSession session = request.getSession();
             
             // send username
-            System.out.println(session.getAttribute("UsernameSent"));
             if (session.getAttribute("UsernameSent") == null) {
                 try (PrintWriter out = response.getWriter()) {
                     if (session.getAttribute("Username") != null) {
@@ -53,6 +52,7 @@ public class GameServlet extends HttpServlet {
                     Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
                     session.removeAttribute("UsernameSent");
                 }
+                return;
             }
 
             // If session does not contain a game, show the game list instead

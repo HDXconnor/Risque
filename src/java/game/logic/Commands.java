@@ -49,6 +49,8 @@ public class Commands {
             String name = data.getString("Username");
             session.setAttribute("Username", name);
             session.removeAttribute("UsernameSent");
+            session.removeAttribute("gameListLastModified");
+            session.removeAttribute("lastModified");
             GameList.pushChanges();
         }
     
