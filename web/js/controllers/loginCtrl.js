@@ -5,9 +5,9 @@ angular.module('gameApp')
         .controller('LoginController', ['$rootScope', '$cookieStore', '$http', function ($rootScope, $cookieStore, $http) {
                 this.setUser = function () {
                     var loginName = document.getElementById("login-textbox").value;
-                    var joinData = JSON.stringify({Command: "Login", Data: {Username: loginName}});
+                    var joinData = JSON.stringify({Command: "Join", Data: {CurrentPlayer: loginName}});
                     postData(joinData);
-//                    writeCookie("Username", loginName);
+                    writeCookie("Username", loginName);
                     console.log("Logged in as: " + loginName);
                     //$cookieStore.put("Username", $rootScope.username);
                 };
@@ -15,24 +15,23 @@ angular.module('gameApp')
                 this.facebook = function () {
                     var id = makeID();
                     var url = 'OAuthServlet?service=facebook&id=' + id;
-                    console.log(url);
-                    $http({method: 'GET', url: url, headers: {'Content-Type': 'text/plain'}}).error();
+                    $http({method: 'POST', url: url, headers: {'Content-Type': 'text/plain'}}).success(
+                            function (responseData) {
+                                window.open(responseData, "_self");
+                            });
                 };
 
                 this.google = function () {
                     var id = makeID();
                     var url = 'OAuthServlet?service=google&id=' + id;
-                    console.log(url);
-                    $http({method: 'GET', url: url, headers: {'Content-Type': 'application/json'}, data: 1}).error();
+                    $http({method: 'POST', url: url, headers: {'Content-Type': 'text/plain'}}).success(
+                            function (responseData) {
+                                window.open(responseData, "_self");
+                            });
                 };
 
                 this.loginVis = function () {
-//                    return(document.cookie.indexOf("Username") >= 0);
-                    if (typeof $rootScope.userName === "undefined") {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return(document.cookie.indexOf("Username") >= 0);
                 };
 
                 this.delCookie = function () {
