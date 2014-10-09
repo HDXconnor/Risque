@@ -44,6 +44,8 @@
                     $rootScope.thisUserNumber = i;
                 }
                 else {
+                    console.log("Displayname: " + $rootScope.players[i].DisplayName);
+                    console.log("username: " + $rootScope.userName);
                     console.log("NO USER NUMBER FOR YOU!");
                 }
 
