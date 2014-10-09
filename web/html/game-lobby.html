@@ -9,6 +9,7 @@
             <div id="games-list">
                 <div ng-repeat="game in lobbyList">
                     <p>{{game.GameName}}</p>
+                    <button class="join-button" type="button" ng-click="lobby.joinGame(game.GameID)"> Remove </button>
                 </div>
             </div>
 
