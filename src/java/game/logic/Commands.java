@@ -48,10 +48,12 @@ public class Commands {
             String name = data.getString("Username");
             session.setAttribute("Username", name);
             session.removeAttribute("UsernameSent");
+            GameList.pushChanges();
         }
     
         else if (command.equals(LOGOUT)) {
             session.invalidate();
+            GameList.pushChanges();
         }
         
         // Create:
@@ -66,6 +68,7 @@ public class Commands {
             session.removeAttribute("gameListLastModified");
             session.removeAttribute("lastModified");
             game.pushChanges();
+            GameList.pushChanges();
         }
         
         // Join:
@@ -82,6 +85,7 @@ public class Commands {
             session.removeAttribute("gameListLastModified");
             session.removeAttribute("lastModified");
             game.pushChanges();
+            GameList.pushChanges();
         }
         
         
@@ -99,6 +103,7 @@ public class Commands {
             session.removeAttribute("gameListLastModified");
             session.removeAttribute("lastModified");
             game.pushChanges();
+            GameList.pushChanges();
         }
         
         // Kick: TODO - ONLY HOST SHOULD BE ABLE TO KICK
@@ -113,6 +118,7 @@ public class Commands {
             game.getPlayerList().removePlayer(kickedPlayerSession);
             kickedPlayerSession.removeAttribute("Game");
             game.pushChanges();
+            GameList.pushChanges();
         }
         
         // Closelobby:
@@ -125,6 +131,7 @@ public class Commands {
             Game game = (Game) session.getAttribute("Game");
             game.getGameState().closeLobby();
             game.pushChanges();
+            GameList.pushChanges();
         }
         
         // Endphase

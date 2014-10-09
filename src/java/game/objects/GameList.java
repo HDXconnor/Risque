@@ -52,5 +52,9 @@ public class GameList {
     public static void setLastModified() {
         lastModified = System.currentTimeMillis();
     }
+    
+    public static void pushChanges() {
+        setLastModified();
+    }
 
 }
