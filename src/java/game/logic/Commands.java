@@ -66,10 +66,11 @@ public class Commands {
             game.getPlayerList().joinGame(new Player(name, session));
             GameList.add(game);
             session.setAttribute("Game", game);
-            session.removeAttribute("gameListLastModified");
-            session.removeAttribute("lastModified");
+            
             game.pushChanges();
             GameList.pushChanges();
+            session.removeAttribute("gameListLastModified");
+            session.removeAttribute("lastModified");
         }
         
         // Delete
@@ -78,10 +79,12 @@ public class Commands {
             int gameID = data.getInt("GameID");
             Game game = GameList.getGame(gameID);
             GameList.remove(game);
-            session.removeAttribute("GAME");
+            
+            game.pushChanges();
+            GameList.pushChanges();
+            session.removeAttribute("Game");
             session.removeAttribute("gameListLastModified");
             session.removeAttribute("lastmodified");
-            game.pushChanges();
         }
         
         // Join:
@@ -94,11 +97,12 @@ public class Commands {
             int gameID = data.getInt("GameID");
             Game game = GameList.getGame(gameID);
             game.getPlayerList().joinGame(new Player(name, session));
+            
+            game.pushChanges();
+            GameList.pushChanges();
             session.setAttribute("Game", game);
             session.removeAttribute("gameListLastModified");
             session.removeAttribute("lastModified");
-            game.pushChanges();
-            GameList.pushChanges();
         }
         
         
@@ -112,11 +116,12 @@ public class Commands {
             }
             Game game = (Game) session.getAttribute("Game");
             game.getPlayerList().removePlayer(session);
+
+            game.pushChanges();
+            GameList.pushChanges();
             session.removeAttribute("Game");
             session.removeAttribute("gameListLastModified");
             session.removeAttribute("lastModified");
-            game.pushChanges();
-            GameList.pushChanges();
         }
         
         // Kick: TODO - ONLY HOST SHOULD BE ABLE TO KICK
