@@ -80,12 +80,8 @@ public class Game {
         return lastModified;
     }
 
-    public void setLastModified() {
-        this.lastModified = System.currentTimeMillis();
-    }
-    
     public void pushChanges() {
-        setLastModified(); // just for readability
+        this.lastModified = System.currentTimeMillis();
     }
     
     public String getGameName() {

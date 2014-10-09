@@ -1,11 +1,8 @@
 package game.server;
 
-import game.logic.Command;
 import game.logic.Commands;
 import game.objects.Game;
 import game.objects.GameList;
-import game.objects.Player;
-import game.objects.PlayerList;
 import game.objects.exceptions.CommandException;
 import game.objects.exceptions.DiceException;
 import game.objects.exceptions.PlayerException;
@@ -19,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;

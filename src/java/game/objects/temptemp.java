@@ -1,7 +1,6 @@
 package game.objects;
 
 import game.data.CountriesData;
-import game.logic.Command;
 import game.logic.Dice;
 import org.json.JSONObject;
 
