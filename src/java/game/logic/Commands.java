@@ -21,6 +21,7 @@ public class Commands {
     private static final String LOGIN = "Login";
     private static final String LOGOUT = "Logout";
     private static final String CREATE = "Create";
+    private static final String DELETE = "Delete";
     private static final String JOIN = "Join";
     private static final String QUIT = "Quit";
     private static final String KICK = "Kick";
@@ -65,6 +66,18 @@ public class Commands {
             session.setAttribute("Game", game);
             session.removeAttribute("gameListLastModified");
             session.removeAttribute("lastModified");
+            game.pushChanges();
+        }
+        
+        // Delete
+        // GameID = ID of the target game
+        else if (command.equals(DELETE)) {
+            int gameID = data.getInt("GameID");
+            Game game = GameList.getGame(gameID);
+            GameList.remove(game);
+            session.removeAttribute("GAME");
+            session.removeAttribute("gameListLastModified");
+            session.removeAttribute("lastmodified");
             game.pushChanges();
         }
         
