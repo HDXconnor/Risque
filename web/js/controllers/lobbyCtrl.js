@@ -2,6 +2,10 @@
 
 angular.module('gameApp')
         .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
+                this.debug = function(){
+                    var debug = JSON.stringify({Command: "Debug", Data: {}});
+                    postData(debug);
+                }
                 this.isHost = function(){
                     if ($rootScope.userName==$rootScope.players[0].DisplayName){
                         return true;

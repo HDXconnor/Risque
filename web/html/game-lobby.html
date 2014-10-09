@@ -3,7 +3,7 @@
         <h1> Lobby </h1>
         <h4> Player: {{userName}}</h4>
         <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.logOut()"> Log Out </button>
-
+        <button id="create-button" class="pretty-button" type="button"  ng-click="lobby.debug()"> Debug </button>
         <div id="pre-game" ng-show="obj==null">
             <h3> Games List </h3>
             <div id="games-list">
@@ -17,6 +17,7 @@
                 <form>
                     <input id="create-input" type="text" class="input-type" name="gamename" placeholder="Lobby Name">
                     <button id="create-button" class="pretty-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
+                    
                 </form>
             </div>
         </div>
