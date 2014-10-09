@@ -23,9 +23,11 @@ body
     height: 100%;
 }
 
-#svgMap
+#map-canvas
 {
-    height: 100%;
+    border-radius: 50%;
+    background-color: cornflowerblue;
+    opacity: 0.90;
 }
 #top-logo
 {
@@ -69,12 +71,6 @@ body
     width: 25%;
 }
 
-#map
-{
-    width: 50%;
-    height: 50%;
-    background-color: lightblue;
-}
 
 #lobby-box
 {

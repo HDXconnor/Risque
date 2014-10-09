@@ -3,10 +3,14 @@
 angular.module('gameApp')
     .controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
         $rootScope.mapList = {};
+        var scale = String(window.innerWidth/1800);
+        var canvas = String((window.innerWidth/1800)*900);
+
         //Make an SVG Container
         $rootScope.svgMap = d3.select("#svgMap").append("svg")
-            .attr("width", "50%")
-            .attr("height", "100%");
+            .attr("id", "map-canvas")
+            .attr("width", canvas + "px")
+            .attr("height", canvas + "px");
 
 
         $http.get('json/mapPaths.json').success(function (mapData) {
@@ -22,7 +26,7 @@ angular.module('gameApp')
                     .attr("cursor", "pointer")
                     .attr("fill", index.fill)
                     .attr("class", "countryShape")
-                    .attr("transform", "scale(0.7)");
+                    .attr("transform", "scale(" + scale + ")");
             });
 
             angular.forEach($rootScope.mapList, function (index) {
