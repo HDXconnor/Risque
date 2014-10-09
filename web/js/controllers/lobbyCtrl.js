@@ -19,6 +19,11 @@ angular.module('gameApp')
                     postData(startGameData);
                 };
 
+                this.joinGame = function (gameID) {
+                    var startGameData = JSON.stringify({Command: "Join", Data: {GameID: gameID}});
+                    postData(startGameData);
+                };
+
                 this.logOut = function () {
                     var startGameData = JSON.stringify({Command:"Logout",Data:{}});
                     $rootScope.userName = null;
@@ -33,7 +38,7 @@ angular.module('gameApp')
                 };
 
                 this.magicButton = function () {
-                    console.log($rootScope.lobbyObj);
+                    console.log($rootScope.lobbyList);
                 }
 
                 this.debugButton = function () {
