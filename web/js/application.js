@@ -17,7 +17,7 @@
         
         evtSource.addEventListener("gamelist", function (e) {
             $rootScope.lobbyObj = JSON.parse(e.data);
-//            $rootScope.lobbyList = $rootScope.lobbyObj[0].GameName;
+            $rootScope.lobbyList = $rootScope.lobbyObj.GameList;
             $rootScope.$apply();
         }, false);
 
@@ -93,55 +93,25 @@
     function color($rootScope) {
         angular.forEach($rootScope.board, function (country) {
             if (country.Owner === -1) {
-                $rootScope.mapList[country.CountryID].attr("fill", "black")
-                    .attr("stroke", "#aaa")
-                    .attr("stroke-width", 1)
-                    .attr("stroke-linejoin", "round")
-                    .attr("cursor", "pointer");
+                $rootScope.mapList[country.CountryID].attr("fill", "black");
             }
             else if (country.Owner === 0) {
-
-                $rootScope.mapList[country.CountryID].attr("fill", "#FF3B30")
-                    .attr("stroke", "#aaa")
-                    .attr("stroke-width", 1)
-                    .attr("stroke-linejoin", "round")
-                    .attr("cursor", "pointer");
+                $rootScope.mapList[country.CountryID].attr("fill", "#FF3B30");
             }
             else if (country.Owner === 1) {
-
-                $rootScope.mapList[country.CountryID].attr("fill", "#00ff1b")
-                    .attr("stroke", "#aaa")
-                    .attr("stroke-width", 1)
-                    .attr("stroke-linejoin", "round")
-                    .attr("cursor", "pointer");
+                $rootScope.mapList[country.CountryID].attr("fill", "#00ff1b");
             }
             else if (country.Owner === 2) {
-                $rootScope.mapList[country.CountryID].attr("fill", "#ff5400")
-                    .attr("stroke", "#aaa")
-                    .attr("stroke-width", 1)
-                    .attr("stroke-linejoin", "round")
-                    .attr("cursor", "pointer");
+                $rootScope.mapList[country.CountryID].attr("fill", "#ff5400");
             }
             else if (country.Owner === 3) {
-                $rootScope.mapList[country.CountryID].attr("fill", "#4A4A4A")
-                    .attr("stroke", "#aaa")
-                    .attr("stroke-width", 1)
-                    .attr("stroke-linejoin", "round")
-                    .attr("cursor", "pointer");
+                $rootScope.mapList[country.CountryID].attr("fill", "#4A4A4A");
             }
             else if (country.Owner === 4) {
-                $rootScope.mapList[country.CountryID].attr("fill", "#6f3ed6")
-                    .attr("stroke", "#aaa")
-                    .attr("stroke-width", 1)
-                    .attr("stroke-linejoin", "round")
-                    .attr("cursor", "pointer");
+                $rootScope.mapList[country.CountryID].attr("fill", "#6f3ed6");
             }
             else if (country.Owner === 5) {
-                $rootScope.mapList[country.CountryID].attr("fill", "#007AFF")
-                    .attr("stroke", "#aaa")
-                    .attr("stroke-width", 1)
-                    .attr("stroke-linejoin", "round")
-                    .attr("cursor", "pointer");
+                $rootScope.mapList[country.CountryID].attr("fill", "#007AFF");
             }
         });
     }
