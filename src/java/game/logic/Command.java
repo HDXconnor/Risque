@@ -117,7 +117,7 @@ public class Command {
                     }
 
                     // check if the two countries are neighbours
-                    if (CountriesData.isNeighbour(to, from)) {
+                    if (BoardLogic.isNeighbour(to, from)) {
                         // move troops
                         int troops = data.getInt("Troops");
                         board.getCountry(to).setTroops(board.getCountry(to).getTroops() + troops);

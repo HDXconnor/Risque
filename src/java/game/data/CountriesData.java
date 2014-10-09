@@ -139,22 +139,4 @@ public class CountriesData {
         neighboursMap.put("NA08", new ArrayList(Arrays.asList("NA04", "NA05", "NA07", "NA09", "AF02", "SA01")));
         neighboursMap.put("NA09", new ArrayList(Arrays.asList("NA07", "NA08", "SA03")));
     }
-
-    /**
-     * Returns whether or not two countries are neighbors.
-     * <p>
-     * Checks if the neighboursMap contains a key equal to country1
-     * with a value equal to country2. If there is no key-value pair equal to the
-     * two provided countries, the method will return false.
-     * </p>
-     *
-     * @param country1  the 4 digit country code
-     * @param country2  the 4 digit country code
-     * @return          <code>true</code> if the two countries
-     *                  are neighbors;
-     *                  <code>false</code> otherwise.
-     */
-    public static boolean isNeighbour(String country1, String country2) {
-        return neighboursMap.get(country1).contains(country2);
-    }
 }

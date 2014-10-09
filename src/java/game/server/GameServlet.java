@@ -30,7 +30,6 @@ import javax.servlet.http.HttpSession;
 public class GameServlet extends HttpServlet {
 
     //private final Game game = new Game("test_game_name");
-
     private final boolean useSSE = true;
 
     @Override
@@ -41,6 +40,23 @@ public class GameServlet extends HttpServlet {
             response.setHeader("Connection", "keep-alive");
             response.setHeader("Cache-Control", "no-cache");
             HttpSession session = request.getSession();
+            
+            // send username
+            if (session.getAttribute("UsernameSent") == null) {
+                try (PrintWriter out = response.getWriter()) {
+                    if (session.getAttribute("Username") != null) {
+                        JSONObject json = new JSONObject();
+                        json.put("Username", session.getAttribute("Username"));
+                        session.setAttribute("UsernameSent", true);
+                        System.out.println("GET data sending:   " + json);
+                        out.write("event: username\ndata: " + json + "\n\n");
+                        out.flush();
+                    }
+                } catch (JSONException e) {
+                    Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
+                    session.removeAttribute("UsernameSent");
+                }
+            }
 
             // If session does not contain a game, show the game list instead
             if (session.getAttribute("Game") == null) {
@@ -56,9 +72,6 @@ public class GameServlet extends HttpServlet {
                 // send out the gamelist json
                 try (PrintWriter out = response.getWriter()) {
                     JSONObject json = GameList.getGameListJSON();
-                    if (session.getAttribute("Username") != null) {
-                        json.put("Username", session.getAttribute("Username"));
-                    }
                     System.out.println("GET data sending:   " + json);
                     out.write("event: gamelist\ndata: " + json + "\n\n");
                     out.flush();
@@ -81,9 +94,6 @@ public class GameServlet extends HttpServlet {
             // send out the gamestate json
             try (PrintWriter out = response.getWriter()) {
                 JSONObject json = game.getGameJSON();
-                if (session.getAttribute("Username") != null) {
-                    json.put("Username", session.getAttribute("Username"));
-                }
                 System.out.println("GET data sending:   " + json);
                 out.write("event: gamestate\ndata: " + json + "\n\n");
                 out.flush();
