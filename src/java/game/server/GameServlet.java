@@ -42,6 +42,7 @@ public class GameServlet extends HttpServlet {
             HttpSession session = request.getSession();
             
             // send username
+            System.out.println(session.getAttribute("UsernameSent"));
             if (session.getAttribute("UsernameSent") == null) {
                 try (PrintWriter out = response.getWriter()) {
                     if (session.getAttribute("Username") != null) {
