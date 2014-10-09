@@ -2,13 +2,16 @@
 
 angular.module('gameApp')
         .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
-                this.isHost = function(){
-                    if ($rootScope.userName==$rootScope.players[0].DisplayName){
-                        return true;
-                    }else{
-                        return false;
+                this.isHost = function() {
+                    if ($rootScope.obj != null) {
+                        if ($rootScope.userName == $rootScope.players[0].DisplayName) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
-                }
+                };
+
                 this.setGameName= function () {
                     var gameName = document.getElementById("create-input").value;
                     var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName}});
@@ -25,12 +28,20 @@ angular.module('gameApp')
                     postData(startGameData);
                 };
 
+                this.quitGame = function () {
+                    var startGameData = JSON.stringify({Command: "Quit", Data: {}});
+                    postData(startGameData);
+            };
+
                 this.joinGame = function (gameID) {
                     var startGameData = JSON.stringify({Command: "Join", Data: {GameID: gameID}});
                     postData(startGameData);
                 };
 
                 this.logOut = function () {
+                    if ($rootScope.obj!=null) {
+                        this.quitGame();
+                    }
                     var startGameData = JSON.stringify({Command:"Logout",Data:{}});
                     $rootScope.userName = null;
                     postData(startGameData);
@@ -52,14 +63,6 @@ angular.module('gameApp')
                     var debugData = JSON.stringify({Command: "Debug", Data: {}});
                     postData(debugData);
                 }
-
-                this.hostControls = function () {
-                    if ($rootScope.username === $rootScope.host) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                };
 
                 function readCookie() {
                     var x = document.cookie;
