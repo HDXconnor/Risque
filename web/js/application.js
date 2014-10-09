@@ -49,7 +49,7 @@
 
                 if ($rootScope.CurrentPlayer === $rootScope.players[i].PlayerOrder) {
                     $rootScope.currentUserName = $rootScope.players[i].DisplayName;
-                    $rootScope.troopsToDeploy = $rootScope.players[i].troopsToDeploy;
+                    $rootScope.troopsToDeploy = $rootScope.players[i].TroopsToDeploy;
                 }
             }
 
