@@ -4,14 +4,17 @@
         <h4> Player: {{userName}}</h4>
         <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.logOut()"> Log Out </button>
 
-        <div id="pre-game">
+        <div id="pre-game" >
             <h3> Games List </h3>
             <div id="games-list">
 
             </div>
 
             <div id="create-game">
-
+                <form>
+                    <input id="create-input" type="text" class="input-type" name="gamename" placeholder="Lobby Name">
+                    <button id="create-button" class="pretty-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
+                </form>
             </div>
         </div>
 

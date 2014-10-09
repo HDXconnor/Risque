@@ -2,11 +2,21 @@
 
 angular.module('gameApp')
         .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
-
+                
+                this.setGameName= function () {
+                    var gameName = document.getElementById("create-input").value;
+                    var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName}});
+                    postData(startGameData);
+                    
+                };
                 this.lobbyVis = function () {
                     return($rootScope.userName != null  && $rootScope.gameStarted !== true);
                 };
 
+
+                this.createLobby = function(){
+                    
+                }
                 this.closeLobby = function () {
                     var startGameData = JSON.stringify({Command: "CloseLobby", Data: {}});
                     postData(startGameData);
