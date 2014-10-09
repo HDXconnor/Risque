@@ -79,21 +79,21 @@ angular.module('gameApp')
 
                     if ($rootScope.CurrentPlayer === $rootScope.thisUserNumber) {
                         if ($rootScope.phase === "Setup") {
-                            var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.CurrentPlayer}});
                             postData(send);
                         }
                         if ($rootScope.phase === "Deploy") {
-                            var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
+                            var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.CurrentPlayer}});
                             postData(send);
                         }
                         if ($rootScope.phase === "Attack") {
                             angular.forEach($rootScope.board, function (index) {
                                 if ($rootScope.thisCountryID === index.CountryID) {
-                                    if ($rootScope.currentPlayer === index.Owner) {
+                                    if ($rootScope.CurrentPlayer === index.Owner) {
                                         $rootScope.attackCountryID = $rootScope.thisCountryID;
                                         console.log("attack");
                                     }
-                                    if ($rootScope.currentPlayer !== index.Owner) {
+                                    if ($rootScope.CurrentPlayer !== index.Owner) {
                                         $rootScope.defendCountryID = $rootScope.thisCountryID;
                                         console.log("defend");
                                     }
