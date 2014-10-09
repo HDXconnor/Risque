@@ -1,20 +1,21 @@
 /**
  * Copyright 2014 Connor Anderson
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package game.objects;
 
+import game.objects.exceptions.TroopsException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,8 +23,11 @@ import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Game {
+
     private static int numOfGames = 0;
     private final PlayerList playerList;
     private final Board board;
@@ -76,6 +80,11 @@ public class Game {
 
     public void nextPlayer() {
         gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
+        try {
+            playerList.getPlayerById(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(3);
+        } catch (TroopsException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //        boolean loser = true;
 //        HashMap<String, Country> countries = board.getAllCountries();
 //        for (String key : countries.keySet()) {
@@ -107,24 +116,24 @@ public class Game {
     public void pushChanges() {
         this.lastModified = System.currentTimeMillis();
     }
-    
+
     public String getGameName() {
         return gameName;
     }
-    
+
     public int getGameID() {
         return gameID;
     }
-    
+
     public Set<HttpSession> getSessions() {
         Set<HttpSession> sessions = new HashSet<>();
         Map<String, Player> players = playerList.getPlayerHashMap();
-        for (String key:players.keySet()) {
+        for (String key : players.keySet()) {
             sessions.add(players.get(key).getSession());
         }
         return sessions;
     }
-    
+
     @Override
     public String toString() {
         return "Game ID: " + gameID + ", Name: \"" + gameName + "\" with " + playerList.getNumberOfPlayers() + " players.";
