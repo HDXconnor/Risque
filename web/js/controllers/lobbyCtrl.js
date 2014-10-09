@@ -13,11 +13,7 @@ angular.module('gameApp')
                 this.lobbyVis = function () {
                     return($rootScope.userName != null  && $rootScope.gameStarted !== true);
                 };
-
-
-                this.createLobby = function(){
-                    
-                }
+                
                 this.closeLobby = function () {
                     var startGameData = JSON.stringify({Command: "CloseLobby", Data: {}});
                     postData(startGameData);
