@@ -172,13 +172,19 @@ angular.module('gameApp')
             });
         });
 
-        function postData(data) {
-            $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: data
-            }).error();
-        }
-
+                function postData(data) {
+                    $http({
+                        method: 'POST',
+                        url: 'GameServlet',
+                        headers: {'Content-Type': 'application/json'},
+                        data: data
+//                    }).success(function (output) {
+//                        console.log("THIS IS THE DATA CURRENTLY IN ROOTSCOPE:");
+//                        console.log($rootScope.obj.Game);
+//                        console.log("THIS IS THE DATA YOU GET BACK FROM THE POST:");
+//                        console.log(output.Game);
+//                        $rootScope.obj.Game = output.Game;
+//                        $rootScope.$apply();
+                    });
+                }
     }]);
