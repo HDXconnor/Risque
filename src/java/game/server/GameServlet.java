@@ -73,13 +73,13 @@ public class GameServlet extends HttpServlet {
             // If session does not contain a game, show the game list instead
             if (session.getAttribute("Game") == null) {
 
-                if (session.getAttribute("gameListLastModified") != null) {
+                if (session.getAttribute("GameListLastModified") != null) {
                     // exit early if gamelist has not changed
-                    if ((long) session.getAttribute("gameListLastModified") == GameList.getLastModified()) {
+                    if ((long) session.getAttribute("GameListLastModified") == GameList.getLastModified()) {
                         return;
                     }
                 }
-                session.setAttribute("gameListLastModified", GameList.getLastModified());
+                session.setAttribute("GameListLastModified", GameList.getLastModified());
 
                 // send out the gamelist json
                 try (PrintWriter out = response.getWriter()) {
@@ -95,13 +95,13 @@ public class GameServlet extends HttpServlet {
 
             // GAME EXISTS PAST THIS POINT
             Game game = (Game) session.getAttribute("Game");
-            if (session.getAttribute("lastModified") != null) {
+            if (session.getAttribute("LastModified") != null) {
                 // exit early if game has not changed
-                if ((long) session.getAttribute("lastModified") == game.getLastModified()) {
+                if ((long) session.getAttribute("LastModified") == game.getLastModified()) {
                     return;
                 }
             }
-            session.setAttribute("lastModified", game.getLastModified());
+            session.setAttribute("LastModified", game.getLastModified());
 
             // send out the gamestate json
             try (PrintWriter out = response.getWriter()) {

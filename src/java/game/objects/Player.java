@@ -20,10 +20,11 @@ import javax.servlet.http.HttpSession;
 
 public class Player {
     private final String name;
+    private final HttpSession session;
     private int troopsToDeploy;
     private int playerNum;
+    private String playerImage;
     public Oauth auth;
-    public HttpSession session;
 
     public Player(String name, HttpSession session) {
         this.name = name;
@@ -60,5 +61,13 @@ public class Player {
     
     public HttpSession getSession() {
         return session;
+    }
+    
+    public String getPlayerImage() {
+        return playerImage;
+    }
+    
+    public void setPlayerImage(String playerImage) {
+        this.playerImage = playerImage;
     }
 }

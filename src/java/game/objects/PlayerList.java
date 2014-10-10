@@ -19,7 +19,6 @@ import game.objects.exceptions.PlayerException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import javax.servlet.http.HttpSession;
 
@@ -57,7 +56,7 @@ public class PlayerList {
         return players;
     }
 
-    public Player getPlayerById(int player) {
+    public Player getPlayer(int player) {
         return players.get(player);
     }
 
@@ -68,7 +67,7 @@ public class PlayerList {
      * @return
      * @throws PlayerException
      */
-    public Player getPlayerByName(String player) throws PlayerException {
+    public Player getPlayer(String player) throws PlayerException {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getName().equals(player)) {
                 return players.get(i);
@@ -77,7 +76,7 @@ public class PlayerList {
         throw new PlayerException("Player not found");
     }
     
-    public Player getPlayerBySession(HttpSession session) throws PlayerException {
+    public Player getPlayer(HttpSession session) throws PlayerException {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getSession().equals(session)) {
                 return players.get(i);
@@ -91,14 +90,15 @@ public class PlayerList {
      *
      * @param player    player name.
      */
-//    public void removePlayer(String player) {
-//        for (int i = 0; i < players.size(); i++) {
-//            if (players.get(i).getName().equals(player)) {
-//                players.remove(i);
-//                return;
-//            }
-//        }
-//    }
+    public void removePlayer(String player) {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(player)) {
+                players.remove(i);
+                return;
+            }
+        }
+    }
+    
     public void removePlayer(HttpSession session) throws PlayerException {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getSession().equals(session)) {

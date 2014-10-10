@@ -18,7 +18,6 @@ package game.objects;
 import game.objects.exceptions.TroopsException;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Map;
@@ -81,7 +80,7 @@ public class Game {
     public void nextPlayer() {
         gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
         try {
-            playerList.getPlayerById(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(3);
+            playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(3);
         } catch (TroopsException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -98,7 +97,7 @@ public class Game {
     }
 
     public Player getCurrentPlayerObject() {
-        return (Player) playerList.getPlayerById(gameState.getCurrentPlayer());
+        return (Player) playerList.getPlayer(gameState.getCurrentPlayer());
     }
 
     public JSONObject getGameJSON() throws JSONException {

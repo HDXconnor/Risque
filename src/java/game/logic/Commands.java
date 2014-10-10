@@ -58,14 +58,12 @@ public class Commands {
                 String name = data.getString("Username");
                 session.setAttribute("Username", name);
                 session.removeAttribute("UsernameSent");
-                session.removeAttribute("gameListLastModified");
-                session.removeAttribute("lastModified");
-                GameList.pushChanges();
+                pushAllChanges(session);
                 break;
             }
             case LOGOUT:
                 session.invalidate();
-                GameList.pushChanges();
+                pushAllChanges(session);
                 break;
 
             // Create:
@@ -77,11 +75,7 @@ public class Commands {
                 game.getPlayerList().joinGame(new Player(name, session));
                 GameList.add(game);
                 session.setAttribute("Game", game);
-
-                game.pushChanges();
-                GameList.pushChanges();
-                session.removeAttribute("gameListLastModified");
-                session.removeAttribute("lastModified");
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -95,12 +89,7 @@ public class Commands {
                 int gameID = data.getInt("GameID");
                 Game game = GameList.getGame(gameID);
                 game.getPlayerList().joinGame(new Player(name, session));
-
-                game.pushChanges();
-                GameList.pushChanges();
-                session.setAttribute("Game", game);
-                session.removeAttribute("gameListLastModified");
-                session.removeAttribute("lastModified");
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -118,11 +107,7 @@ public class Commands {
                 if (game.getPlayerList().getNumberOfPlayers() == 0) {
                     GameList.remove(game);
                 }
-                game.pushChanges();
-                GameList.pushChanges();
-                session.removeAttribute("Game");
-                session.removeAttribute("gameListLastModified");
-                session.removeAttribute("lastModified");
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -135,11 +120,10 @@ public class Commands {
                 String name = data.getString("Username"); // name of player to be kicked, NOT YOUR OWN NAME
 
                 Game game = (Game) session.getAttribute("Game");
-                HttpSession kickedPlayerSession = game.getPlayerList().getPlayerByName(name).getSession();
+                HttpSession kickedPlayerSession = game.getPlayerList().getPlayer(name).getSession();
                 game.getPlayerList().removePlayer(kickedPlayerSession);
                 kickedPlayerSession.removeAttribute("Game");
-                game.pushChanges();
-                GameList.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -152,8 +136,7 @@ public class Commands {
                 }
                 Game game = (Game) session.getAttribute("Game");
                 game.getGameState().closeLobby();
-                game.pushChanges();
-                GameList.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -168,7 +151,7 @@ public class Commands {
                     throw new CommandException("Command: ENDPHASE. Not your turn. (session mismatch)");
                 }
                 game.endPhase();
-                game.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -183,7 +166,7 @@ public class Commands {
                     throw new CommandException("Command: ENDTURN. Not your turn. (session mismatch)");
                 }
                 game.nextPlayer();
-                game.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -209,7 +192,7 @@ public class Commands {
                 } else {
                     throw new CommandException("Command: SETUP. Country already has an owner!");
                 }
-                game.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -233,7 +216,7 @@ public class Commands {
                 } else {
                     throw new CommandException("Command: DEPLOY. Country is not the player's, or player has no troops to deploy");
                 }
-                game.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -303,7 +286,7 @@ public class Commands {
 //                    // TODO Something interesting
 //                }
 
-                game.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -337,7 +320,7 @@ public class Commands {
                     board.getCountry(to).setTroops(board.getCountry(to).getTroops() + troops);
                     board.getCountry(from).setTroops(board.getCountry(from).getTroops() - troops);
                 }
-                game.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -352,10 +335,23 @@ public class Commands {
                     board.getCountry((String) country).setTroops(1);
                     game.nextPlayer();
                 }
-                game.pushChanges();
+                pushAllChanges(session, game);
                 break;
             }
         }
+    }
+    
+    private static void pushAllChanges(HttpSession session) {
+        session.removeAttribute("GameListLastModified");
+        session.removeAttribute("LastModified");
+        GameList.pushChanges();
+    }
+    
+    private static void pushAllChanges(HttpSession session, Game game) {
+        session.removeAttribute("GameListLastModified");
+        session.removeAttribute("LastModified");
+        GameList.pushChanges();
+        game.pushChanges();
     }
 
 }
