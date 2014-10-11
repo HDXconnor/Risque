@@ -19,7 +19,7 @@ angular.module('gameApp')
                    
                 this.setGameName= function () {
                     var gameName = document.getElementById("create-input").value;
-                    var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName}});
+                    var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName, GamePassword: ""}});
                     postData(startGameData);
                     
                 };
@@ -36,10 +36,11 @@ angular.module('gameApp')
                 this.quitGame = function () {
                     var startGameData = JSON.stringify({Command: "Quit", Data: {}});
                     postData(startGameData);
+                    $rootScope.obj = null;
             };
 
                 this.joinGame = function (gameID) {
-                    var startGameData = JSON.stringify({Command: "Join", Data: {GameID: gameID}});
+                    var startGameData = JSON.stringify({Command: "Join", Data: {GameID: gameID, GamePassword: ""}});
                     postData(startGameData);
                 };
 
