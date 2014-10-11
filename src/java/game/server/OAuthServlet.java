@@ -62,14 +62,23 @@ public class OAuthServlet extends HttpServlet {
             Verifier verifier = new Verifier(request.getParameter("code"));
             Token accessToken = fbService.getAccessToken(EMPTY_TOKEN, verifier);
             session.setAttribute("fbToken", accessToken);
-            OAuthRequest authRequest = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me");
-            fbService.signRequest(accessToken, authRequest);
-            Response authResponse = authRequest.send();
+
             try {
+                // Get profile data
+                OAuthRequest authRequest = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me");
+                fbService.signRequest(accessToken, authRequest);
+                Response authResponse = authRequest.send();
                 JSONObject responseJSON = new JSONObject(authResponse.getBody());
-                session.setAttribute("Username", responseJSON.getString("first_name"));
+                session.setAttribute("Username", responseJSON.getString("name"));
+
+                // Get profile picture
+                authRequest = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me/picture");
+                fbService.signRequest(accessToken, authRequest);
+                session.setAttribute("PlayerImage", authRequest.getCompleteUrl());
+
                 response.setStatus(response.SC_MOVED_TEMPORARILY);
-                response.setHeader("Location", "http://raptorrisk.me/");
+                response.setHeader("Location", "http://raptorrisk.me");
+
             } catch (JSONException ex) {
 
             }
