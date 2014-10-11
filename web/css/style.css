@@ -114,7 +114,7 @@ body
 .player-name
 {
     display: inline-block;
-    margin: auto;
+    margin-left: 10px;
 }
 #lobby-player
 {
@@ -153,6 +153,7 @@ body
 
 h1
 {
+   padding-top: 10px;
    text-align: center;
 }
 
