@@ -26,7 +26,7 @@ body
 #map-canvas
 {
     border-radius: 50%;
-    background-color: cornflowerblue;
+    background: rgba(101, 156, 239, 0.8);
     opacity: 0.90;
 }
 #top-logo
@@ -59,8 +59,7 @@ body
 }
 .display-box
 {
-    background-color: #ffffff;
-    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.8);
     vertical-align: middle;
 }
 
@@ -105,7 +104,7 @@ body
 {
     width: 30%;
     float: right;
-    background-color: #999999;
+    background: rgba(153, 153, 153, 0.64);
     padding: 5%;
     text-align: center;
     color: #ffffff;
@@ -143,11 +142,13 @@ body
 
 .remove-button
 {
-    display: inline-block;
     float: right;
-    border: none;
-    background-color: red;
-    color: white;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    opacity: 1;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 
@@ -178,7 +179,10 @@ h3
 {
     background-color: #ff1e25;
 }
-
+#login-textbox
+{
+    text-align: center;
+}
 
 #login-form
 {
@@ -192,6 +196,8 @@ h3
 {
     width: 80%;
     margin: 10px;
+    background: rgba(255, 255, 255, 0.64);
+    border: none;
 }
 
 #create-game #join-game

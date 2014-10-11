@@ -41,7 +41,7 @@
                     <div class="player-box" ng-repeat="player in players">
                         <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
                         <p class="player-name"> {{player.DisplayName}} </p>
-                        <button class="remove-button" type="button" ng-show="lobby.isHost()" > Remove </button>
+                        <img src="images/remove-button.jpg" class="remove-button"/>
                     </div>
 
                     <div class="player-box" ng-repeat="n in [0,1,2,3,4,5] | limitTo:lobbySize - players.length">
@@ -55,9 +55,9 @@
                 </form>
             </div>
             <button id="start-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
+            <button id="quickstart-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.quickStart()"> QuickStart </button>
         </div>
-        <button id="magic-button" class="pretty-button" type="button" ng-click="lobby.magicButton()"> Magic Button </button>
-        <button id="quickstart-button" class="pretty-button" type="button"  ng-click="lobby.quickStart()"> QuickStart </button>
+
 
     </div>
 </div>
