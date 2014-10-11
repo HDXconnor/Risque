@@ -99,15 +99,16 @@ public class PlayerList {
     /**
      * Removes a specified player from the game.
      *
-     * @param player    player name.
+     * @param playerName    player name.
      */
-    public void removePlayer(String player) {
+    public void removePlayer(String playerName) throws PlayerException {
         for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getName().equals(player)) {
+            if (players.get(i).getName().equals(playerName)) {
                 players.remove(i);
                 return;
             }
         }
+        throw new PlayerException("Player not found");
     }
     
     public void removePlayer(HttpSession session) throws PlayerException {
