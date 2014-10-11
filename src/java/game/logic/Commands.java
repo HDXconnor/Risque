@@ -114,7 +114,7 @@ public class Commands {
                 if (game.getPlayerList().getNumberOfPlayers() == 0) {
                     GameList.remove(game);
                 }
-                pushAllChanges(session, game, out);
+                pushAllChanges(session, game);
                 break;
             }
 
@@ -352,6 +352,13 @@ public class Commands {
         session.removeAttribute("GameListLastModified");
         session.removeAttribute("LastModified");
         GameList.pushChanges();
+    }
+    
+    private static void pushAllChanges(HttpSession session, Game game) {
+        session.removeAttribute("GameListLastModified");
+        session.removeAttribute("LastModified");
+        GameList.pushChanges();
+        game.pushChanges();
     }
     
     private static void pushAllChanges(HttpSession session, Game game, PrintWriter out) throws JSONException {
