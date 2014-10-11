@@ -107,6 +107,8 @@ public class Game {
         json.put("Players", playerList.getPlayersJSON());
         json.put("GameState", gameState.getGameStateJSON());
         json.put("Board", board.getBoardJSON());
+        json.put("GameName", gameName);
+        json.put("GameID", gameID);
         return new JSONObject().put("Game", json);
     }
 
