@@ -60,7 +60,7 @@ public class Game {
         return board;
     }
 
-    public void endPhase() {
+    public void endPhase() throws TroopsException {
         switch (phase.getPhase()) {
             case Phase.SETUP:
                 gameState.startGame();
@@ -74,18 +74,15 @@ public class Game {
         phase.nextPhase();
     }
 
-    public void endTurn() {
+    public void endTurn() throws TroopsException {
         nextPlayer();
         gameState.nextTurn();
     }
 
-    public void nextPlayer() {
+    public void nextPlayer() throws TroopsException {
         gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
-        try {
-            playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(3);
-        } catch (TroopsException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(3);
+
 //        boolean loser = true;
 //        HashMap<String, Country> countries = board.getAllCountries();
 //        for (String key : countries.keySet()) {

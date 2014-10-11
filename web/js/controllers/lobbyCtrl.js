@@ -12,9 +12,9 @@ angular.module('gameApp')
                     }
                 };
                 
-                this.debug = function(){
-                    var debug = JSON.stringify({Command: "Debug", Data: {}});
-                    postData(debug);
+                this.quickStart = function(){
+                    var quickStartData = JSON.stringify({Command: "QuickStart", Data: {}});
+                    postData(quickStartData);
                 };
                    
                 this.setGameName= function () {
@@ -64,10 +64,10 @@ angular.module('gameApp')
                     console.log($rootScope.lobbyList);
                 }
 
-                this.debugButton = function () {
-                    console.log("STARTING DEBUG");
-                    var debugData = JSON.stringify({Command: "Debug", Data: {}});
-                    postData(debugData);
+                this.quickStartButton = function () {
+                    console.log("QUICKSTART MODE");
+                    var quickStartData = JSON.stringify({Command: "QuickStart", Data: {}});
+                    postData(quickStartData);
                 }
 
                 function readCookie() {

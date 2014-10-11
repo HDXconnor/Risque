@@ -126,7 +126,6 @@ public class GameServlet extends HttpServlet {
             JSONObject json = new JSONObject(request.getReader().readLine());
             System.out.println("POST data received: " + json);
             Commands.doCommand(json, session, out);
-            out.flush();
         } catch (JSONException | CommandException | DiceException | TroopsException | PlayerException e) {
             Logger.getLogger(GameServlet.class.getName()).log(Level.SEVERE, null, e);
         }

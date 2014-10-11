@@ -16,10 +16,12 @@
 package game.objects;
 
 import game.objects.exceptions.PlayerException;
+import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.HashMap;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 
 public class PlayerList {
@@ -30,9 +32,18 @@ public class PlayerList {
     }
     
     public void joinGame(Player newPlayer) throws PlayerException {
-        if (players.size() >= 6) throw new PlayerException("Games are limited to 6 players!");
+        if (players.size() >= 6) {
+            throw new PlayerException("Games are limited to 6 players!");
+        }
         int nextAvailableSpot = getNextAvailableSpot();
-        if (nextAvailableSpot == -1) throw new PlayerException("Invalid player number!");
+        if (nextAvailableSpot == -1) {
+            throw new PlayerException("Invalid player number!");
+        }
+        for (Player player:players.values()) {
+            if (player.getSession().equals(newPlayer.getSession())) {
+                throw new PlayerException("Player session is already in the game");
+            }
+        }
         players.put(nextAvailableSpot, newPlayer);
         newPlayer.setPlayerNum(nextAvailableSpot);
     }
@@ -133,5 +144,14 @@ public class PlayerList {
      */
     public int getNumberOfPlayers() {
         return players.size();
-    } 
+    }
+    
+    public List<HttpSession> getSessions() {
+        List<HttpSession> sessions = new ArrayList<>();
+        for (Player player:players.values()) {
+            sessions.add(player.getSession());
+        }
+        return sessions;
+    }
+    
 }

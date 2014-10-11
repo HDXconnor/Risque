@@ -21,6 +21,9 @@ import game.objects.exceptions.DiceException;
 import game.objects.exceptions.PlayerException;
 import game.objects.exceptions.TroopsException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +39,7 @@ public class Commands {
     private static final String QUIT = "Quit";
     private static final String KICK = "Kick";
     private static final String CLOSELOBBY = "CloseLobby";
-    private static final String DEBUG = "Debug";
+    private static final String QUICKSTART = "QuickStart";
     private static final String ENDPHASE = "EndPhase";
     private static final String ENDTURN = "EndTurn";
     private static final String SETUP = Phase.SETUP;
@@ -92,8 +95,8 @@ public class Commands {
                 String gamePassword = data.getString("GamePassword");
                 Game game = GameList.getGame(gameID);
                 if (gamePassword.equals(game.getPassword())) {
-                    session.setAttribute("Game", game);
                     game.getPlayerList().joinGame(new Player(name, session));
+                    session.setAttribute("Game", game);
                     pushAllChanges(session, game, out);
                 } else {
                     throw new CommandException("Command: JOIN. Invalid password.");
@@ -332,15 +335,18 @@ public class Commands {
                 break;
             }
 
-            // DEBUG
-            case DEBUG: {
+            // QUICKSTART
+            case QUICKSTART: {
                 if (session.getAttribute("Game") == null)
-                    throw new CommandException("Command: DEBUG. You are not in a game.");
+                    throw new CommandException("Command: QUICKSTART. You are not in a game.");
                 Game game = (Game) session.getAttribute("Game");
                 Board board = game.getBoard();
-                for (Object country : board.getAllCountries().keySet()) {
-                    board.getCountry((String) country).setOwner(game.getGameState().getCurrentPlayer());
-                    board.getCountry((String) country).setTroops(1);
+                List<Country> countries = new ArrayList<>();
+                countries.addAll(board.getAllCountries().values());
+                Collections.shuffle(countries);
+                for (Country country:countries) {
+                    country.setOwner(game.getGameState().getCurrentPlayer());
+                    country.setTroops(1);
                     game.nextPlayer();
                 }
                 pushAllChanges(session, game, out);
@@ -368,6 +374,7 @@ public class Commands {
         GameList.pushChanges();
         game.pushChanges();
         out.write(game.getGameJSON().toString());
+        out.flush();
     }
 
 }
