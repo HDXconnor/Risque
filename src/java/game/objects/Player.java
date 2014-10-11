@@ -31,6 +31,9 @@ public class Player {
         this.session = session;
         this.auth = new Oauth(name);
         this.troopsToDeploy = 3;
+        if (session.getAttribute("PlayerImage") != null) {
+            this.playerImage = (String) session.getAttribute("PlayerImage");
+        }
     }
 
     public int getTroopsToDeploy() {
