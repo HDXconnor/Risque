@@ -35,8 +35,9 @@ public class Game {
     private long lastModified;
     private final String gameName;
     private final int gameID;
+    private final String password;
 
-    public Game(String gameName) {
+    public Game(String gameName, String password) {
         this.gameName = gameName;
         this.playerList = new PlayerList();
         this.board = new Board();
@@ -44,6 +45,7 @@ public class Game {
         this.phase = gameState.getPhase();
         this.lastModified = System.currentTimeMillis();
         this.gameID = numOfGames++;
+        this.password = password;
     }
 
     public PlayerList getPlayerList() {
@@ -131,6 +133,14 @@ public class Game {
             sessions.add(players.get(key).getSession());
         }
         return sessions;
+    }
+    
+    public boolean isPasswordProtected() {
+        return !password.equals("");
+    }
+    
+    public String getPassword() {
+        return password;
     }
 
     @Override
