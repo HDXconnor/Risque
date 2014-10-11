@@ -91,8 +91,8 @@ public class Commands {
                 int gameID = data.getInt("GameID");
                 String gamePassword = data.getString("GamePassword");
                 Game game = GameList.getGame(gameID);
-                session.setAttribute("Game", game);
                 if (gamePassword.equals(game.getPassword())) {
+                    session.setAttribute("Game", game);
                     game.getPlayerList().joinGame(new Player(name, session));
                     pushAllChanges(session, game, out);
                 } else {
