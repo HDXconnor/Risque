@@ -89,12 +89,27 @@ body
 
 #lobby-box
 {
+    width: 75%;
+    margin: 0 12.5%;
+}
 
+#player-info, #logout-area
+{
+    width: 40%;
+    display: inline-block;
+    min-height: 40px;
+    padding: 0 5%;
+}
+
+#logout-button
+{
+    width: 20%;
+    float: right;
 }
 
 .player-box
 {
-    margin-top: 4px;
+    margin: 4px;
 }
 .player-name
 {
@@ -102,9 +117,10 @@ body
 }
 .player-color
 {
-    height: 10px;
-    width: 10px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
+    opacity: 1;
 }
 
 .remove-button
@@ -123,11 +139,6 @@ body
 .player-name
 {
     display: inline-block;
-}
-.player-color
-{
-    height: 10px;
-    width: 10px;
 }
 
 .remove-button
@@ -183,7 +194,7 @@ h1
 .input-type
 {
     width: 80%;
-    margin-top: 10px;
+    margin: 10px;
 }
 
 #create-game #join-game
@@ -195,11 +206,10 @@ h1
     border: solid;
 }
 
-#google-button, #facebook-button, #logout-button, #start-button
+#google-button, #facebook-button, #start-button
 {
     width: 135px;
-    display: inline-block;
-    margin-top: 10px;
+    margin: 10px;
     border: none;
 }
 
@@ -215,9 +225,14 @@ h1
     background-color: #3B5998;
 }
 
-#logout-button
+.right
 {
     float: right;
+}
+
+.left
+{
+    float: left;
 }
 
 #start-button

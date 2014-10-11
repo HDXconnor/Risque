@@ -1,8 +1,15 @@
 <div id="game-lobby" ng-controller="LobbyController as lobby" ng-show="lobby.lobbyVis()">
     <div id="lobby-box" class="display-box">
         <h1> Lobby </h1>
-        <h4> Player: {{userName}}</h4>
-        <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.logOut()"> Log Out </button>
+
+        <div id="player-info" class="left">
+            <h4> Player: {{userName}}</h4>
+        </div>
+
+        <div id="logout-area" class="right">
+            <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.logOut()"> Log Out </button>
+        </div>
+
         <div id="pre-game" ng-show="obj==null">
             <h3> Games List </h3>
             <div id="games-list">
