@@ -20,6 +20,7 @@ import game.objects.exceptions.CommandException;
 import game.objects.exceptions.DiceException;
 import game.objects.exceptions.PlayerException;
 import game.objects.exceptions.TroopsException;
+import java.io.PrintWriter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,7 +44,7 @@ public class Commands {
     private static final String ATTACK = Phase.ATTACK;
     private static final String MOVE = Phase.MOVE;
 
-    public static void doCommand(JSONObject json, HttpSession session)
+    public static void doCommand(JSONObject json, HttpSession session, PrintWriter out)
             throws JSONException, CommandException, DiceException, TroopsException, PlayerException {
 
         JSONObject data = json.getJSONObject("Data");
@@ -75,7 +76,7 @@ public class Commands {
                 game.getPlayerList().joinGame(new Player(name, session));
                 GameList.add(game);
                 session.setAttribute("Game", game);
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -89,7 +90,7 @@ public class Commands {
                 int gameID = data.getInt("GameID");
                 Game game = GameList.getGame(gameID);
                 game.getPlayerList().joinGame(new Player(name, session));
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -107,7 +108,7 @@ public class Commands {
                 if (game.getPlayerList().getNumberOfPlayers() == 0) {
                     GameList.remove(game);
                 }
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -123,7 +124,7 @@ public class Commands {
                 HttpSession kickedPlayerSession = game.getPlayerList().getPlayer(name).getSession();
                 game.getPlayerList().removePlayer(kickedPlayerSession);
                 kickedPlayerSession.removeAttribute("Game");
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -136,7 +137,7 @@ public class Commands {
                 }
                 Game game = (Game) session.getAttribute("Game");
                 game.getGameState().closeLobby();
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -151,7 +152,7 @@ public class Commands {
                     throw new CommandException("Command: ENDPHASE. Not your turn. (session mismatch)");
                 }
                 game.endPhase();
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -166,7 +167,7 @@ public class Commands {
                     throw new CommandException("Command: ENDTURN. Not your turn. (session mismatch)");
                 }
                 game.nextPlayer();
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -192,7 +193,7 @@ public class Commands {
                 } else {
                     throw new CommandException("Command: SETUP. Country already has an owner!");
                 }
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -216,7 +217,7 @@ public class Commands {
                 } else {
                     throw new CommandException("Command: DEPLOY. Country is not the player's, or player has no troops to deploy");
                 }
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -286,7 +287,7 @@ public class Commands {
 //                    // TODO Something interesting
 //                }
 
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -320,7 +321,7 @@ public class Commands {
                     board.getCountry(to).setTroops(board.getCountry(to).getTroops() + troops);
                     board.getCountry(from).setTroops(board.getCountry(from).getTroops() - troops);
                 }
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
 
@@ -335,7 +336,7 @@ public class Commands {
                     board.getCountry((String) country).setTroops(1);
                     game.nextPlayer();
                 }
-                pushAllChanges(session, game);
+                pushAllChanges(session, game, out);
                 break;
             }
         }
@@ -347,11 +348,12 @@ public class Commands {
         GameList.pushChanges();
     }
     
-    private static void pushAllChanges(HttpSession session, Game game) {
+    private static void pushAllChanges(HttpSession session, Game game, PrintWriter out) throws JSONException {
         session.removeAttribute("GameListLastModified");
         session.removeAttribute("LastModified");
         GameList.pushChanges();
         game.pushChanges();
+        out.write(game.getGameJSON().toString());
     }
 
 }
