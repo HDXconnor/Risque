@@ -97,30 +97,48 @@ body
 {
     width: 40%;
     display: inline-block;
-    min-height: 40px;
+    min-height: 55px;
     padding: 0 5%;
 }
 
 #logout-button
 {
-    width: 20%;
+    width: 30%;
     float: right;
+    background-color: #999999;
+    padding: 5%;
+    text-align: center;
+    color: #ffffff;
 }
 
-.player-box
-{
-    margin: 4px;
-}
 .player-name
 {
     display: inline-block;
+    margin: auto;
 }
+#lobby-player
+{
+    height:50px;
+    width: 50px;
+}
+.player-image
+{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    opacity: 1;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .player-color
 {
     height: 50px;
     width: 50px;
     border-radius: 50%;
     opacity: 1;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .remove-button
@@ -132,24 +150,11 @@ body
     color: white;
 }
 
-.player-box
-{
-    margin-top: 4px;
-}
-.player-name
-{
-    display: inline-block;
-}
 
-.remove-button
+h1
 {
-    display: inline-block;
-    float: right;
-    border: none;
-    background-color: red;
-    color: white;
+   text-align: center;
 }
-
 
 .input-chat
 {
@@ -174,15 +179,6 @@ h3
 }
 
 
-
-h1
-{
-    text-align: center;
-}
-
-
-
-
 #login-form
 {
     text-align: center;
@@ -204,25 +200,6 @@ h1
     margin-top: 10px;
     background-color: #afb3aa;
     border: solid;
-}
-
-#google-button, #facebook-button, #start-button
-{
-    width: 135px;
-    margin: 10px;
-    border: none;
-}
-
-#google-button
-{
-    background-color: #d34836;
-}
-
-
-
-#facebook-button
-{
-    background-color: #3B5998;
 }
 
 .right
