@@ -51,6 +51,7 @@ public class GameList {
             json.put("GameID", game.getGameID());
             json.put("GameName", game.getGameName());
             json.put("Players", game.getPlayerList().getNumberOfPlayers());
+            json.put("PasswordProtected", game.isPasswordProtected());
             arr.put(json);
         }
         return new JSONObject().put("GameList", arr);

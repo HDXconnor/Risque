@@ -72,7 +72,8 @@ public class Commands {
             case CREATE: {
                 String name = (String) session.getAttribute("Username");
                 String gameName = data.getString("GameName");
-                Game game = new Game(gameName);
+                String gamePassword = data.getString("GamePassword");
+                Game game = new Game(gameName, gamePassword);
                 game.getPlayerList().joinGame(new Player(name, session));
                 GameList.add(game);
                 session.setAttribute("Game", game);
@@ -88,9 +89,14 @@ public class Commands {
                 }
                 String name = (String) session.getAttribute("Username");
                 int gameID = data.getInt("GameID");
+                String gamePassword = data.getString("GamePassword");
                 Game game = GameList.getGame(gameID);
-                game.getPlayerList().joinGame(new Player(name, session));
-                pushAllChanges(session, game, out);
+                if (gamePassword.equals(game.getPassword())) {
+                    game.getPlayerList().joinGame(new Player(name, session));
+                    pushAllChanges(session, game, out);
+                } else {
+                    throw new CommandException("Command: JOIN. Invalid password.");
+                }
                 break;
             }
 
