@@ -115,6 +115,7 @@ public class Commands {
                 }
                 Game game = (Game) session.getAttribute("Game");
                 game.getPlayerList().removePlayer(session);
+                session.removeAttribute("Game");
                 if (game.getPlayerList().getNumberOfPlayers() == 0) {
                     GameList.remove(game);
                 }
