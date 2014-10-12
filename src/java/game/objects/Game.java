@@ -22,8 +22,6 @@ import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Game {
 
@@ -36,6 +34,7 @@ public class Game {
     private final String gameName;
     private final int gameID;
     private final String password;
+    private final MessageList messages;
 
     public Game(String gameName, String password) {
         this.gameName = gameName;
@@ -46,6 +45,7 @@ public class Game {
         this.lastModified = System.currentTimeMillis();
         this.gameID = numOfGames++;
         this.password = password;
+        this.messages = new MessageList();
     }
 
     public PlayerList getPlayerList() {
@@ -140,6 +140,10 @@ public class Game {
     
     public String getPassword() {
         return password;
+    }
+    
+    public MessageList getMessages() {
+        return messages;
     }
 
     @Override
