@@ -100,6 +100,11 @@ body
     padding: 0 5%;
 }
 
+.player-box
+{
+    margin-top: 10px;
+}
+
 #logout-button
 {
     width: 30%;
@@ -115,7 +120,25 @@ body
     display: inline-block;
     margin-left: 10px;
 }
+
+.game-data
+{
+    display: inline-block;
+    margin-left: 10px;
+    width: 22.5%;
+}
+
+.lobby-list
+{
+    min-height: 55px;
+    margin: 5px 15%;
+}
 #lobby-player
+{
+    height:50px;
+    width: 50px;
+}
+#lobby-game
 {
     height:50px;
     width: 50px;
@@ -231,6 +254,15 @@ h3
     color: #ffffff;
 }
 
+.join-button
+{
+    background: rgba(153, 153, 153, 0.64);
+    text-align: center;
+    color: #ffffff;
+    border: none;
+    height: 55px;
+    width: 15%;
+}
 .right
 {
     float: right;

@@ -18,6 +18,15 @@ angular.module('gameApp')
                         return false;
                     }
                 };
+
+                this.gameType = function(password) {
+                    if (password == null) {
+                        return "Public";
+                    } else {
+                        return "Private";
+                    }
+                };
+
                 this.quickStart = function(){
                     var quickStartData = JSON.stringify({Command: "QuickStart", Data: {}});
                     postData(quickStartData);

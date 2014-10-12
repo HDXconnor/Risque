@@ -4,7 +4,7 @@
         <div id="lobby-head">
             <h1> Lobby </h1>
             <div id="player-info" class="left">
-                <div class="player-box">
+                <div id="player-top">
                     <img src="images/player-placeholder.jpg" id="lobby-player" class="player-image"/>
                     <h4 class="player-name">{{userName}}</h4>
                 </div>
@@ -17,8 +17,11 @@
         <div id="pre-game" ng-show="obj==null">
             <div id="games-list">
                 <h3> Games List </h3>
-                <div id="lobby-list" ng-hide="lobby.isGamesListEmpty()" ng-repeat="game in lobbyList">
-                    <p class="player-name">{{game.GameName}}</p>
+                <div class="lobby-list" ng-hide="lobby.isGamesListEmpty()" ng-repeat="game in lobbyList">
+                    <img src="images/game-placeholder.jpg" id="lobby-game" class="player-image"/>
+                    <h4 class="game-data"> {{game.GameName}} </h4>
+                    <p class="game-data"> {{game.Players}}/6 </p>
+                    <p class="game-data"> {{lobby.gameType(game.Password)}} </p>
                     <button class="join-button" type="button" ng-click="lobby.joinGame(game.GameID)"> Join </button>
                 </div>
                 <div id="empty-list" ng-show="lobby.isGamesListEmpty()">
