@@ -6,7 +6,7 @@
 package game.server;
 
 import game.objects.Game;
-import game.objects.Message;
+import game.objects.ChatMessage;
 import game.objects.exceptions.MessageException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -43,15 +43,17 @@ public class ChatServlet extends HttpServlet {
         HttpSession session = request.getSession();
         
         Game game = (Game) session.getAttribute("Game");
-        if (game != null) {
-            try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
+            if (game != null) {
                 JSONObject json = game.getMessages().getMessages(session);
+                session.setAttribute("LastChatMessageSeen", System.currentTimeMillis());
                 out.write("event: messages\ndata: " + json + "\n\n");
                 out.flush();
-                System.out.println(json);
-            } catch (JSONException ex) {
-                Logger.getLogger(ChatServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                throw new MessageException("Not in a game.");
             }
+        } catch (JSONException | MessageException ex) {
+            Logger.getLogger(ChatServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -79,7 +81,7 @@ public class ChatServlet extends HttpServlet {
                         throw new MessageException("Username in session does not match username in sent data");
                     }
                     String dataMessage = data.getString("Message");
-                    game.getMessages().addMessage(new Message(dataUser, dataMessage));
+                    game.getMessages().addChatMessage(new ChatMessage(dataUser, dataMessage));
                 }
                 JSONObject outputjson = game.getMessages().getMessages(session);
                 out.write(outputjson.toString());

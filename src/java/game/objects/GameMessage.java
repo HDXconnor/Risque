@@ -12,21 +12,21 @@ import org.json.JSONObject;
  *
  * @author Simeon
  */
-public class Message {
+public class GameMessage {
     
-    private final String username;
+    private final String phase;
     private final String message;
     private final long timestamp;
     
-    public Message(String username, String message) {
-        this.username = username;
+    public GameMessage(String phase, String message) {
+        this.phase = phase;
         this.message = message;
         this.timestamp = System.currentTimeMillis();
     }
     
     public JSONObject getMessage() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("Username", username);
+        json.put("Phase", phase);
         json.put("Message", message);
         json.put("Timestamp", timestamp);
         return json;

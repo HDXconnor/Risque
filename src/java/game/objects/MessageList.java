@@ -19,28 +19,41 @@ import org.json.JSONObject;
  * @author Simeon
  */
 public class MessageList {
-    Collection<Message> messageList;
+    Collection<ChatMessage> chatMessageList;
+    Collection<GameMessage> gameMessageList;
     private long lastModified;
     private int cleanup;
     
     public MessageList() {
-        this.messageList = Collections.synchronizedList(new LinkedList());
+        this.chatMessageList = Collections.synchronizedList(new LinkedList());
         this.lastModified = System.currentTimeMillis();
         this.cleanup = 0;
     }
     
-    public void addMessage(Message message) {
-        messageList.add(message);
+    public void addChatMessage(ChatMessage message) {
+        chatMessageList.add(message);
+        lastModified = System.currentTimeMillis();
+    }
+   
+    public void addGameMessage(GameMessage message) {
+        gameMessageList.add(message);
         lastModified = System.currentTimeMillis();
     }
 
     public JSONObject getMessages(HttpSession session) throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("ChatMessages", getChatMessages(session));
+        json.put("GameMessages", getGameMessages(session));
+        return json;
+    }
+    
+    private JSONArray getChatMessages(HttpSession session) throws JSONException {
         long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
         JSONArray arr = new JSONArray();
-        Iterator<Message> iterator = messageList.iterator();
-        cleanup = messageList.size();
+        Iterator<ChatMessage> iterator = chatMessageList.iterator();
+        cleanup = chatMessageList.size();
         while (iterator.hasNext()) {
-            Message message = iterator.next();
+            ChatMessage message = iterator.next();
             if (message.getTimestamp() > lastMessageSeen) {
                 arr.put(message.getMessage());
             } else if (cleanup > 1000) {
@@ -49,11 +62,27 @@ public class MessageList {
                 }
             }
         }
-        if (arr.length() > 1) {
-            session.setAttribute("LastChatMessageSeen", System.currentTimeMillis());
-        }
-        return new JSONObject().put("Messages", arr);
+        return arr;
     }
+
+    private JSONArray getGameMessages(HttpSession session) throws JSONException {
+        long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
+        JSONArray arr = new JSONArray();
+        Iterator<GameMessage> iterator = gameMessageList.iterator();
+        cleanup = gameMessageList.size();
+        while (iterator.hasNext()) {
+            GameMessage message = iterator.next();
+            if (message.getTimestamp() > lastMessageSeen) {
+                arr.put(message.getMessage());
+            } else if (cleanup > 1000) {
+                if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
+                    iterator.remove();
+                }
+            }
+        }
+        return arr;
+    }
+    
     public long getLastModified() {
         return lastModified;
     }
