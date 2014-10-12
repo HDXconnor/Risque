@@ -13,7 +13,7 @@ angular.module('gameApp')
                 };
 
                 this.facebook = function () {
-                    var id = makeID();
+                    var id = 'facebook' + makeID();
                     var url = 'OAuthServlet?service=facebook&id=' + id;
                     console.log(url);
                     $http({method: 'POST', url: url, headers: {'Content-Type': 'text/plain'}}).success(
@@ -23,7 +23,7 @@ angular.module('gameApp')
                 };
 
                 this.google = function () {
-                    var id = makeID();
+                    var id = 'google' + makeID();
                     var url = 'OAuthServlet?service=google&id=' + id;
                     console.log(url);
                     $http({method: 'POST', url: url, headers: {'Content-Type': 'text/plain'}}).success(
