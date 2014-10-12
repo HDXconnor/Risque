@@ -15,19 +15,21 @@
             </div>
         </div>
         <div id="pre-game" ng-show="obj==null">
-            <h3> Games List </h3>
             <div id="games-list">
-                <div ng-repeat="game in lobbyList">
+                <h3> Games List </h3>
+                <div id="lobby-list" ng-show="lobby.isGamesListEmpty()" ng-repeat="game in lobbyList">
                     <p class="player-name">{{game.GameName}}</p>
                     <button class="join-button" type="button" ng-click="lobby.joinGame(game.GameID)"> Join </button>
                 </div>
+                <div id="empty-list" ng-show="lobby.isGamesListEmpty()">
+                    <p class="center"> There are currently no Game's Available please feel free to create one below. </p>
+                </div>
             </div>
-
             <div id="create-game" >
+                <h3> Create Game </h3>
                 <form>
                     <input id="create-input" type="text" class="input-type" name="gamename" placeholder="Lobby Name">
                     <button id="create-button" class="pretty-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
-
                 </form>
             </div>
         </div>

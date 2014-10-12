@@ -194,19 +194,41 @@ h3
 
 .input-type
 {
-    width: 80%;
-    margin: 10px;
+    width: 60%;
     background: rgba(255, 255, 255, 0.64);
     border: none;
+    padding: 0 10%;
 }
 
-#create-game #join-game
+#create-game
 {
-    width: 135px;
-    display: block;
-    margin-top: 10px;
-    background-color: #afb3aa;
-    border: solid;
+    margin: 0 5%;
+    padding-bottom: 20px;
+}
+
+.center
+{
+    text-align: center;
+}
+
+#empty-list
+{
+    padding: 70px 0;
+}
+
+#create-input, #create-button
+{
+    display: inline-block;
+    vertical-align: middle;
+    height: 55px;
+}
+
+#create-button
+{
+    width: 19%;
+    background: rgba(153, 153, 153, 0.64);
+    text-align: center;
+    color: #ffffff;
 }
 
 .right

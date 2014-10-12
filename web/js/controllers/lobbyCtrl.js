@@ -11,7 +11,13 @@ angular.module('gameApp')
                         }
                     }
                 };
-                
+                this.isGamesListEmpty = function(){
+                    if ($rootScope.lobbyList.length === 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
                 this.quickStart = function(){
                     var quickStartData = JSON.stringify({Command: "QuickStart", Data: {}});
                     postData(quickStartData);
