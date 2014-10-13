@@ -4,8 +4,8 @@ angular.module('gameApp')
     .controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
         $rootScope.mapList = {};
         $rootScope.joinList = {};
-        var scale = String(window.innerWidth/1800);
-        var canvas = String((window.innerWidth/1800)*900);
+        var scale = String(window.innerHeight/1130);
+        var canvas = String((window.innerHeight/1130)*900);
         $rootScope.moveFrom = null;
         $rootScope.moveTo = null;
 
@@ -33,7 +33,7 @@ angular.module('gameApp')
                     $rootScope.mapList[index.id] = $rootScope.svgMap.append("path")
                         .attr("id", index.id)
                         .attr("d", index.d)
-                        .attr("stroke", "#aaa")
+                        .attr("stroke", "#999")
                         .attr("stroke-width", 1)
                         .attr("stroke-linejoin", "round")
                         .attr("cursor", "pointer")
@@ -115,8 +115,8 @@ angular.module('gameApp')
 
                         });
                     });
-                    d3.select(index[0][0]).attr("fill", "white")
-                                          .duration(2000);
+                    d3.select(index[0][0]).attr("fill", "white");
+//                                          .duration(2000);
                 }, true);
 
                 index[0][0].addEventListener("mouseout", function () {

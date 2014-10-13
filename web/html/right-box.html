@@ -1,50 +1,52 @@
-<div id="right-bar" ng-controller="PhaseController as phase">
-<div ng-hide="phase.atkBoxes()">
-    <div id="attack-box" class="display-box">
-        <h3>Attacking Country</h3>
-        <p>{{attackCountryName}}</p>
-        <p>{{attackOwner}}</p>
-        <p>{{attackTroops}}</p>
+<div id="right-bar" class="side-bars" ng-controller="PhaseController as phase">
+    <div id="phase-areas">
+        <div ng-hide="phase.atkBoxes()">
+            <div id="attack-box" class="game-box">
+                <h3>Attacking Country</h3>
+                <p>{{attackCountryName}}</p>
+                <p>{{attackOwner}}</p>
+                <p>{{attackTroops}}</p>
+
+                <h3>Defending Country</h3>
+                <p>{{defendCountryName}}</p>
+                <p>{{defendOwner}}</p>
+                <p>{{defendTroops}}</p>
+
+                <button id="attack1" class="pretty-button" type="button" ng-click="phase.attack()"><strong>Attack (only one troop for now)</strong></button>
+            </div>
+        </div>
+        <div ng-hide="phase.deployBoxes()">
+            <div id="deploy-box" class="game-box">
+                <h3>Deploy Troops</h3>
+                <p>Country:{{countryName}}</p>
+                <p>Owner:{{playerName}}</p>
+                <p>Troops:{{troops}}</p>
+            </div>
+            <!--<div>-->
+                        <!--<button id="deploy1" class="pretty-button" type="button"><strong>Deploy 1 Troop</strong></button>-->
+                        <!--<button id="deploy2" class="pretty-button" type="button"><strong>Deploy 2 Troop</strong></button>-->
+                        <!--<button id="deploy3" class="pretty-button" type="button"><strong>Deploy 3 Troop</strong></button>-->
+            <!--</div>-->
+        </div>
+        <div ng-hide="phase.reinfBoxes()">
+            <div id="reinf-from" class="game-box">
+                <h3>Reinforce From</h3>
+                <p>{{countryName}}</p>
+                <p>{{playerName}}</p>
+                <p>{{troops}}</p>
+
+                <h3>Reinforce To</h3>
+                <p>{{countryName}}</p>
+                <p>{{playerName}}</p>
+                <p>{{troops}}</p>
+
+                <input id="troop-amount" type="text" class="input-type" name="amount" placeholder="">
+                <button id="reinf" class="pretty-button" type="button" ng-click="phase.move()"><strong>Move x Troops</strong></button>
+            </div>
+        </div>
     </div>
-    <div id="defense-box" class="display-box">
-        <h3>Defending Country</h3>
-        <p>{{defendCountryName}}</p>
-        <p>{{defendOwner}}</p>
-        <p>{{defendTroops}}</p>
+    <div id="game-chat" class="game-box">
+        <p> CAPSTONE IS A WHORE </p>
     </div>
-    <div>
-        <button id="attack1" class="pretty-button" type="button" ng-click="phase.attack()"><strong>Attack (only one troop for now)</strong></button>
-    </div>
-</div>
-<div ng-hide="phase.deployBoxes()">
-    <div id="deploy-box" class="display-box">
-        <h3>Deploy Troops</h3>
-        <p>Country:{{countryName}}</p>
-        <p>Owner:{{playerName}}</p>
-        <p>Troops:{{troops}}</p>
-    </div>
-    <div>
-<!--        <button id="deploy1" class="pretty-button" type="button"><strong>Deploy 1 Troop</strong></button>
-        <button id="deploy2" class="pretty-button" type="button"><strong>Deploy 2 Troop</strong></button>
-        <button id="deploy3" class="pretty-button" type="button"><strong>Deploy 3 Troop</strong></button>-->
-    </div>
-</div>
-<div ng-hide="phase.reinfBoxes()">
-    <div id="reinf-from" class="display-box">
-        <h3>Reinforce From</h3>
-        <p>{{countryName}}</p>
-        <p>{{playerName}}</p>
-        <p>{{troops}}</p>
-    </div>
-    <div id="reinf-to" class="display-box">
-        <h3>Reinforce To</h3>
-        <p>{{countryName}}</p>
-        <p>{{playerName}}</p>
-        <p>{{troops}}</p>
-    </div>
-    <div>
-        <input id="troop-amount" type="text" class="input-type" name="amount" placeholder="">
-        <button id="reinf" class="pretty-button" type="button" ng-click="phase.move()"><strong>Move x Troops</strong></button>
-    </div>
-</div>
+
 </div>
