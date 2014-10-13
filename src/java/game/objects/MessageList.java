@@ -26,6 +26,7 @@ public class MessageList {
     
     public MessageList() {
         this.chatMessageList = Collections.synchronizedList(new LinkedList());
+        this.gameMessageList = Collections.synchronizedList(new LinkedList());
         this.lastModified = System.currentTimeMillis();
         this.cleanup = 0;
     }
