@@ -1,17 +1,17 @@
 /**
  * Copyright 2014 Team Awesome Productions
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package game.server;
 
@@ -51,7 +51,10 @@ public class GameServlet extends HttpServlet {
             response.setHeader("Connection", "keep-alive");
             response.setHeader("Cache-Control", "no-cache");
             HttpSession session = request.getSession();
-            
+            if (session.isNew()) {
+                session.setMaxInactiveInterval(300000);
+            }
+
             // send username
             if (session.getAttribute("UsernameSent") == null) {
                 try (PrintWriter out = response.getWriter()) {

@@ -8,76 +8,88 @@
     var chatSource = new EventSource("ChatServlet");
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
-        $rootScope.userName = null;
-        evtSource.addEventListener("username", function (e) {
-            $rootScope.nameObj = JSON.parse(e.data);
-            $rootScope.userName = $rootScope.nameObj.Username;
-            $rootScope.$apply();
-        }, false);
-        
-        evtSource.addEventListener("gamelist", function (e) {
-            $rootScope.lobbyObj = JSON.parse(e.data);
-            $rootScope.lobbyList = $rootScope.lobbyObj.GameList;
-            $rootScope.$apply();
-        }, false);
-        
-        chatSource.addEventListener("chat", function (e) {
-            $rootScope.chatObj = JSON.parse(e.data);
-            $rootScope.chatMessages = $rootScope.chatObj.ChatMessages;
-            $rootScope.gameMessages = $rootScope.chatObj.GameMessages;
-            $rootScope.$apply();
-        }, false);
+            $rootScope.userName = null;
+            evtSource.addEventListener("username", function (e) {
+                $rootScope.nameObj = JSON.parse(e.data);
+                $rootScope.userName = $rootScope.nameObj.Username;
+                $rootScope.$apply();
+            }, false);
 
-        evtSource.addEventListener("gamestate", function (e) {
-            $rootScope.obj = JSON.parse(e.data);
-            $rootScope.Game = $rootScope.obj.Game;
-            $rootScope.GameState = $rootScope.Game.GameState;
-            $rootScope.players = $rootScope.Game.Players;
-            $rootScope.board = $rootScope.Game.Board;
-            $rootScope.gameStarted = $rootScope.GameState.LobbyClosed;
-            $rootScope.countryCount = $rootScope.GameState.Unassigned;
-            $rootScope.phase = $rootScope.GameState.Phase;
-            $rootScope.CurrentPlayer = $rootScope.GameState.CurrentPlayer;
-            $rootScope.lobbySize = 6;
-            $rootScope.playerString = "player";
+            evtSource.addEventListener("gamelist", function (e) {
+                $rootScope.lobbyObj = JSON.parse(e.data);
+                $rootScope.lobbyList = $rootScope.lobbyObj.GameList;
+                $rootScope.$apply();
+            }, false);
 
-            //sets first player to host
-            if ($rootScope.players.length !== 0) {
-                $rootScope.host = $rootScope.players[0].DisplayName;
-            }
+            chatSource.addEventListener("messages", function (e) {
+                $rootScope.chatObj = JSON.parse(e.data);
+                $rootScope.chatMessages = $rootScope.chatObj.ChatMessages;
+                $rootScope.gameMessages = $rootScope.chatObj.GameMessages;
+                $rootScope.$apply();
+            }, false);
 
-            for (var i = 0; i < $rootScope.players.length; i++) {
-                if ($rootScope.players[i].DisplayName === $rootScope.userName) {
-                    $rootScope.thisUserNumber = i;
+            window.onbeforeunload = function (e) {
+                if ($rootScope.obj != null) {
+                    var quitData = JSON.stringify({Command: "Quit", Data: {}});
+                    $http({method: 'POST', url: 'GameServlet', headers: {'Content-Type': 'application/json'}, data: quitData}).error();
+                    $rootScope.obj = null;
                 }
-                else {
-                    console.log("NO USER NUMBER FOR YOU!");
+                var logoutData = JSON.stringify({Command: "Logout", Data: {}});
+                $rootScope.userName = null;
+                $http({method: 'POST', url: 'GameServlet', headers: {'Content-Type': 'application/json'}, data: logoutData}).error();
+                return 'Leaving this page will log you out. You will not be able to rejoin a game in progress.';
+            };
+
+            evtSource.addEventListener("gamestate", function (e) {
+                $rootScope.obj = JSON.parse(e.data);
+                $rootScope.Game = $rootScope.obj.Game;
+                $rootScope.GameState = $rootScope.Game.GameState;
+                $rootScope.players = $rootScope.Game.Players;
+                $rootScope.board = $rootScope.Game.Board;
+                $rootScope.gameStarted = $rootScope.GameState.LobbyClosed;
+                $rootScope.countryCount = $rootScope.GameState.Unassigned;
+                $rootScope.phase = $rootScope.GameState.Phase;
+                $rootScope.CurrentPlayer = $rootScope.GameState.CurrentPlayer;
+                $rootScope.lobbySize = 6;
+                $rootScope.playerString = "player";
+
+                //sets first player to host
+                if ($rootScope.players.length !== 0) {
+                    $rootScope.host = $rootScope.players[0].DisplayName;
                 }
 
-                if ($rootScope.CurrentPlayer === $rootScope.players[i].PlayerOrder) {
-                    $rootScope.currentUserName = $rootScope.players[i].DisplayName;
-                    $rootScope.troopsToDeploy = $rootScope.players[i].TroopsToDeploy;
-                }
-            }
+                for (var i = 0; i < $rootScope.players.length; i++) {
+                    if ($rootScope.players[i].DisplayName === $rootScope.userName) {
+                        $rootScope.thisUserNumber = i;
+                    }
+                    else {
+                        console.log("NO USER NUMBER FOR YOU!");
+                    }
 
-            if ($rootScope.host === $rootScope.userName) {
-                if ($rootScope.phase === "Setup" && $rootScope.countryCount === 0) {
+                    if ($rootScope.CurrentPlayer === $rootScope.players[i].PlayerOrder) {
+                        $rootScope.currentUserName = $rootScope.players[i].DisplayName;
+                        $rootScope.troopsToDeploy = $rootScope.players[i].TroopsToDeploy;
+                    }
+                }
+
+                if ($rootScope.host === $rootScope.userName) {
+                    if ($rootScope.phase === "Setup" && $rootScope.countryCount === 0) {
+                        var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
+                        postData(endPhaseData);
+                    }
+                }
+
+                //end phase when last troop deployed
+                if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].TroopsToDeploy === 0) {
                     var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                     postData(endPhaseData);
                 }
-            }
-            
-            //end phase when last troop deployed
-            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].TroopsToDeploy === 0 ) {
-                var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
-                postData(endPhaseData);
-            }
-            //sends out end phase when the last player has finished deploying
+                //sends out end phase when the last player has finished deploying
 //            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.players.length - 1].TroopsToDeploy === 0) {
 //                var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
 //                postData(endPhaseData);
 //            }
-            //if current players trooptodeploy has diminished, switch player
+                //if current players trooptodeploy has diminished, switch player
 //            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].TroopsToDeploy === 0 ) {
 //                var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
 //                postData(endTroopDeployData);
@@ -87,19 +99,19 @@
 //                }
 //                
 //            }
-            $rootScope.$apply();
+                $rootScope.$apply();
 
-            function postData(data) {
-                $http({
-                    method: 'POST',
-                    url: 'GameServlet',
-                    headers: {'Content-Type': 'application/json'},
-                    data: data
-                }).error();
-            }
-            color($rootScope);
-        }, false);
-    }]);
+                function postData(data) {
+                    $http({
+                        method: 'POST',
+                        url: 'GameServlet',
+                        headers: {'Content-Type': 'application/json'},
+                        data: data
+                    }).error();
+                }
+                color($rootScope);
+            }, false);
+        }]);
 
     function color($rootScope) {
         angular.forEach($rootScope.board, function (country) {
