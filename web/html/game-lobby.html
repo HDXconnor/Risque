@@ -16,7 +16,7 @@
         </div>
         <div id="pre-game" ng-show="obj==null">
             <div id="games-list">
-                <h3> Games List </h3>
+                <h2 class="headings"> Games List </h2>
                 <div class="lobby-list" ng-hide="lobby.isGamesListEmpty()" ng-repeat="game in lobbyList">
                     <img src="images/game-placeholder.jpg" id="lobby-game" class="player-image"/>
                     <h4 class="game-data"> {{game.GameName}} </h4>
@@ -38,7 +38,7 @@
         </div>
 
         <div id="in-game" ng-show="obj!=null">
-            <h3> {{Game.GameName}} </h3>
+            <h2 class="headings"> {{Game.GameName}} </h2>
             <div id="player-area" class="lobby-area left">
                 <h3> Players </h3>
                 <div>
@@ -61,8 +61,8 @@
                 </form>
             </div>
             <div id="start-area">
-                <button id="start-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
-                <button id="quickstart-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.quickStart()"> QuickStart </button>
+                <button id="start-button" class="pretty-button start-buttons" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
+                <button id="quickstart-button" class="pretty-button start-buttons" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.quickStart()"> Quick Start </button>
             </div>
         </div>
 

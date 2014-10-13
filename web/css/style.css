@@ -108,6 +108,8 @@ body
 
 #logout-button
 {
+    margin-top: 0px;
+    margin-bottom: 0px;
     width: 30%;
     float: right;
     background: rgba(153, 153, 153, 0.64);
@@ -209,6 +211,11 @@ h1
 {
     width: 100%;
 }
+h2
+{
+    text-align: center;
+    margin-bottom: 5px;
+}
 
 h3
 {
@@ -224,6 +231,18 @@ h3
     border: none;
     height: 55px;
     margin: 10px;
+    vertical-align: middle;
+}
+.headings
+{
+    width: 100%;
+}
+
+.start-buttons
+{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 20px;
 }
 
 #start-area
@@ -278,6 +297,8 @@ h3
     display: inline-block;
     vertical-align: middle;
     height: 55px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 #create-button
