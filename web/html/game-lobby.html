@@ -60,8 +60,10 @@
                     <input type="text" name="chat" placeholder="chat">
                 </form>
             </div>
-            <button id="start-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
-            <button id="quickstart-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.quickStart()"> QuickStart </button>
+            <div id="start-area">
+                <button id="start-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
+                <button id="quickstart-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.quickStart()"> QuickStart </button>
+            </div>
         </div>
 
 

@@ -82,9 +82,9 @@ body
 .lobby-area
 {
     width: 45%;
-     display: inline-block;
+    display: inline-block;
     margin: 2%;
-    /* height: 383px; */
+    height: 383px;
 }
 
 #lobby-box
@@ -217,11 +217,21 @@ h3
 }
 .pretty-button
 {
-    width: 100%;
+    width: 30%;
     display: inline-block;
-    background-color: #ffffff;
+    background-color:  rgba(153, 153, 153, 0.64);
+    color: #ffffff;
     border: none;
+    height: 55px;
+    margin: 10px;
 }
+
+#start-area
+{
+    width: 100%;
+    display: block;
+}
+
 #attack1, #attack2, #attack3, #attackF
 {
     background-color: #ff1e25;
