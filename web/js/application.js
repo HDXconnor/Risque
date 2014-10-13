@@ -5,7 +5,7 @@
     });
 
     var evtSource = new EventSource("GameServlet");
-    var me;
+    var chatSource = new EventSource("ChatServlet");
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
         $rootScope.userName = null;
@@ -18,6 +18,13 @@
         evtSource.addEventListener("gamelist", function (e) {
             $rootScope.lobbyObj = JSON.parse(e.data);
             $rootScope.lobbyList = $rootScope.lobbyObj.GameList;
+            $rootScope.$apply();
+        }, false);
+        
+        chatSource.addEventListener("chat", function (e) {
+            $rootScope.chatObj = JSON.parse(e.data);
+            $rootScope.chatMessages = $rootScope.chatObj.ChatMessages;
+            $rootScope.gameMessages = $rootScope.chatObj.GameMessages;
             $rootScope.$apply();
         }, false);
 
@@ -89,13 +96,6 @@
                     headers: {'Content-Type': 'application/json'},
                     data: data
                 }).error();
-            }
-            function discoverOrderNo(name) {
-                angular.forEach($rootScope.players, function (index) {
-                    if (index.DisplayName === name) {
-                        me = index.PlayerOrder;
-                    }
-                });
             }
             color($rootScope);
         }, false);
