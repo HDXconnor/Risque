@@ -1,11 +1,13 @@
 
 <div  id="login-box" class="display-box" ng-controller="LoginController as login" ng-show="login.loginVis()">
     <h1> Login </h1>
-    <form id="login-form">
-        <input id="login-textbox" type="text" class="input-type" name="username" placeholder="username">
-        <!--<input type="password" class="input-type" name="password" placeholder="password">-->
-        <button id="login-button" class="pretty-button" type="button"  ng-click="login.setUser()"> Get Started </button>
-    </form>
+    <div id="login-bar" class="create-game" >
+        <form>
+            <input id="login-textbox" type="text" class="input-type create-input" name="username" placeholder="username">
+            <button class="pretty-button create-button" type="button" ng-click="login.setUser()"> Enter </button>
+        </form>
+    </div>
+
     <div class="center">
         <img src="images/facebook-round.png" class="login-button" ng-click="login.facebook()" />
         <img src="images/google-plus-round.png" class="login-button" ng-click="login.google()" />

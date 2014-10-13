@@ -47,12 +47,14 @@ public class GameList {
         JSONArray arr = new JSONArray();
         for (int gameID:games.keySet()) {
             Game game = games.get(gameID);
-            JSONObject json = new JSONObject();
-            json.put("GameID", game.getGameID());
-            json.put("GameName", game.getGameName());
-            json.put("Players", game.getPlayerList().getNumberOfPlayers());
-            json.put("PasswordProtected", game.isPasswordProtected());
-            arr.put(json);
+            if (!game.getGameState().lobbyClosed()) {
+                JSONObject json = new JSONObject();
+                json.put("GameID", game.getGameID());
+                json.put("GameName", game.getGameName());
+                json.put("Players", game.getPlayerList().getNumberOfPlayers());
+                json.put("PasswordProtected", game.isPasswordProtected());
+                arr.put(json);
+            }
         }
         return new JSONObject().put("GameList", arr);
     }

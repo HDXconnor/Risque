@@ -1,6 +1,6 @@
-<div id="left-bar" ng-controller="GameController as game" >
+<div id="left-bar" class="side-bars" ng-controller="GameController as game" >
 
-    <div id="player-state" class="display-box" >
+    <div id="player-state" class="game-box" >
         <h3> Players </h3>
         <div>
             <div class="player-box" ng-repeat="player in players">
@@ -8,15 +8,19 @@
                 <p class="player-name">{{player.DisplayName}}</p>
             </div>
         </div>
+        <div id="game-state" class="display-box">
+            <h3>{{phase}} Phase</h3>
+            <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
+            <p>Current Player: {{currentUserName}}</p>
+            <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{troopsToDeploy}}</p>
+        </div>
+
     </div>
 
-    <div id="game-state" class="display-box">
-        <h3>{{phase}} Phase</h3>
-        <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
-        <p>Current Player: {{currentUserName}}</p>
-        <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{troopsToDeploy}}</p>
-    </div>
-    <div ng-hide="game.endPhaseVis()">
-    <button id="endphase" class="pretty-button" type="button" ng-click="game.endPhase()" > End Phase</button>
+    <div id="current-country" class="game-box">
+        <h3> Current Country </h3>
+        <p>Country:{{countryName}}</p>
+        <p>Owner:{{playerName}}</p>
+        <p>Troops:{{troops}}</p>
     </div>
 </div>

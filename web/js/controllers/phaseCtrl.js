@@ -19,6 +19,19 @@ angular.module('gameApp')
             }
         };
 
+        this.endPhaseVis = function () {
+            if ($rootScope.countryCount != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        this.endPhase = function(){
+            var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
+            postData(endPhaseData);
+        }
+
         this.reinfBoxes = function () {
             if ($rootScope.phase === "Move") {
                 return $rootScope.isHidden;

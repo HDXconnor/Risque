@@ -26,6 +26,7 @@ public class MessageList {
     
     public MessageList() {
         this.chatMessageList = Collections.synchronizedList(new LinkedList());
+        this.gameMessageList = Collections.synchronizedList(new LinkedList());
         this.lastModified = System.currentTimeMillis();
         this.cleanup = 0;
     }
@@ -48,17 +49,19 @@ public class MessageList {
     }
     
     private JSONArray getChatMessages(HttpSession session) throws JSONException {
-        long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
         JSONArray arr = new JSONArray();
-        Iterator<ChatMessage> iterator = chatMessageList.iterator();
-        cleanup = chatMessageList.size();
-        while (iterator.hasNext()) {
-            ChatMessage message = iterator.next();
-            if (message.getTimestamp() > lastMessageSeen) {
-                arr.put(message.getMessage());
-            } else if (cleanup > 1000) {
-                if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
-                    iterator.remove();
+        if (session.getAttribute("LastChatMessageSeen") != null) {
+            long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
+            Iterator<ChatMessage> iterator = chatMessageList.iterator();
+            cleanup = chatMessageList.size();
+            while (iterator.hasNext()) {
+                ChatMessage message = iterator.next();
+                if (message.getTimestamp() > lastMessageSeen) {
+                    arr.put(message.getMessage());
+                } else if (cleanup > 1000) {
+                    if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
+                        iterator.remove();
+                    }
                 }
             }
         }
@@ -66,17 +69,19 @@ public class MessageList {
     }
 
     private JSONArray getGameMessages(HttpSession session) throws JSONException {
-        long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
         JSONArray arr = new JSONArray();
-        Iterator<GameMessage> iterator = gameMessageList.iterator();
-        cleanup = gameMessageList.size();
-        while (iterator.hasNext()) {
-            GameMessage message = iterator.next();
-            if (message.getTimestamp() > lastMessageSeen) {
-                arr.put(message.getMessage());
-            } else if (cleanup > 1000) {
-                if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
-                    iterator.remove();
+        if (session.getAttribute("LastChatMessageSeen") != null) {
+            long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
+            Iterator<GameMessage> iterator = gameMessageList.iterator();
+            cleanup = gameMessageList.size();
+            while (iterator.hasNext()) {
+                GameMessage message = iterator.next();
+                if (message.getTimestamp() > lastMessageSeen) {
+                    arr.put(message.getMessage());
+                } else if (cleanup > 1000) {
+                    if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
+                        iterator.remove();
+                    }
                 }
             }
         }

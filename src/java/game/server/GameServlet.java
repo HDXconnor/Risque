@@ -48,8 +48,8 @@ public class GameServlet extends HttpServlet {
         if (useSSE) {
             response.setContentType("text/event-stream");
             response.setCharacterEncoding("UTF-8");
-            response.setHeader("Connection", "keep-alive");
-            response.setHeader("Cache-Control", "no-cache");
+            response.addHeader("Connection", "keep-alive");
+            response.addHeader("Cache-Control", "no-cache");
             HttpSession session = request.getSession();
             if (session.isNew()) {
                 session.setMaxInactiveInterval(300000);

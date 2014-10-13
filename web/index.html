@@ -15,7 +15,13 @@
     
     <div id="game-frame" ng-show="gameStarted==true" >
         <left-box></left-box>
-        <div id="svgMap"  ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" > </div>
+        <div id="svgMap"  ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>
+        <div id="notification-bar-container">
+            <div id="notification-bar">
+                <p> YOU WOT M8 </p>
+            </div>
+        </div>
+
         <right-box></right-box>
     </div>
 </div>

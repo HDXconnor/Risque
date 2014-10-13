@@ -25,9 +25,12 @@ body
 
 #map-canvas
 {
+    left: 0;
+    right: 0;
+    margin: auto;
     border-radius: 50%;
     background: rgba(101, 156, 239, 0.8);
-    opacity: 0.90;
+    display: block;
 }
 #top-logo
 {
@@ -63,14 +66,40 @@ body
     vertical-align: middle;
 }
 
-#left-bar, #right-bar
+.side-bars
 {
-    float: left;
-    width: 22%;
+    position: absolute;
+    width: 25%;
+    height:100%;
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
 }
+#left-bar
+{
+}
+
+#right-bar
+{
+    right: 0;
+    top: 0;
+}
+
+.game-box {
+    padding: 8%;
+    /*height: 220px;*/
+}
+#current-country, #game-chat
+{
+    bottom: 0;
+    position: absolute;
+    width: 80%;
+}
+
 #svgMap
 {
-    float: left;
+    right: 0;
+    left: 0;
+    margin: auto;
 }
 
 #lobby-box
@@ -156,6 +185,28 @@ body
     display: inline-block;
     margin-left: 10px;
 }
+#notification-bar-container
+{
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+}
+
+#notification-bar
+{
+    height: 55px;
+    text-align: center;
+    width: 48%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color:  rgba(153, 153, 153, 0.64);
+}
+#lobby-display
+{
+    max-height: 80%;
+    overflow: auto;
+}
 
 .game-data
 {
@@ -169,7 +220,7 @@ body
     min-height: 55px;
     margin: 5px 15%;
 }
-#lobby-player
+.lobby-player
 {
     height:50px;
     width: 50px;
