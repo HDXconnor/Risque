@@ -202,6 +202,11 @@ body
     margin: auto;
     background-color:  rgba(153, 153, 153, 0.64);
 }
+#lobby-display
+{
+    max-height: 80%;
+    overflow: auto;
+}
 
 .game-data
 {
@@ -215,7 +220,7 @@ body
     min-height: 55px;
     margin: 5px 15%;
 }
-#lobby-player
+.lobby-player
 {
     height:50px;
     width: 50px;
