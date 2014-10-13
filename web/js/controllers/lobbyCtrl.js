@@ -79,19 +79,24 @@ angular.module('gameApp')
 
                 this.magicButton = function () {
                     console.log($rootScope.lobbyList);
-                }
+                };
+
+                this.sendChat = function() {
+                    console.log($rootScope.chatObj);
+                };
 
                 this.quickStartButton = function () {
                     console.log("QUICKSTART MODE");
                     var quickStartData = JSON.stringify({Command: "QuickStart", Data: {}});
                     postData(quickStartData);
-                }
+                };
 
                 function readCookie() {
                     var x = document.cookie;
                     var keyArray = x.split("; ");
                     return keyArray;
-                }
+                };
+
                 function postData(data) {
                     $http({
                         method: 'POST',
@@ -99,6 +104,6 @@ angular.module('gameApp')
                         headers: {'Content-Type': 'application/json'},
                         data: data
                     }).error();
-                }
-                ;
+                };
+
             }]);
