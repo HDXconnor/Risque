@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Connor Anderson
+ * Copyright 2014 Team Awesome Productions
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -17,19 +17,14 @@ package game.server;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.FacebookApi;
-import org.scribe.builder.api.GoogleApi;
 import org.scribe.model.Token;
 import org.scribe.oauth.OAuthService;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,12 +37,12 @@ import org.scribe.model.Verifier;
 public class OAuthServlet extends HttpServlet {
 
     private static final Token EMPTY_TOKEN = null;
-    private static String callback = "http://raptorrisk.me/OAuthServlet";
-    private static String facebookKey = "766984246696208";
-    private static String facebookSecret = "a92c4944d4c9a4c3c8247c4514cdbd46";
-    private static String googleKey = "373200947340-vvqdr3itb4l6ema6nvjq54lddtr2bl6a.apps.googleusercontent.com";
-    private static String googleSecret = "OYmdBnb08OANrn1teNYaI304";
-    private static String googleScope = "openid profile email";
+    private static final String callback = "http://raptorrisk.me/OAuthServlet";
+    private static final String facebookKey = "766984246696208";
+    private static final String facebookSecret = "a92c4944d4c9a4c3c8247c4514cdbd46";
+    private static final String googleKey = "373200947340-vvqdr3itb4l6ema6nvjq54lddtr2bl6a.apps.googleusercontent.com";
+    private static final String googleSecret = "OYmdBnb08OANrn1teNYaI304";
+    private static final String googleScope = "openid profile email";
 
     OAuthService fbService = new ServiceBuilder().provider(FacebookApi.class).apiKey(facebookKey).apiSecret(facebookSecret).callback(callback).build();
     OAuthService googleService = new ServiceBuilder().provider(Google2Api.class).apiKey(googleKey).apiSecret(googleSecret).scope(googleScope).callback(callback).build();

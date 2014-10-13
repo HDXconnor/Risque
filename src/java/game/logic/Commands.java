@@ -1,5 +1,5 @@
 /**
- * Copyright 2014 Connor Anderson
+ * Copyright 2014 Team Awesome Productions
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -297,7 +297,6 @@ public class Commands {
 //                if (win) {
 //                    // TODO Something interesting
 //                }
-
                 pushAllChanges(session, game, out);
                 break;
             }
