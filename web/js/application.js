@@ -29,15 +29,19 @@
             }, false);
 
             window.onbeforeunload = function (e) {
-                if ($rootScope.obj != null) {
-                    var quitData = JSON.stringify({Command: "Quit", Data: {}});
-                    $http({method: 'POST', url: 'GameServlet', headers: {'Content-Type': 'application/json'}, data: quitData}).error();
-                    $rootScope.obj = null;
-                }
-                var logoutData = JSON.stringify({Command: "Logout", Data: {}});
-                $rootScope.userName = null;
-                $http({method: 'POST', url: 'GameServlet', headers: {'Content-Type': 'application/json'}, data: logoutData}).error();
-                return 'Leaving this page will log you out. You will not be able to rejoin a game in progress.';
+                // This function works, but runs when trying to login with oauth. Removed for now.
+//                if ($rootScope.obj != null) {
+//                    var quitData = JSON.stringify({Command: "Quit", Data: {}});
+//                    $http({method: 'POST', url: 'GameServlet', headers: {'Content-Type': 'application/json'}, data: quitData}).error();
+//                    $rootScope.obj = null;
+//                }
+//                var logoutData = JSON.stringify({Command: "Logout", Data: {}});
+//                $rootScope.userName = null;
+//                $http({method: 'POST', url: 'GameServlet', headers: {'Content-Type': 'application/json'}, data: logoutData}).error();
+//                for (i = 0; i <= 1000; i++) {
+//                    console.log("There's probably a better way to do this");
+//                }
+//                return;
             };
 
             evtSource.addEventListener("gamestate", function (e) {
