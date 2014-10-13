@@ -12,10 +12,12 @@ angular.module('gameApp')
                     }
                 };
                 this.isGamesListEmpty = function(){
-                    if ($rootScope.lobbyList.length === 0) {
-                        return true;
-                    } else {
-                        return false;
+                    if ($rootScope.lobbyList != null) {
+                        if ($rootScope.lobbyList.length === 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 };
 
@@ -33,7 +35,7 @@ angular.module('gameApp')
                 };
                    
                 this.setGameName= function () {
-                    var gameName = document.getElementById("create-input").value;
+                    var gameName = document.getElementById("create-text").value;
                     var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName, GamePassword: ""}});
                     postData(startGameData);
                     

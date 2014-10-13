@@ -122,8 +122,8 @@ body
 {
     width: 26.5%;
     /* float: right; */
-    margin-right: 7%;
-    display: inline;
+    margin-right: 9%;
+    /*display: inline;*/
     background: rgba(153, 153, 153, 0.64);
     padding: 5%;
     text-align: center;
@@ -137,7 +137,17 @@ body
     margin-top: 4%;
 }
 
-.align-right {
+#message-area
+{
+    width: 90%;
+    margin: 0 5%;
+    margin-top: 20px;
+    height: 245px;
+    overflow: auto;
+}
+
+.align-right
+{
     text-align: right;
 }
 
@@ -276,7 +286,7 @@ h3
     padding: 0 10%;
 }
 
-#create-game
+.create-game
 {
     margin: 0 5%;
     padding-bottom: 20px;
@@ -292,7 +302,7 @@ h3
     padding: 70px 0;
 }
 
-#create-input, #create-button
+.create-input, .create-button
 {
     display: inline-block;
     vertical-align: middle;
@@ -301,9 +311,9 @@ h3
     margin-right: 0px;
 }
 
-#create-button
+.create-button
 {
-    width: 19%;
+    width: 18%;
     background: rgba(153, 153, 153, 0.64);
     text-align: center;
     color: #ffffff;

@@ -28,11 +28,11 @@
                     <p class="center"> There are currently no Game's Available please feel free to create one below. </p>
                 </div>
             </div>
-            <div id="create-game" >
+            <div class="create-game" >
                 <h3> Create Game </h3>
                 <form>
-                    <input id="create-input" type="text" class="input-type" name="gamename" placeholder="Lobby Name">
-                    <button id="create-button" class="pretty-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
+                    <input id="create-text" type="text" class="input-type create-input" name="gamename" placeholder="Lobby Name">
+                    <button class="pretty-button create-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
                 </form>
             </div>
         </div>
@@ -45,7 +45,7 @@
                     <div class="player-box" ng-repeat="player in players">
                         <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
                         <p class="player-name"> {{player.DisplayName}} </p>
-                        <img src="images/remove-button.jpg" class="remove-button"/>
+                        <!--<img src="images/remove-button.jpg" class="remove-button"/>-->
                     </div>
 
                     <div class="player-box" ng-repeat="n in [0,1,2,3,4,5] | limitTo:lobbySize - players.length">
@@ -56,9 +56,15 @@
             </div>
             <div id="chat-area" class="lobby-area right align-right" >
                 <button class="quit-button" type="button" ng-click="lobby.quitGame()"> Quit </button>
-                <form class="chat-form">
-                    <input type="text" name="chat" placeholder="chat">
-                </form>
+                <div id="message-area">
+
+                </div>
+                <div id="chat-bar" class="create-game" >
+                    <form>
+                        <input type="text" class="input-type create-input" name="chat" placeholder="Chat">
+                        <button class="pretty-button create-button" type="button"> Send </button>
+                    </form>
+                </div>
             </div>
             <div id="start-area">
                 <button id="start-button" class="pretty-button start-buttons" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
