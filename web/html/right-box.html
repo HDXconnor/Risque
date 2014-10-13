@@ -3,14 +3,12 @@
         <div ng-hide="phase.atkBoxes()">
             <div id="attack-box" class="game-box">
                 <h3>Attacking Country</h3>
-                <p>{{attackCountryName}}</p>
-                <p>{{attackOwner}}</p>
-                <p>{{attackTroops}}</p>
+                <p>Country: {{attackCountryName}}</p>
+                <p>Troops: {{attackTroops}}</p>
 
                 <h3>Defending Country</h3>
-                <p>{{defendCountryName}}</p>
-                <p>{{defendOwner}}</p>
-                <p>{{defendTroops}}</p>
+                <p>Country: {{defendCountryName}}</p>
+                <p>Troops: {{defendTroops}}</p>
 
                 <button id="attack1" class="pretty-button" type="button" ng-click="phase.attack()"><strong>Attack (only one troop for now)</strong></button>
             </div>
@@ -19,7 +17,7 @@
             <div id="deploy-box" class="game-box">
                 <h3>Deploy Troops</h3>
                 <p>Country:{{countryName}}</p>
-                <p>Owner:{{playerName}}</p>
+                <!--<p>Owner:{{playerName}}</p>-->
                 <p>Troops:{{troops}}</p>
             </div>
             <!--<div>-->

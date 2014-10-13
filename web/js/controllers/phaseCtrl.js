@@ -42,6 +42,7 @@ angular.module('gameApp')
         this.attack = function(){
             var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.attackCountryID, DefendingCountry: $rootScope.defendCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
             postData(send);
+            
         };
         this.move = function(){
             $rootScope.amountTroopsSent = document.getElementById("troop-amount").value;;
