@@ -1,5 +1,11 @@
 <div id="right-bar" class="side-bars" ng-controller="PhaseController as phase">
     <div id="phase-areas">
+        <!--<div id="game-state" class="display-box">-->
+            <!--<h3>{{phase}} Phase</h3>-->
+            <!--<p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>-->
+            <!--<p>Current Player: {{currentUserName}}</p>-->
+            <!--<p ng-show = "phase == 'Deploy'">Troops to Deploy: {{troopsToDeploy}}</p>-->
+        <!--</div>-->
         <div ng-hide="phase.atkBoxes()">
             <div id="attack-box" class="game-box">
                 <h3>Attacking Country</h3>

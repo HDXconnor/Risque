@@ -8,16 +8,12 @@
                 <p class="player-name">{{player.DisplayName}}</p>
             </div>
         </div>
-        <div id="game-state" class="display-box">
-            <h3>{{phase}} Phase</h3>
-            <p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>
-            <p>Current Player: {{currentUserName}}</p>
-            <p ng-show = "phase == 'Deploy'">Troops to Deploy: {{troopsToDeploy}}</p>
-        </div>
-
     </div>
 
     <div id="current-country" class="game-box">
+        <h3> Current Phase</h3>
+        <p>{{phase}} Phase</p>
+
         <h3> Current Country </h3>
         <p>Country:{{countryName}}</p>
         <p>Owner:{{playerName}}</p>
