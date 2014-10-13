@@ -1,17 +1,17 @@
 /**
  * Copyright 2014 Team Awesome Productions
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package game.logic;
 
@@ -54,7 +54,6 @@ public class Commands {
         String command = json.getString("Command");
 
         // LOGIN, CREATE AND JOIN - GAME NEED NOT EXIST FOR THESE
-
         // Login:
         // Username = a string of the player's name
         switch (command) {
@@ -97,6 +96,7 @@ public class Commands {
                 if (gamePassword.equals(game.getPassword())) {
                     game.getPlayerList().joinGame(new Player(name, session));
                     session.setAttribute("Game", game);
+                    game.getMessages().addGameMessage(new GameMessage("Setup", name + " has joined the game"));
                     pushAllChanges(session, game, out);
                 } else {
                     throw new CommandException("Command: JOIN. Invalid password.");
@@ -104,9 +104,7 @@ public class Commands {
                 break;
             }
 
-
             // QUIT, STARTGAME, ENDPHASE, ENDTURN - GAME MUST EXIST PAST THIS POINT
-
             // Quit:
             // No additional params required.
             case QUIT: {
@@ -119,6 +117,7 @@ public class Commands {
                 if (game.getPlayerList().getNumberOfPlayers() == 0) {
                     GameList.remove(game);
                 }
+                game.getMessages().addGameMessage(new GameMessage("Setup", session.getAttribute("Username") + " has left the game"));
                 pushAllChanges(session, game);
                 break;
             }
@@ -135,6 +134,7 @@ public class Commands {
                 HttpSession kickedPlayerSession = game.getPlayerList().getPlayer(name).getSession();
                 game.getPlayerList().removePlayer(kickedPlayerSession);
                 kickedPlayerSession.removeAttribute("Game");
+                game.getMessages().addGameMessage(new GameMessage("Setup", kickedPlayerSession.getAttribute("Username") + " has been kicked from the game"));
                 pushAllChanges(session, game, out);
                 break;
             }
@@ -148,6 +148,7 @@ public class Commands {
                 }
                 Game game = (Game) session.getAttribute("Game");
                 game.getGameState().closeLobby();
+                game.getMessages().addGameMessage(new GameMessage("Setup", "The battle begins!"));
                 pushAllChanges(session, game, out);
                 break;
             }
@@ -183,7 +184,6 @@ public class Commands {
             }
 
             // GAME PHASES - SETUP, DEPLOY, ATTACK, MOVE
-
             // Setup:
             // CountryClicked = string country code of the country that has been selected
             case SETUP: {
@@ -200,6 +200,7 @@ public class Commands {
                 if (!selectedCountry.hasOwner()) {
                     selectedCountry.setOwner(player.getPlayerNum());
                     selectedCountry.setTroops(1);
+                    game.getMessages().addGameMessage(new GameMessage("Setup", player.getName() + " claims " + selectedCountry.getName()));
                     game.endTurn();
                 } else {
                     throw new CommandException("Command: SETUP. Country already has an owner!");
@@ -225,6 +226,7 @@ public class Commands {
                 if (selectedCountry.isOwnedBy(player.getPlayerNum()) && player.getTroopsToDeploy() > 0) {
                     selectedCountry.incrementTroops();
                     player.decrementTroopsToDeploy();
+                    game.getMessages().addGameMessage(new GameMessage("Deploy", player.getName() + " deploys to " + selectedCountry.getName()));
                 } else {
                     throw new CommandException("Command: DEPLOY. Country is not the player's, or player has no troops to deploy");
                 }
@@ -297,6 +299,7 @@ public class Commands {
 //                if (win) {
 //                    // TODO Something interesting
 //                }
+                game.getMessages().addGameMessage(new GameMessage("Attack", outcome.toString()));
                 pushAllChanges(session, game, out);
                 break;
             }
@@ -330,6 +333,7 @@ public class Commands {
                     int troops = data.getInt("Troops");
                     board.getCountry(to).setTroops(board.getCountry(to).getTroops() + troops);
                     board.getCountry(from).setTroops(board.getCountry(from).getTroops() - troops);
+                    game.getMessages().addGameMessage(new GameMessage("Move", player.getName() + " moves " + troops + " from " + board.getCountry(from).getName() + " to " + board.getCountry(to).getName()));
                 }
                 pushAllChanges(session, game, out);
                 break;
@@ -337,14 +341,15 @@ public class Commands {
 
             // QUICKSTART
             case QUICKSTART: {
-                if (session.getAttribute("Game") == null)
+                if (session.getAttribute("Game") == null) {
                     throw new CommandException("Command: QUICKSTART. You are not in a game.");
+                }
                 Game game = (Game) session.getAttribute("Game");
                 Board board = game.getBoard();
                 List<Country> countries = new ArrayList<>();
                 countries.addAll(board.getAllCountries().values());
                 Collections.shuffle(countries);
-                for (Country country:countries) {
+                for (Country country : countries) {
                     country.setOwner(game.getGameState().getCurrentPlayer());
                     country.setTroops(1);
                     game.nextPlayer();
@@ -354,20 +359,20 @@ public class Commands {
             }
         }
     }
-    
+
     private static void pushAllChanges(HttpSession session) {
         session.removeAttribute("GameListLastModified");
         session.removeAttribute("LastModified");
         GameList.pushChanges();
     }
-    
+
     private static void pushAllChanges(HttpSession session, Game game) {
         session.removeAttribute("GameListLastModified");
         session.removeAttribute("LastModified");
         GameList.pushChanges();
         game.pushChanges();
     }
-    
+
     private static void pushAllChanges(HttpSession session, Game game, PrintWriter out) throws JSONException {
         session.removeAttribute("GameListLastModified");
         session.removeAttribute("LastModified");
