@@ -18,17 +18,7 @@ angular.module('gameApp')
 //                $rootScope.Game.GameState.CurrentPlayer = $rootScope.Game.Players[$rootScope.Game.GameState.CurrentPlayer].PlayerOrder;
 //            }
 //        };
-        this.endPhase = function(){
-            var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
-            postData(endPhaseData);
-        }
-        this.endPhaseVis = function () {
-            if ($rootScope.countryCount != 0) {
-                return true;
-            } else {
-                return false;
-            }
-        };
+
         this.endTurn = function(){
             var endTurnData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.Game.GameState.CurrentPlayer}});
             postData(endTurnData);
