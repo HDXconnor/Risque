@@ -58,6 +58,9 @@ public class GameServlet extends HttpServlet {
                     if (session.getAttribute("Username") != null) {
                         JSONObject json = new JSONObject();
                         json.put("Username", session.getAttribute("Username"));
+                        if (session.getAttribute("PlayerImage") != null) {
+                            json.put("PlayerImage", session.getAttribute("PlayerImage"));
+                        }
                         session.setAttribute("UsernameSent", true);
                         System.out.println("GET data sending:   " + json);
                         out.write("event: username\ndata: " + json + "\n\n");

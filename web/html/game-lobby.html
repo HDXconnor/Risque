@@ -5,7 +5,8 @@
             <h1> Lobby </h1>
             <div id="player-info" class="left">
                 <div id="player-top">
-                    <img src="images/player-placeholder.jpg" id="lobby-player" class="player-image"/>
+                    <!--<img src="images/player-placeholder.jpg" id="lobby-player" class="player-image"/>-->
+                    <img src="{{nameObj.PlayerImage}}" id="lobby-player" class="player-image"/>
                     <h4 class="player-name">{{userName}}</h4>
                 </div>
             </div>
@@ -36,7 +37,6 @@
                 </form>
             </div>
         </div>
-
         <div id="in-game" ng-show="obj!=null">
             <h2 class="headings"> {{Game.GameName}} </h2>
             <div id="player-area" class="lobby-area left">
