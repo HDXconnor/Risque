@@ -25,7 +25,7 @@
                     <button class="join-button" type="button" ng-click="lobby.joinGame(game.GameID)"> Join </button>
                 </div>
                 <div id="empty-list" ng-show="lobby.isGamesListEmpty()">
-                    <p class="center"> There are currently no games available. Please feel free to create one below. </p>
+                    <p class="center"> There are currently no Game's Available please feel free to create one below. </p>
                 </div>
             </div>
             <div id="create-game" >
@@ -39,8 +39,7 @@
 
         <div id="in-game" ng-show="obj!=null">
             <h3> {{Game.GameName}} </h3>
-            <div id="player-area" class="lobby-area">
-                <button class="quit-button" type="button" ng-click="lobby.quitGame()"> Quit </button>
+            <div id="player-area" class="lobby-area left">
                 <h3> Players </h3>
                 <div>
                     <div class="player-box" ng-repeat="player in players">
@@ -50,13 +49,15 @@
                     </div>
 
                     <div class="player-box" ng-repeat="n in [0,1,2,3,4,5] | limitTo:lobbySize - players.length">
+                        <canvas id="grey-color" class="player-color"> </canvas>
                         <p class="player-name"> Empty Slot </p>
                     </div>
                 </div>
             </div>
-            <div id="chat-area" class="lobby-area">
-                <form>
-                    <input type="text" class="input-type" name="username" placeholder="chat">
+            <div id="chat-area" class="lobby-area right align-right" >
+                <button class="quit-button" type="button" ng-click="lobby.quitGame()"> Quit </button>
+                <form class="chat-form">
+                    <input type="text" name="chat" placeholder="chat">
                 </form>
             </div>
             <button id="start-button" class="pretty-button" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>

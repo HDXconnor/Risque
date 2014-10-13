@@ -82,8 +82,9 @@ body
 .lobby-area
 {
     width: 45%;
-    display: inline-block;
+     display: inline-block;
     margin: 2%;
+    /* height: 383px; */
 }
 
 #lobby-box
@@ -92,7 +93,7 @@ body
     margin: 0 12.5%;
 }
 
-#player-info, #logout-area
+#player-info, #logout-area, #quit-area
 {
     width: 40%;
     display: inline-block;
@@ -113,6 +114,29 @@ body
     padding: 5%;
     text-align: center;
     color: #ffffff;
+}
+
+.quit-button
+{
+    width: 26.5%;
+    /* float: right; */
+    margin-right: 7%;
+    display: inline;
+    background: rgba(153, 153, 153, 0.64);
+    padding: 5%;
+    text-align: center;
+    color: #ffffff;
+    height: 55px;
+    border: none;
+}
+
+.chat-form {
+    margin-right: 7%;
+    margin-top: 4%;
+}
+
+.align-right {
+    text-align: right;
 }
 
 .player-name
@@ -300,4 +324,9 @@ h3
 
 #player5 {
     background-color: #007AFF;
+}
+
+#grey-color
+{
+    background-color: #999999;
 }
