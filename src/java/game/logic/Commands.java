@@ -350,6 +350,7 @@ public class Commands {
                     country.setTroops(1);
                     game.nextPlayer();
                 }
+                game.getGameState().closeLobby();
                 pushAllChanges(session, game, out);
                 break;
             }
