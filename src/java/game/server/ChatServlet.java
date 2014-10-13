@@ -38,8 +38,8 @@ public class ChatServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/event-stream");
         response.setCharacterEncoding("UTF-8");
-        response.setHeader("Connection", "keep-alive");
-        response.setHeader("Cache-Control", "no-cache");
+        response.addHeader("Connection", "keep-alive");
+        response.addHeader("Cache-Control", "no-cache");
         HttpSession session = request.getSession();
         
         Game game = (Game) session.getAttribute("Game");
