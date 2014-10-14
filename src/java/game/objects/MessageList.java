@@ -53,25 +53,26 @@ public class MessageList {
         if (session.getAttribute("LastChatMessageSeen") != null) {
             long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
             Iterator<ChatMessage> iterator = chatMessageList.iterator();
-            cleanup = chatMessageList.size();
             while (iterator.hasNext()) {
                 ChatMessage message = iterator.next();
                 if (message.getTimestamp() > lastMessageSeen) {
                     arr.put(message.getMessage());
-                } else if (cleanup > 1000) {
+                } else if (chatMessageList.size() > 1000) {
                     if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
                         iterator.remove();
                     }
                 }
             }
+        } else {
+            session.setAttribute("LastChatMessageSeen", (long) 0);
         }
         return arr;
     }
 
     private JSONArray getGameMessages(HttpSession session) throws JSONException {
         JSONArray arr = new JSONArray();
-        if (session.getAttribute("LastChatMessageSeen") != null) {
-            long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
+        if (session.getAttribute("LastGameMessageSeen") != null) {
+            long lastMessageSeen = (long) session.getAttribute("LastGameMessageSeen");
             Iterator<GameMessage> iterator = gameMessageList.iterator();
             cleanup = gameMessageList.size();
             while (iterator.hasNext()) {
@@ -84,6 +85,8 @@ public class MessageList {
                     }
                 }
             }
+        } else {
+            session.setAttribute("LastGameMessageSeen", (long) 0);
         }
         return arr;
     }

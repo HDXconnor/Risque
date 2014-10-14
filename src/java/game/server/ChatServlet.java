@@ -48,7 +48,7 @@ public class ChatServlet extends HttpServlet {
                 JSONObject json = game.getMessages().getMessages(session);
                 if (json.getJSONArray("ChatMessages").length() > 0 || json.getJSONArray("GameMessages").length() > 0) {
                     session.setAttribute("LastChatMessageSeen", System.currentTimeMillis());
-                    System.out.println("GET data sending:   " + json);
+                    System.out.println("Chat GET data sending:   " + json);
                     out.write("event: messages\ndata: " + json + "\n\n");
                     out.flush();
                 }
@@ -77,13 +77,14 @@ public class ChatServlet extends HttpServlet {
             Game game = (Game) session.getAttribute("Game");
             String username = (String) session.getAttribute("Username");
             if (game != null && username != null) {
-                if ((long) session.getAttribute("LastChatMessageSeen") < game.getMessages().getLastModified()) {
+                if ((long) session.getAttribute("LastChatMessageSeen") < game.getMessages().getLastModified() | (long) session.getAttribute("LastGameMessageSeen") < game.getMessages().getLastModified()) {
                     JSONObject data = json.getJSONObject("Data");
                     String dataUser = data.getString("Username");
                     if (!dataUser.equals(username)) {
                         throw new MessageException("Username in session does not match username in sent data");
                     }
                     String dataMessage = data.getString("Message");
+                    System.out.println("Chat POST: message received from " + dataUser + ": " + dataMessage);
                     game.getMessages().addChatMessage(new ChatMessage(dataUser, dataMessage));
                 }
                 JSONObject outputjson = game.getMessages().getMessages(session);

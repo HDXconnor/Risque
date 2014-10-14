@@ -79,7 +79,7 @@ angular.module('gameApp')
 
                 this.sendChat = function() {
                     var chatString = document.getElementById("chatbox").value;
-                    var chatData = JSON.stringify({Username: $rootScope.userName, Message: chatString});
+                    var chatData = JSON.stringify({Data : {Username: $rootScope.userName, Message: chatString}});
                     $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success();
                 };
 
