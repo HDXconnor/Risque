@@ -66,7 +66,9 @@ public class OAuthServlet extends HttpServlet {
                     fbService.signRequest(accessToken, authRequest);
                     Response authResponse = authRequest.send();
                     JSONObject responseJSON = new JSONObject(authResponse.getBody());
-                    session.setAttribute("Username", responseJSON.getString("name"));
+                    String name = responseJSON.getString("first_name");
+                    name = name.substring(0, Math.min(name.length(), 15));
+                    session.setAttribute("Username", name);
 
                     // Get profile picture
                     authRequest = new OAuthRequest(Verb.GET, "https://graph.facebook.com/me/picture");
@@ -89,7 +91,9 @@ public class OAuthServlet extends HttpServlet {
                     googleService.signRequest(accessToken, authRequest);
                     Response authResponse = authRequest.send();
                     JSONObject responseJSON = new JSONObject(authResponse.getBody());
-                    session.setAttribute("Username", responseJSON.getString("name"));
+                    String name = responseJSON.getString("given_name");
+                    name = name.substring(0, Math.min(name.length(), 15));
+                    session.setAttribute("Username", name);
                     session.setAttribute("PlayerImage", responseJSON.getString("picture"));
 
                     response.setStatus(response.SC_MOVED_TEMPORARILY);
