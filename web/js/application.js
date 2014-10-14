@@ -66,8 +66,8 @@
                 if ($rootScope.players.length !== 0) {
                     $rootScope.host = $rootScope.players[0].DisplayName;
                 }
-
-                for (var i = 0; i < $rootScope.players.length; i++) {
+                var listTest = ($rootScope.players.length)+ 1
+                for (var i = 0; i < listTest ; i++) {
                     if ($rootScope.players[i].DisplayName === $rootScope.userName) {
                         $rootScope.thisUserNumber = i;
                     }
