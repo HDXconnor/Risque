@@ -60,7 +60,7 @@
                 <button class="quit-button" type="button" ng-click="lobby.quitGame()"> Quit </button>
                 <div id="message-area">
                     <p ng-repeat="message in chatMessages">
-                        {{message}}
+                        <em>{{message.Username}}</em> {{message.Message}}
                     </p>
                 </div>
                 <div id="chat-bar" class="create-game" >

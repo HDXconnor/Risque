@@ -185,28 +185,27 @@ body
     display: inline-block;
     margin-left: 10px;
 }
-#notification-bar-container
-{
-    bottom: 0;
-    width: 100%;
-    position: absolute;
-}
 
 #notification-bar
 {
     height: 55px;
+    position: absolute;
     text-align: center;
     width: 48%;
     left: 0;
     right: 0;
+    bottom: 0;
     margin: auto;
     background-color:  rgba(153, 153, 153, 0.64);
 }
+
+
 #lobby-display
 {
     max-height: 60%;
     overflow: auto;
 }
+
 #bottom-margin
 {
     margin-bottom: 20px;
@@ -279,6 +278,24 @@ body
     vertical-align: middle;
 }
 
+#game-notification
+{
+    width: calc(100% - 110px);
+    vertical-align: middle;
+    text-align: center;
+    height: 55px;
+    display: inline-block;
+    color: #ffffff;
+}
+.notification-nav
+{
+    height: 45px;
+    width: 45px;
+    opacity: 1;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 5px;
+}
 h1
 {
    padding-top: 10px;
