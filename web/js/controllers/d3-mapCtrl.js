@@ -188,7 +188,8 @@ angular.module('gameApp')
                         data: data
                     }).success(function (output) {
                         $rootScope.obj = output;
-                        console.log($rootScope.obj.Game);
+                        $rootScope.whatwhat = output;
+                        console.log($rootScope.whatwhat.Game);
                     });
                 };
     }]);
