@@ -77,12 +77,10 @@ angular.module('gameApp')
                     postData(quitData);
                 };
 
-                this.magicButton = function () {
-                    console.log($rootScope.lobbyList);
-                };
-
                 this.sendChat = function() {
-                    console.log($rootScope.chatObj);
+                    var chatString = document.getElementById("chatbox").value;
+                    var chatData = JSON.stringify({Username: $rootScope.userName, Message: chatString});
+                    $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success();
                 };
 
                 this.quickStartButton = function () {

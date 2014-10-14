@@ -107,7 +107,7 @@ public class CountriesData {
         neighboursMap.put("AF05", new ArrayList(Arrays.asList("AF03", "AN01", "SA02", "SA04")));
 
         // OCEANIA
-        countriesMap.put("OC01", "Indonisia");
+        countriesMap.put("OC01", "Indonesia");
         countriesMap.put("OC02", "East Australia");
         countriesMap.put("OC03", "West Australia");
         neighboursMap.put("OC01", new ArrayList(Arrays.asList("OC03", "AS06")));

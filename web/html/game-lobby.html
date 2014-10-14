@@ -59,11 +59,13 @@
             <div id="chat-area" class="lobby-area right align-right" >
                 <button class="quit-button" type="button" ng-click="lobby.quitGame()"> Quit </button>
                 <div id="message-area">
-
+                    <p ng-repeat="message in chatMessages">
+                        {{message}}
+                    </p>
                 </div>
                 <div id="chat-bar" class="create-game" >
                     <form>
-                        <input type="text" class="input-type create-input" name="chat" placeholder="Chat">
+                        <input id="chatbox" type="text" class="input-type create-input" name="chat" placeholder="Chat">
                         <button class="pretty-button create-button" type="button" ng-click="lobby.sendChat()"> Send </button>
                     </form>
                 </div>
