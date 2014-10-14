@@ -25,7 +25,6 @@
                 $rootScope.chatObj = JSON.parse(e.data);
                 $rootScope.chatMessages = $rootScope.chatObj.ChatMessages;
                 $rootScope.gameMessages = $rootScope.chatObj.GameMessages;
-                console.log(chatObj);
                 $rootScope.$apply();
             }, false);
 

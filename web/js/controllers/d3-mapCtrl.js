@@ -127,10 +127,12 @@ angular.module('gameApp')
                         if ($rootScope.phase === "Setup") {
                             var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.CurrentPlayer}});
                             postData(send);
+                            $rootScope.$apply();
                         }
                         if ($rootScope.phase === "Deploy") {
                             var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.CurrentPlayer}});
                             postData(send);
+                            $rootScope.$apply();
                         }
                         if ($rootScope.phase === "Attack") {
                             angular.forEach($rootScope.board, function (index) {
@@ -158,16 +160,32 @@ angular.module('gameApp')
                             });
                         }
                         if ($rootScope.phase === "Move") {
+                            angular.forEach($rootScope.board, function (index) {
+                                if ($rootScope.thisCountryID === index.CountryID){
+                                    if ($rootScope.CurrentPlayer === index.Owner) {
                             if($rootScope.moveFrom==null){
                                 $rootScope.moveFrom=$rootScope.thisCountryID;
+                                $rootScope.moveFromCountryName= index.CountryName;
+                                $rootScope.moveFromTroops=index.Troops;
+                                $rootScope.moveFromOwner = index.Owner;
                             }else if($rootScope.moveTo==null){
                                 $rootScope.moveTo=$rootScope.thisCountryID;
+                                $rootScope.moveToCountryName=index.CountryName;
+                                $rootScope.moveToTroops=index.Troops;
+                                $rootScope.moveToOwner = index.Owner;
                             }else{
                                 $rootScope.moveFrom=$rootScope.thisCountryID;
+                                $rootScope.moveFromCountryName= index.CountryName;
+                                $rootScope.moveFromTroops=index.Troops;
+                                $rootScope.moveFromOwner = index.Owner;
                                 $rootScope.moveTo=null;
+                                $rootScope.moveToCountryName=null;
+                                $rootScope.moveToTroops=null;
+                                $rootScope.moveToOwner = null;
                             }
-//                            var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.prevCountryID, CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.currentPlayer}});
-//                            postData(send);
+                        }
+                        }
+                            });
                         }
                         $rootScope.prevCountryID = index.node.id;
 
@@ -188,8 +206,6 @@ angular.module('gameApp')
                         data: data
                     }).success(function (output) {
                         $rootScope.obj = output;
-                        $rootScope.whatwhat = output;
-                        console.log($rootScope.whatwhat.Game);
                     });
                 };
     }]);

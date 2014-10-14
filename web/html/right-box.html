@@ -1,11 +1,11 @@
 <div id="right-bar" class="side-bars" ng-controller="PhaseController as phase">
     <div id="phase-areas">
-        <!--<div id="game-state" class="display-box">-->
-            <!--<h3>{{phase}} Phase</h3>-->
-            <!--<p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>-->
-            <!--<p>Current Player: {{currentUserName}}</p>-->
-            
-        <!--</div>-->
+        <div ng-hide="phase.setupBoxes()">
+            <div id="game-state" class="game-box">
+                <h3>Setup</h3>
+                <p>Countries Remaining: {{countryCount}}</p>
+            </div>
+        </div>
         <div ng-hide="phase.atkBoxes()">
             <div id="attack-box" class="game-box">
                 <h3>Attacking Country</h3>
@@ -28,14 +28,12 @@
         <div ng-hide="phase.reinfBoxes()">
             <div id="reinf-from" class="game-box">
                 <h3>Reinforce From</h3>
-                <p>{{countryName}}</p>
-                <p>{{playerName}}</p>
-                <p>{{troops}}</p>
+                <p>Country: {{moveFromCountryName}}</p>
+                <p>Troops: {{moveFromTroops}}</p>
 
                 <h3>Reinforce To</h3>
-                <p>{{countryName}}</p>
-                <p>{{playerName}}</p>
-                <p>{{troops}}</p>
+                <p>Country: {{moveToCountryName}}</p>
+                <p>Troops: {{moveToTroops}}</p>
 
                 <input id="troop-amount" type="text" class="input-type" name="amount" placeholder="">
                 <button id="reinf" class="pretty-button" type="button" ng-click="phase.move()"><strong>Move x Troops</strong></button>

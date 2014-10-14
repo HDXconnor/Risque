@@ -81,6 +81,7 @@ angular.module('gameApp')
                     var chatString = document.getElementById("chatbox").value;
                     var chatData = JSON.stringify({Data : {Username: $rootScope.userName, Message: chatString}});
                     $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success();
+                    console.log($rootScope.chatMessages);
                 };
 
                 this.quickStartButton = function () {

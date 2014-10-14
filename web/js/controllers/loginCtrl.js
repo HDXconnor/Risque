@@ -7,6 +7,7 @@ angular.module('gameApp')
                     var loginName = document.getElementById("login-textbox").value;
                     var joinData = JSON.stringify({Command: "Login", Data: {Username: loginName}});
                     postData(joinData);
+                    $rootScope.$apply();
 //                    writeCookie("Username", loginName);
                     console.log("Logged in as: " + loginName);
                     //$cookieStore.put("Username", $rootScope.username);

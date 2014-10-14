@@ -10,7 +10,13 @@ angular.module('gameApp')
                 return true;
             }
         };
-
+        this.setupBoxes = function(){
+            if ($rootScope.phase === "Setup") {
+                return $rootScope.isHidden;
+            } else {
+                return true;
+            }
+        }
         this.deployBoxes = function () {
             if ($rootScope.phase === "Deploy") {
                 return $rootScope.isHidden;
@@ -20,10 +26,10 @@ angular.module('gameApp')
         };
 
         this.endPhaseVis = function () {
-            if ($rootScope.countryCount != 0) {
-                return true;
+            if ($rootScope.phase==="Attack" || $rootScope.phase === "Move"){
+                return $rootScope.isHidden;
             } else {
-                return false;
+                return true;
             }
         };
 
@@ -55,6 +61,10 @@ angular.module('gameApp')
             postData(send);
             $rootScope.moveFrom=null;
             $rootScope.moveTo=null;
+            $rootScope.moveFromCountryName=null;
+            $rootScope.moveFromTroops=null;
+            $rootScope.moveToCountryName=null;
+            $rootScope.moveToTroops=null;
         };
         
         function postData(data) {
