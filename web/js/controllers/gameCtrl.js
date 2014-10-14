@@ -9,6 +9,12 @@ angular.module('gameApp')
             postData(endTurnData);
         };
 
+        this.quitGame = function () {
+            var startGameData = JSON.stringify({Command: "Quit", Data: {}});
+            postData(startGameData);
+            $rootScope.obj = null;
+        };
+
         function postData(data) {
                     $http({
                         method: 'POST',

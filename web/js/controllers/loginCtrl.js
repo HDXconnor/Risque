@@ -70,8 +70,6 @@ angular.module('gameApp')
                         data: data
                     }).success(function (output) {
                         $rootScope.nameObj = output;
-                        console.log($rootScope.obj.Game);
-                        
                     });
                 }
 

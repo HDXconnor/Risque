@@ -54,7 +54,7 @@ angular.module('gameApp')
                     var startGameData = JSON.stringify({Command: "Quit", Data: {}});
                     postData(startGameData);
                     $rootScope.obj = null;
-            };
+                };
 
                 this.joinGame = function (gameID) {
                     var startGameData = JSON.stringify({Command: "Join", Data: {GameID: gameID, GamePassword: ""}});
@@ -105,7 +105,6 @@ angular.module('gameApp')
                         data: data
                     }).success(function (output) {
                         $rootScope.lobbyObj = output;
-                        console.log($rootScope.obj.Game);
                     });
                 }
 

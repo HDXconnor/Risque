@@ -250,6 +250,11 @@ body
     vertical-align: middle;
 }
 
+.fat
+{
+ width: 100%;
+}
+
 .remove-button
 {
     float: right;
