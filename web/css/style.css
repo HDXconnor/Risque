@@ -260,7 +260,15 @@ body
     display: inline-block;
     vertical-align: middle;
 }
-
+.current-marker
+{
+    float: right;
+    height: 40px;
+    width: 40px;
+    opacity: 0.8;
+    display: inline-block;
+    vertical-align: middle;
+}
 
 h1
 {

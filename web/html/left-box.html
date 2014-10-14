@@ -6,17 +6,24 @@
             <div class="player-box" ng-repeat="player in players">
                 <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
                 <p class="player-name">{{player.DisplayName}}</p>
+                <img src="images/current-player.png" class="current-marker" ng-show="CurrentPlayer==player.PlayerOrder"/>
             </div>
         </div>
     </div>
 
     <div id="current-country" class="game-box">
-        <h3> Current Phase</h3>
-        <p>{{phase}} Phase</p>
-
-        <h3> Current Country </h3>
-        <p>Country:{{countryName}}</p>
-        <p>Owner:{{playerName}}</p>
-        <p>Troops:{{troops}}</p>
+        <div ng-hide="CurrentPlayer == thisUserNumber">
+            <h3> Current Phase</h3>
+            <p>{{phase}} Phase</p>
+        </div>
+        <div>
+            <h3> Current Country </h3>
+            <p>Country:{{countryName}}</p>
+            <p>Owner:{{playerName}}</p>
+            <p>Troops:{{troops}}</p>
+        </div>
+        <div>
+            <button class="quit-button" type="button" ng-click="lobby.quitGame()"> Quit </button>
+        </div>
     </div>
 </div>
