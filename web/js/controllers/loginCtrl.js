@@ -13,6 +13,8 @@ angular.module('gameApp')
                 };
 
                 this.facebook = function () {
+                    $rootScope.goingToAuth = true;
+                    console.log($rootScope.goingToAuth);
                     var id = 'facebook' + makeID();
                     var url = 'OAuthServlet?service=facebook&id=' + id;
                     console.log(url);
@@ -23,6 +25,7 @@ angular.module('gameApp')
                 };
 
                 this.google = function () {
+                    $rootScope.goingToAuth = true;
                     var id = 'google' + makeID();
                     var url = 'OAuthServlet?service=google&id=' + id;
                     console.log(url);
