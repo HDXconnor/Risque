@@ -207,6 +207,10 @@ body
     max-height: 60%;
     overflow: auto;
 }
+#bottom-margin
+{
+    margin-bottom: 20px;
+}
 
 .game-data
 {

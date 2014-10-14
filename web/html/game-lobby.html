@@ -71,6 +71,7 @@
             <div id="start-area">
                 <button id="start-button" class="pretty-button start-buttons" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
                 <button id="quickstart-button" class="pretty-button start-buttons" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.quickStart()"> Quick Start </button>
+                <p id="bottom-margin" class="center" ng-hide = "lobby.isHost()" > Host will start the game shortly </p>
             </div>
         </div>
 
