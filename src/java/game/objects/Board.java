@@ -68,6 +68,16 @@ public class Board {
         }
         return unassigned;
     }
+    
+    public int getNumberOfCountriesOwned(Player player) {
+        int numberOfCountries = 0;
+        for (Country country : countriesMap.values()) {
+            if (country.getOwner() == player.getPlayerNum()) {
+                numberOfCountries++;
+            }
+        }
+        return numberOfCountries;
+    }
 
     /**
      * Generates a JSONArray containing each country's current state
