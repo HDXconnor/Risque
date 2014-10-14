@@ -12,6 +12,10 @@
         <servlet-name>OAuthServlet</servlet-name>
         <servlet-class>game.server.OAuthServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>game.server.ChatServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GameServlet</servlet-name>
         <url-pattern>/GameServlet</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>OAuthServlet</servlet-name>
         <url-pattern>/OAuthServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/ChatServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
