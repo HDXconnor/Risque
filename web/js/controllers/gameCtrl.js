@@ -13,6 +13,7 @@ angular.module('gameApp')
             var quitGameData = JSON.stringify({Command: "Quit", Data: {}});
             postData(quitGameData);
             $rootScope.obj = null;
+            $rootScope.gameStarted = false;
         };
 
         function postData(data) {
