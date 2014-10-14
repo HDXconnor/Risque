@@ -10,8 +10,8 @@ angular.module('gameApp')
         };
 
         this.quitGame = function () {
-            var startGameData = JSON.stringify({Command: "Quit", Data: {}});
-            postData(startGameData);
+            var quitGameData = JSON.stringify({Command: "Quit", Data: {}});
+            postData(quitGameData);
             $rootScope.obj = null;
         };
 
@@ -22,9 +22,7 @@ angular.module('gameApp')
                         headers: {'Content-Type': 'application/json'},
                         data: data
                     }).success(function (output) {
-                        $rootScope.obj = output;
-                        console.log($rootScope.obj.Game);
+                        
                     });
-                    $rootScope.$apply();
                 }
     }]);

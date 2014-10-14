@@ -82,10 +82,12 @@ public class Game {
 
     public void nextPlayer() throws TroopsException {
         gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
-        int playerCurrentTroops = playerList.getPlayer(gameState.getCurrentPlayer()).getTroopsToDeploy();
-        int countriesOwned = board.getNumberOfCountriesOwned(playerList.getPlayer(gameState.getCurrentPlayer()));
-        int countryBonus = (int) (3 + Math.floor(countriesOwned / 4));
-        playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(playerCurrentTroops + countryBonus);
+        if (!this.phase.getPhase().equals(Phase.SETUP)) {
+            int playerCurrentTroops = playerList.getPlayer(gameState.getCurrentPlayer()).getTroopsToDeploy();
+            int countriesOwned = board.getNumberOfCountriesOwned(playerList.getPlayer(gameState.getCurrentPlayer()));
+            int countryBonus = (int) (3 + Math.floor(countriesOwned / 4));
+            playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(playerCurrentTroops + countryBonus);
+        }
 
 //        boolean loser = true;
 //        HashMap<String, Country> countries = board.getAllCountries();
@@ -137,15 +139,15 @@ public class Game {
         }
         return sessions;
     }
-    
+
     public boolean isPasswordProtected() {
         return !password.equals("");
     }
-    
+
     public String getPassword() {
         return password;
     }
-    
+
     public MessageList getMessages() {
         return messages;
     }
