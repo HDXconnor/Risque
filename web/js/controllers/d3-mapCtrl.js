@@ -186,13 +186,9 @@ angular.module('gameApp')
                         url: 'GameServlet',
                         headers: {'Content-Type': 'application/json'},
                         data: data
-//                    }).success(function (output) {
-//                        console.log("THIS IS THE DATA CURRENTLY IN ROOTSCOPE:");
-//                        console.log($rootScope.obj.Game);
-//                        console.log("THIS IS THE DATA YOU GET BACK FROM THE POST:");
-//                        console.log(output.Game);
-//                        $rootScope.obj.Game = output.Game;
-//                        $rootScope.$apply();
+                    }).success(function (output) {
+                        $rootScope.obj = output;
+                        console.log($rootScope.obj.Game);
                     });
-                }
+                };
     }]);

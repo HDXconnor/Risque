@@ -65,7 +65,11 @@ angular.module('gameApp')
                         url: 'GameServlet',
                         headers: {'Content-Type': 'application/json'},
                         data: data
-                    }).error();
+                    }).success(function (output) {
+                        $rootScope.nameObj = output;
+                        console.log($rootScope.obj.Game);
+                        
+                    });
                 }
 
                 function writeCookie(key, value) {

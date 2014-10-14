@@ -25,6 +25,7 @@
                 $rootScope.chatObj = JSON.parse(e.data);
                 $rootScope.chatMessages = $rootScope.chatObj.ChatMessages;
                 $rootScope.gameMessages = $rootScope.chatObj.GameMessages;
+                console.log(chatObj);
                 $rootScope.$apply();
             }, false);
 
@@ -103,7 +104,7 @@
 //                }
 //                
 //            }
-                $rootScope.$apply();
+                
 
                 function postData(data) {
                     $http({
@@ -111,9 +112,14 @@
                         url: 'GameServlet',
                         headers: {'Content-Type': 'application/json'},
                         data: data
-                    }).error();
-                }
+                    }).success(function (output) {
+                        $rootScope.obj = output;
+                        console.log($rootScope.obj.Game);
+                        
+                    });
+                };
                 color($rootScope);
+                $rootScope.$apply();
             }, false);
         }]);
 

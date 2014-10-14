@@ -4,7 +4,7 @@
             <!--<h3>{{phase}} Phase</h3>-->
             <!--<p ng-show="phase=='Setup'">Countries Remaining: {{countryCount}}</p>-->
             <!--<p>Current Player: {{currentUserName}}</p>-->
-            <!--<p ng-show = "phase == 'Deploy'">Troops to Deploy: {{troopsToDeploy}}</p>-->
+            
         <!--</div>-->
         <div ng-hide="phase.atkBoxes()">
             <div id="attack-box" class="game-box">
@@ -24,7 +24,8 @@
                 <h3>Deploy Troops</h3>
                 <p>Country:{{countryName}}</p>
                 <!--<p>Owner:{{playerName}}</p>-->
-                <p>Troops:{{troops}}</p>
+                <p>Troops to Deploy: {{troopsToDeploy}}</p>
+                <p>Troops: {{troops}}</p>
             </div>
             <!--<div>-->
                         <!--<button id="deploy1" class="pretty-button" type="button"><strong>Deploy 1 Troop</strong></button>-->

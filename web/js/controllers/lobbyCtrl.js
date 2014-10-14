@@ -103,7 +103,10 @@ angular.module('gameApp')
                         url: 'GameServlet',
                         headers: {'Content-Type': 'application/json'},
                         data: data
-                    }).error();
-                };
+                    }).success(function (output) {
+                        $rootScope.lobbyObj = output;
+                        console.log($rootScope.obj.Game);
+                    });
+                }
 
             }]);

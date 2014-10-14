@@ -51,13 +51,26 @@ angular.module('gameApp')
             $rootScope.moveFrom=null;
             $rootScope.moveTo=null;
         };
-        
-        function postData(data) {
+        this.postData = function(data){
             $http({
-                method: 'POST',
-                url: 'GameServlet',
-                headers: {'Content-Type': 'application/json'},
-                data: data
-            }).error();
+                        method: 'POST',
+                        url: 'GameServlet',
+                        headers: {'Content-Type': 'application/json'},
+                        data: data
+                    }).success(function (output) {
+                        $rootScope.obj = output;
+                    });
         }
+//        function postData(data) {
+//                    $http({
+//                        method: 'POST',
+//                        url: 'GameServlet',
+//                        headers: {'Content-Type': 'application/json'},
+//                        data: data
+//                    }).success(function (output) {
+//                        $rootScope.obj = output;
+//                    });
+//                    $rootScope.$apply();
+//                };
+        
     }]);
