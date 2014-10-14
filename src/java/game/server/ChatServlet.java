@@ -46,14 +46,16 @@ public class ChatServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             if (game != null) {
                 JSONObject json = game.getMessages().getMessages(session);
-                session.setAttribute("LastChatMessageSeen", System.currentTimeMillis());
-                System.out.println("GET data sending:   " + json);
-                out.write("event: messages\ndata: " + json + "\n\n");
-                out.flush();
-            } else {
-                throw new MessageException("Not in a game.");
-            }
-        } catch (JSONException | MessageException ex) {
+                if (json.getJSONArray("ChatMessages").length() > 0 || json.getJSONArray("GameMessages").length() > 0) {
+                    session.setAttribute("LastChatMessageSeen", System.currentTimeMillis());
+                    System.out.println("GET data sending:   " + json);
+                    out.write("event: messages\ndata: " + json + "\n\n");
+                    out.flush();
+                }
+            } //else {
+                //throw new MessageException("Not in a game."); // too spammy
+            //}
+        } catch (JSONException ex) {
             Logger.getLogger(ChatServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
