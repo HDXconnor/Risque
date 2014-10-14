@@ -66,14 +66,11 @@
                 if ($rootScope.players.length !== 0) {
                     $rootScope.host = $rootScope.players[0].DisplayName;
                 }
-                var listTest = ($rootScope.players.length)+ 1
-                for (var i = 0; i < listTest ; i++) {
+                
+                for (var i = 0; i < $rootScope.players.length ; i++) {
                     if ($rootScope.players[i].DisplayName === $rootScope.userName) {
                         $rootScope.thisUserNumber = i;
-                    }
-                    else {
-                        console.log("NO USER NUMBER FOR YOU!");
-                    }
+                    }                  
 
                     if ($rootScope.CurrentPlayer === $rootScope.players[i].PlayerOrder) {
                         $rootScope.currentUserName = $rootScope.players[i].DisplayName;
@@ -117,9 +114,7 @@
                         headers: {'Content-Type': 'application/json'},
                         data: data
                     }).success(function (output) {
-                        $rootScope.obj = output;
-                        console.log($rootScope.obj.Game);
-                        
+                        $rootScope.obj = output;                        
                     });
                 };
                 color($rootScope);
