@@ -63,8 +63,10 @@ public class Board {
      */
     public int getUnassigned() {
         int unassigned = 0;
-        for (Country c : countriesMap.values()) {
-            if (c.getOwner() < 0) unassigned++;
+        for (Country country : countriesMap.values()) {
+            if (country.getOwner() < 0) {
+                unassigned++;
+            }
         }
         return unassigned;
     }
