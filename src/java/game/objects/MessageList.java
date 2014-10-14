@@ -74,12 +74,11 @@ public class MessageList {
         if (session.getAttribute("LastGameMessageSeen") != null) {
             long lastMessageSeen = (long) session.getAttribute("LastGameMessageSeen");
             Iterator<GameMessage> iterator = gameMessageList.iterator();
-            cleanup = gameMessageList.size();
             while (iterator.hasNext()) {
                 GameMessage message = iterator.next();
                 if (message.getTimestamp() > lastMessageSeen) {
                     arr.put(message.getMessage());
-                } else if (cleanup > 1000) {
+                } else if (gameMessageList.size() > 1000) {
                     if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
                         iterator.remove();
                     }
