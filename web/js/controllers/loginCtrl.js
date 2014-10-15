@@ -17,7 +17,7 @@ angular.module('gameApp')
                     $rootScope.goingToAuth = true;
                     console.log($rootScope.goingToAuth);
                     var id = 'facebook' + makeID();
-                    var url = 'OAuthServlet?service=facebook&id=' + id;
+                    var url = 'OAuthServlet?id=' + id;
                     console.log(url);
                     $http({method: 'POST', url: url, headers: {'Content-Type': 'text/plain'}}).success(
                             function (responseData) {
@@ -28,7 +28,7 @@ angular.module('gameApp')
                 this.google = function () {
                     $rootScope.goingToAuth = true;
                     var id = 'google' + makeID();
-                    var url = 'OAuthServlet?service=google&id=' + id;
+                    var url = 'OAuthServlet?id=' + id;
                     console.log(url);
                     $http({method: 'POST', url: url, headers: {'Content-Type': 'text/plain'}}).success(
                             function (responseData) {

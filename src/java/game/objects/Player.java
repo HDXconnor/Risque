@@ -24,6 +24,7 @@ public class Player {
     private int troopsToDeploy;
     private int playerNum;
     private String playerImage;
+    private Auth auth;
 
     public Player(String name, HttpSession session) {
         this.name = name;
@@ -31,6 +32,9 @@ public class Player {
         this.troopsToDeploy = 3;
         if (session.getAttribute("PlayerImage") != null) {
             this.playerImage = (String) session.getAttribute("PlayerImage");
+        }
+        if (session.getAttribute("Auth") != null) {
+            this.auth = (Auth) session.getAttribute("Auth");
         }
     }
 
@@ -70,5 +74,9 @@ public class Player {
     
     public void setPlayerImage(String playerImage) {
         this.playerImage = playerImage;
+    }
+    
+    public Auth getAuth() {
+        return auth;
     }
 }
