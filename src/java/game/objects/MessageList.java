@@ -51,13 +51,11 @@ public class MessageList {
     private JSONArray getChatMessages(HttpSession session) throws JSONException {
         JSONArray arr = new JSONArray();
         if (session.getAttribute("LastChatMessageSeen") != null) {
-            long lastMessageSeen = (long) session.getAttribute("LastChatMessageSeen");
             Iterator<ChatMessage> iterator = chatMessageList.iterator();
             while (iterator.hasNext()) {
                 ChatMessage message = iterator.next();
-                if (message.getTimestamp() > lastMessageSeen) {
-                    arr.put(message.getMessage());
-                } else if (chatMessageList.size() > 1000) {
+                arr.put(message.getMessage());
+                if (chatMessageList.size() > 100) {
                     if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
                         iterator.remove();
                     }
@@ -72,13 +70,11 @@ public class MessageList {
     private JSONArray getGameMessages(HttpSession session) throws JSONException {
         JSONArray arr = new JSONArray();
         if (session.getAttribute("LastGameMessageSeen") != null) {
-            long lastMessageSeen = (long) session.getAttribute("LastGameMessageSeen");
             Iterator<GameMessage> iterator = gameMessageList.iterator();
             while (iterator.hasNext()) {
                 GameMessage message = iterator.next();
-                if (message.getTimestamp() > lastMessageSeen) {
-                    arr.put(message.getMessage());
-                } else if (gameMessageList.size() > 1000) {
+                arr.put(message.getMessage());
+                if (gameMessageList.size() > 100) {
                     if (message.getTimestamp() < System.currentTimeMillis() - 60000) {
                         iterator.remove();
                     }
