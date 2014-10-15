@@ -26,9 +26,10 @@
                 $rootScope.chatObj = JSON.parse(e.data);
                 $rootScope.chatMessages = $rootScope.chatObj.ChatMessages;
                 $rootScope.gameMessages = $rootScope.chatObj.GameMessages;
-
-                $rootScope.currentNotification = $rootScope.gameMessages.length-1;
-
+                if($rootScope.gameMessages.length-1 != $rootScope.maxMessage) {
+                    $rootScope.currentNotification = $rootScope.gameMessages.length-1;
+                }
+                $rootScope.maxMessage = $rootScope.gameMessages.length-1;
 
                 $rootScope.$apply();
             }, false);
