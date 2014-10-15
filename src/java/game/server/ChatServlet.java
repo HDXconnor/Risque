@@ -48,6 +48,7 @@ public class ChatServlet extends HttpServlet {
                 JSONObject json = game.getMessages().getMessages(session);
                 if (json.getJSONArray("ChatMessages").length() > 0 || json.getJSONArray("GameMessages").length() > 0) {
                     session.setAttribute("LastChatMessageSeen", System.currentTimeMillis());
+                    session.setAttribute("LastGameMessageSeen", System.currentTimeMillis());
                     System.out.println("Chat GET data sending:   " + json);
                     out.write("event: messages\ndata: " + json + "\n\n");
                     out.flush();

@@ -66,7 +66,7 @@ public class Commands {
             }
             case LOGOUT:
                 session.invalidate();
-                pushAllChanges(session);
+                GameList.pushChanges();
                 break;
 
             // Create:
