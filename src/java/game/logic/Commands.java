@@ -264,7 +264,12 @@ public class Commands {
                 String defender = data.getString("DefendingCountry");
                 Country attackingCountry = board.getCountry(attacker);
                 Country defendingCountry = board.getCountry(defender);
-
+                
+                // the two countries must be neighbours
+                if (!BoardLogic.isNeighbour(attacker, defender)) {
+                    throw new CommandException("Command: ATTACK. The two selected countries are not neighbours.");
+                }
+                
                 // do nothing if attacking player owns the country he is trying to attack
                 if (defendingCountry.isOwnedBy(player.getPlayerNum())) {
                     throw new CommandException("Command: ATTACK. Player " + player + " cannot attack his own country.");
