@@ -23,6 +23,7 @@ import game.objects.exceptions.TroopsException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -304,17 +305,18 @@ public class Commands {
                     defendingCountry.setTroops(attackingCountry.getTroops() - 1);
                     attackingCountry.setTroops(1);
                 }
+                
                 // Win condition - if all countries owned by player, win.
-//                boolean win = true;
-//                HashMap<String, Country> countries = board.getAllCountries();
-//                for (String key : countries.keySet()) {
-//                    if (countries.get(key).getOwner() != game.getGameState().getCurrentPlayer()) {
-//                        win = false;
-//                    }
-//                }
-//                if (win) {
-//                    // TODO Something interesting
-//                }
+                boolean win = true;
+                HashMap<String, Country> countries = board.getAllCountries();
+                for (String key : countries.keySet()) {
+                    if (countries.get(key).getOwner() != game.getGameState().getCurrentPlayer()) {
+                        win = false;
+                    }
+                }
+                if (win) {
+                    System.out.println("A winner is you");
+                }
                 game.getMessages().addGameMessage(new GameMessage("Attack", outcome.toString()));
                 pushAllChanges(session, game, out);
                 break;
