@@ -3,6 +3,15 @@
 angular.module('gameApp')
 
         .controller("PhaseController", ["$rootScope", '$http', function ($rootScope, $http) {
+
+                this.increment = function(){
+                    $rootScope.amountTroopsToMove++;
+                }
+                this.decrement= function(){
+                    if($rootScope.amountTroopsToMove !=0) {
+                        $rootScope.amountTroopsToMove--;
+                    }
+                }
                 this.atkBoxes = function () {
                     if ($rootScope.phase === "Attack") {
                         return $rootScope.isHidden;
@@ -58,9 +67,8 @@ angular.module('gameApp')
                     }
                 };
                 this.move = function () {
-                    if ($rootScope.amountTroopsSent !== null && $rootScope.moveFrom !== null && $rootScope.moveTo !== null) {
-                        $rootScope.amountTroopsSent = document.getElementById("troop-amount").value;
-                        var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.moveFrom, CountryClicked: $rootScope.moveTo, CurrentPlayer: $rootScope.currentPlayer, Troops: $rootScope.amountTroopsSent}});
+                    if ($rootScope.amountTroopsToMove !== null && $rootScope.moveFrom !== null && $rootScope.moveTo !== null) {
+                        var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.moveFrom, CountryClicked: $rootScope.moveTo, CurrentPlayer: $rootScope.currentPlayer, Troops: $rootScope.amountTroopsToMove}});
                         postData(send);
                         $rootScope.moveFrom = null;
                         $rootScope.moveTo = null;
@@ -68,6 +76,8 @@ angular.module('gameApp')
                         $rootScope.moveFromTroops = null;
                         $rootScope.moveToCountryName = null;
                         $rootScope.moveToTroops = null;
+                        $rootScope.amountTroopsToMove=0;
+
                     }
                 };
 

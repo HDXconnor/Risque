@@ -34,9 +34,10 @@
                 <h3>Reinforce To</h3>
                 <p>Country: {{moveToCountryName}}</p>
                 <p>Troops: {{moveToTroops}}</p>
-
-                <input id="troop-amount" type="text" class="input-type" name="amount" placeholder="">
-                <button id="reinf" class="pretty-button" type="button" ng-click="phase.move()"><strong>Move x Troops</strong></button>
+                <img src="images/current-player.png" class="notification-nav left" ng-click="phase.decrement()"/>
+                <p id="game-notification">{{amountTroopsToMove}}</p>
+                <img src="images/current-player-reverse.png" class="notification-nav right" ng-click="phase.increment()"/>
+                <button id="reinf" class="pretty-button" type="button" ng-click="phase.move()"><strong>Move Troops</strong></button>
             </div>
         </div>
     </div>

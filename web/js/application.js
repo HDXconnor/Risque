@@ -9,6 +9,7 @@
 
     app.run(['$rootScope', '$http', function ($rootScope, $http) {
             $rootScope.userName = null;
+            $rootScope.amountTroopsToMove = 0;
             evtSource.addEventListener("username", function (e) {
                 $rootScope.nameObj = JSON.parse(e.data);
                 $rootScope.userName = $rootScope.nameObj.Username;
