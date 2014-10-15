@@ -82,12 +82,9 @@ public class Game {
 
     public void nextPlayer() throws TroopsException {
         gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
-        if (!this.phase.getPhase().equals(Phase.SETUP)) {
-            int playerCurrentTroops = playerList.getPlayer(gameState.getCurrentPlayer()).getTroopsToDeploy();
-            int countriesOwned = board.getNumberOfCountriesOwned(playerList.getPlayer(gameState.getCurrentPlayer()));
-            int countryBonus = (int) (3 + Math.floor(countriesOwned / 4));
-            playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(playerCurrentTroops + countryBonus);
-        }
+        int countriesOwned = board.getNumberOfCountriesOwned(playerList.getPlayer(gameState.getCurrentPlayer()));
+        int countryBonus = (int) (Math.floor(countriesOwned / 4));
+        playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(Math.max(3, countryBonus));
 
 //        boolean loser = true;
 //        HashMap<String, Country> countries = board.getAllCountries();

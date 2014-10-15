@@ -29,7 +29,7 @@ public class Player {
     public Player(String name, HttpSession session) {
         this.name = name;
         this.session = session;
-        this.troopsToDeploy = 3;
+        this.troopsToDeploy = 0;
         if (session.getAttribute("PlayerImage") != null) {
             this.playerImage = (String) session.getAttribute("PlayerImage");
         }
