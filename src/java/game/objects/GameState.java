@@ -24,6 +24,7 @@ public class GameState {
     private int currentPlayer, turn;
     private final Phase phase;
     private final Board board;
+    private Player winner;
     
     public GameState(Board board) {
         this.gameStarted = false;
@@ -85,10 +86,18 @@ public class GameState {
         JSONObject json = new JSONObject();
         json.put("CurrentPlayer", getCurrentPlayer());
         json.put("Turn", turn);
-        if (gameStarted) json.put("Phase", phase.getPhase());
-        else json.put("Phase", Phase.SETUP);
+        if (gameStarted) {
+            json.put("Phase", phase.getPhase());
+        } else {
+            json.put("Phase", Phase.SETUP);
+        }
         json.put("Unassigned", board.getUnassigned());
         json.put("LobbyClosed", lobbyClosed());
+        if (winner != null) {
+            json.put("Winner", -1);
+        } else {
+            json.put("Winner", winner.getPlayerNum());
+        }
         return json;
     }
 
@@ -130,12 +139,20 @@ public class GameState {
     /**
      * Makes the turn belong to a specific player.
      *
-     * @param player    player number
+     * @param player player number
      */
-    public void setCurrentPlayer(int player) {currentPlayer = player;}
+    public void setCurrentPlayer(int player) {
+        currentPlayer = player;
+    }
 
     /**
      * Passes turn to next player.
      */
-    public void nextTurn() {turn++;}
+    public void nextTurn() {
+        turn++;
+    }
+
+    public void setWinner(Player player) {
+        this.winner = player;
+    }
 }

@@ -16,6 +16,10 @@
 package game.logic;
 
 import game.data.CountriesData;
+import game.objects.Board;
+import game.objects.Country;
+import game.objects.Player;
+import java.util.HashMap;
 
 public class BoardLogic {
     
@@ -35,5 +39,15 @@ public class BoardLogic {
      */
     public static boolean isNeighbour(String country1, String country2) {
         return CountriesData.neighboursMap.get(country1).contains(country2);
+    }
+    
+    public static boolean checkWinner(Player player, Board board) {
+        HashMap<String, Country> countries = board.getAllCountries();
+        for (Country country : countries.values()) {
+            if (country.getOwner() != player.getPlayerNum()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

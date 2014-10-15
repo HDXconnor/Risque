@@ -36,6 +36,7 @@ public class Game {
     private final int gameID;
     private final String password;
     private final MessageList messages;
+    private Player winner;
 
     public Game(String gameName, String password) {
         this.gameName = gameName;

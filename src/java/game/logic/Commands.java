@@ -307,15 +307,8 @@ public class Commands {
                 }
                 
                 // Win condition - if all countries owned by player, win.
-                boolean win = true;
-                HashMap<String, Country> countries = board.getAllCountries();
-                for (String key : countries.keySet()) {
-                    if (countries.get(key).getOwner() != game.getGameState().getCurrentPlayer()) {
-                        win = false;
-                    }
-                }
-                if (win) {
-                    System.out.println("A winner is you");
+                if (BoardLogic.checkWinner(player, board)) {
+                    game.getGameState().setWinner(player);
                 }
                 game.getMessages().addGameMessage(new GameMessage("Attack", outcome.toString()));
                 pushAllChanges(session, game, out);
