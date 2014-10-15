@@ -46,7 +46,7 @@ angular.module('gameApp')
                     }
                 };
                 this.attack = function () {
-                    if ($rootScope.attackCountryID !== null || $rootScope.defendCountryID !== null) {
+                    if ($rootScope.attackCountryID !== null && $rootScope.defendCountryID !== null) {
                         var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.attackCountryID, DefendingCountry: $rootScope.defendCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                         postData(send);
                         $rootScope.attackCountryName = null;
@@ -58,16 +58,17 @@ angular.module('gameApp')
                     }
                 };
                 this.move = function () {
-                    $rootScope.amountTroopsSent = document.getElementById("troop-amount").value;
-                    ;
-                    var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.moveFrom, CountryClicked: $rootScope.moveTo, CurrentPlayer: $rootScope.currentPlayer, Troops: $rootScope.amountTroopsSent}});
-                    postData(send);
-                    $rootScope.moveFrom = null;
-                    $rootScope.moveTo = null;
-                    $rootScope.moveFromCountryName = null;
-                    $rootScope.moveFromTroops = null;
-                    $rootScope.moveToCountryName = null;
-                    $rootScope.moveToTroops = null;
+                    if ($rootScope.amountTroopsSent !== null && $rootScope.moveFrom !== null && $rootScope.moveTo !== null) {
+                        $rootScope.amountTroopsSent = document.getElementById("troop-amount").value;
+                        var send = JSON.stringify({Command: "Move", Data: {SourceCountry: $rootScope.moveFrom, CountryClicked: $rootScope.moveTo, CurrentPlayer: $rootScope.currentPlayer, Troops: $rootScope.amountTroopsSent}});
+                        postData(send);
+                        $rootScope.moveFrom = null;
+                        $rootScope.moveTo = null;
+                        $rootScope.moveFromCountryName = null;
+                        $rootScope.moveFromTroops = null;
+                        $rootScope.moveToCountryName = null;
+                        $rootScope.moveToTroops = null;
+                    }
                 };
 
                 function postData(data) {
