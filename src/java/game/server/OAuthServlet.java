@@ -41,7 +41,7 @@ public class OAuthServlet extends HttpServlet {
     private static final String callback = "http://raptorrisk.me/OAuthServlet";
     private static final String facebookKey = "766984246696208";
     private static final String facebookSecret = "a92c4944d4c9a4c3c8247c4514cdbd46";
-    private static final String facebookScope = "publish_actions";
+    private static final String facebookScope = "public_profile";
     private static final String googleKey = "373200947340-vvqdr3itb4l6ema6nvjq54lddtr2bl6a.apps.googleusercontent.com";
     private static final String googleSecret = "OYmdBnb08OANrn1teNYaI304";
     private static final String googleScope = "openid profile email";
