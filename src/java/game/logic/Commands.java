@@ -166,7 +166,7 @@ public class Commands {
                 if (!session.equals(game.getCurrentPlayerObject().getSession())) {
                     throw new CommandException("Command: ENDPHASE. Not your turn. (session mismatch)");
                 }
-                if (game.getCurrentPlayerObject().getTroopsToDeploy() > 0) {
+                if (game.getCurrentPlayerObject().getTroopsToDeploy() > 0 && game.getGameState().getPhase().getPhase().equals(Phase.DEPLOY)) {
                     throw new CommandException("Command: ENDPHASE. Cannot use endphase when you still have more troops to deploy");
                 }
                 game.endPhase();
@@ -227,6 +227,9 @@ public class Commands {
                 if (!session.equals(player.getSession())) {
                     throw new CommandException("Command: DEPLOY. Not your turn. (session mismatch)");
                 }
+                if (!game.getGameState().getPhase().getPhase().equals(Phase.DEPLOY)) {
+                    throw new CommandException("Command: DEPLOY. Not in deploy phase.");
+                }
                 // if country is owned by player, and player has troops to deploy, deploy 1x troop
                 Country selectedCountry = board.getCountry(data.getString("CountryClicked"));
                 if (selectedCountry.isOwnedBy(player.getPlayerNum()) && player.getTroopsToDeploy() > 0) {
@@ -253,7 +256,9 @@ public class Commands {
                 if (!session.equals(player.getSession())) {
                     throw new CommandException("Command: ATTACK. Not your turn. (session mismatch)");
                 }
-
+                if (!game.getGameState().getPhase().getPhase().equals(Phase.ATTACK)) {
+                    throw new CommandException("Command: ATTACK. Not in attack phase.");
+                }
                 // Get data from the sent JSON
                 String attacker = data.getString("AttackingCountry");
                 String defender = data.getString("DefendingCountry");
@@ -323,7 +328,11 @@ public class Commands {
                 if (!session.equals(player.getSession())) {
                     throw new CommandException("Command: MOVE. Not your turn. (session mismatch)");
                 }
-
+                
+                if (!game.getGameState().getPhase().getPhase().equals(Phase.MOVE)) {
+                    throw new CommandException("Command: MOVE. Not in move phase.");
+                }
+                
                 // Get data from the sent JSON
                 String to = data.getString("CountryClicked");
                 String from = data.getString("SourceCountry");
