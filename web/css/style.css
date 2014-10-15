@@ -286,6 +286,17 @@ body
     height: 55px;
     display: inline-block;
     color: #ffffff;
+    margin-top: 16px;
+}
+
+#game-chat-button
+{
+    width: 25%;
+}
+
+#game-chatbox
+{
+    width: 50%;
 }
 .notification-nav
 {

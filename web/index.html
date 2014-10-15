@@ -19,11 +19,9 @@
         <!--<div id="notification-bar-container">-->
             <div id="notification-bar">
                 <div id="nav-display">
-                    <img src="images/current-player.png" class="notification-nav left" />
-                    <p id="game-notification">{{newestNotification}}</p>
-                    <p id="game-notification">{{secondNotification}}</p>
-                    <p id="game-notification">{{thirdNotification}}</p>
-                    <img src="images/current-player-reverse.png" class="notification-nav right" />
+                    <img src="images/current-player.png" class="notification-nav left" ng-click="goBack()"/>
+                    <p id="game-notification">{{gameMessages[currentNotification].Message}}</p>
+                    <img src="images/current-player-reverse.png" class="notification-nav right" ng-click="goForward()"/>
                 </div>
             </div>
         <!--</div>-->

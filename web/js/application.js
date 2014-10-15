@@ -25,16 +25,24 @@
                 $rootScope.chatObj = JSON.parse(e.data);
                 $rootScope.chatMessages = $rootScope.chatObj.ChatMessages;
                 $rootScope.gameMessages = $rootScope.chatObj.GameMessages;
-                if($rootScope.gameMessages.length>0){
-                $rootScope.newestNotification = $rootScope.gameMessages[$rootScope.gameMessages.length-1].Message;}
-                if($rootScope.gameMessages.length>1){
-                $rootScope.secondNotification = $rootScope.gameMessages[$rootScope.gameMessages.length-2];}
-                if($rootScope.gameMessages.length>2)
-                $rootScope.thirdNotification = $rootScope.gameMessages[$rootScope.gameMessages.length-3];
-                
+
+                $rootScope.currentNotification = $rootScope.gameMessages.length-1;
+
+
                 $rootScope.$apply();
             }, false);
 
+        $rootScope.goForward = function() {
+            if ($rootScope.currentNotification != $rootScope.gameMessages.length-1) {
+                $rootScope.currentNotification += 1;
+            }
+        };
+
+        $rootScope.goBack = function () {
+            if ($rootScope.currentNotification != 0) {
+                $rootScope.currentNotification -= 1;
+            }
+        };
             $rootScope.goingToAuth = false;
             window.onbeforeunload = function (e) {
                 // This function works, but runs when trying to login with oauth. Removed for now.
