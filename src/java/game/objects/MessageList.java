@@ -22,13 +22,11 @@ public class MessageList {
     Collection<ChatMessage> chatMessageList;
     Collection<GameMessage> gameMessageList;
     private long lastModified;
-    private int cleanup;
     
     public MessageList() {
         this.chatMessageList = Collections.synchronizedList(new LinkedList());
         this.gameMessageList = Collections.synchronizedList(new LinkedList());
         this.lastModified = System.currentTimeMillis();
-        this.cleanup = 0;
     }
     
     public void addChatMessage(ChatMessage message) {
@@ -50,7 +48,7 @@ public class MessageList {
     
     private JSONArray getChatMessages(HttpSession session) throws JSONException {
         JSONArray arr = new JSONArray();
-        if (session.getAttribute("LastChatMessageSeen") != null) {
+        if (session.getAttribute("LastMessageSeen") != null) {
             Iterator<ChatMessage> iterator = chatMessageList.iterator();
             while (iterator.hasNext()) {
                 ChatMessage message = iterator.next();
@@ -62,14 +60,14 @@ public class MessageList {
                 }
             }
         } else {
-            session.setAttribute("LastChatMessageSeen", (long) 0);
+            session.setAttribute("LastMessageSeen", (long) 0);
         }
         return arr;
     }
 
     private JSONArray getGameMessages(HttpSession session) throws JSONException {
         JSONArray arr = new JSONArray();
-        if (session.getAttribute("LastGameMessageSeen") != null) {
+        if (session.getAttribute("LastMessageSeen") != null) {
             Iterator<GameMessage> iterator = gameMessageList.iterator();
             while (iterator.hasNext()) {
                 GameMessage message = iterator.next();
@@ -81,7 +79,7 @@ public class MessageList {
                 }
             }
         } else {
-            session.setAttribute("LastGameMessageSeen", (long) 0);
+            session.setAttribute("LastMessageSeen", (long) 0);
         }
         return arr;
     }
