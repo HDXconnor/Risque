@@ -369,19 +369,10 @@ public class Commands {
                 List<Country> countries = new ArrayList<>();
                 countries.addAll(board.getAllCountries().values());
                 Collections.shuffle(countries);
-                int x = 1;
                 for (Country country : countries) {
-                    if (x > 40) {
-                        country.setOwner(1);
+                        country.setOwner(game.getGameState().getCurrentPlayer());
                         country.setTroops(1);
                         game.nextPlayer();
-                    } else {
-                        System.out.println(x);
-                        country.setOwner(0);
-                        country.setTroops(1);
-                        game.nextPlayer();
-                        x++;
-                    }
                 }
                 game.getGameState().closeLobby();
                 pushAllChanges(session, game, out);
