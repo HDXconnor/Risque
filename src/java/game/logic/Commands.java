@@ -131,6 +131,9 @@ public class Commands {
                 String name = data.getString("Username"); // name of player to be kicked, NOT YOUR OWN NAME
 
                 Game game = (Game) session.getAttribute("Game");
+                if (!game.getGameState().gameStarted()) {
+                    throw new CommandException("Command: KICK. Can only kick when in lobby.");
+                }
                 HttpSession kickedPlayerSession = game.getPlayerList().getPlayer(name).getSession();
                 game.getPlayerList().removePlayer(kickedPlayerSession);
                 kickedPlayerSession.removeAttribute("Game");
@@ -162,6 +165,9 @@ public class Commands {
                 Game game = (Game) session.getAttribute("Game");
                 if (!session.equals(game.getCurrentPlayerObject().getSession())) {
                     throw new CommandException("Command: ENDPHASE. Not your turn. (session mismatch)");
+                }
+                if (game.getCurrentPlayerObject().getTroopsToDeploy() > 0) {
+                    throw new CommandException("Command: ENDPHASE. Cannot use endphase when you still have more troops to deploy");
                 }
                 game.endPhase();
                 pushAllChanges(session, game, out);
