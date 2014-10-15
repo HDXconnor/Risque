@@ -28,9 +28,9 @@
                 if($rootScope.gameMessages.length>0){
                 $rootScope.newestNotification = $rootScope.gameMessages[$rootScope.gameMessages.length-1].Message;}
                 if($rootScope.gameMessages.length>1){
-                $rootScope.secondNotification = $rootScope.gameMessages[1];}
+                $rootScope.secondNotification = $rootScope.gameMessages[$rootScope.gameMessages.length-2];}
                 if($rootScope.gameMessages.length>2)
-                $rootScope.thirdNotification = $rootScope.gameMessages[2];
+                $rootScope.thirdNotification = $rootScope.gameMessages[$rootScope.gameMessages.length-3];
                 
                 $rootScope.$apply();
             }, false);
