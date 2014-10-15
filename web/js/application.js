@@ -25,6 +25,13 @@
                 $rootScope.chatObj = JSON.parse(e.data);
                 $rootScope.chatMessages = $rootScope.chatObj.ChatMessages;
                 $rootScope.gameMessages = $rootScope.chatObj.GameMessages;
+                if($rootScope.gameMessages.length>0){
+                $rootScope.newestNotification = $rootScope.gameMessages[$rootScope.gameMessages.length-1].Message;}
+                if($rootScope.gameMessages.length>1){
+                $rootScope.secondNotification = $rootScope.gameMessages[1];}
+                if($rootScope.gameMessages.length>2)
+                $rootScope.thirdNotification = $rootScope.gameMessages[2];
+                
                 $rootScope.$apply();
             }, false);
 

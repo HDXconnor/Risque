@@ -15,6 +15,10 @@ angular.module('gameApp')
             $rootScope.obj = null;
             $rootScope.gameStarted = false;
         };
+        this.magic = function(){
+            console.log($rootScope.gameMessages[0].Message);
+            console.log($rootScope.chatObj);
+        };
 
         function postData(data) {
                     $http({
