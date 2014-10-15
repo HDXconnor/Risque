@@ -264,12 +264,12 @@ public class Commands {
                 String defender = data.getString("DefendingCountry");
                 Country attackingCountry = board.getCountry(attacker);
                 Country defendingCountry = board.getCountry(defender);
-                
+
                 // the two countries must be neighbours
                 if (!BoardLogic.isNeighbour(attacker, defender)) {
                     throw new CommandException("Command: ATTACK. The two selected countries are not neighbours.");
                 }
-                
+
                 // do nothing if attacking player owns the country he is trying to attack
                 if (defendingCountry.isOwnedBy(player.getPlayerNum())) {
                     throw new CommandException("Command: ATTACK. Player " + player + " cannot attack his own country.");
@@ -333,11 +333,11 @@ public class Commands {
                 if (!session.equals(player.getSession())) {
                     throw new CommandException("Command: MOVE. Not your turn. (session mismatch)");
                 }
-                
+
                 if (!game.getGameState().getPhase().getPhase().equals(Phase.MOVE)) {
                     throw new CommandException("Command: MOVE. Not in move phase.");
                 }
-                
+
                 // Get data from the sent JSON
                 String to = data.getString("CountryClicked");
                 String from = data.getString("SourceCountry");
@@ -369,10 +369,19 @@ public class Commands {
                 List<Country> countries = new ArrayList<>();
                 countries.addAll(board.getAllCountries().values());
                 Collections.shuffle(countries);
+                int x = 1;
                 for (Country country : countries) {
-                    country.setOwner(game.getGameState().getCurrentPlayer());
-                    country.setTroops(1);
-                    game.nextPlayer();
+                    if (x > 40) {
+                        country.setOwner(1);
+                        country.setTroops(1);
+                        game.nextPlayer();
+                    } else {
+                        System.out.println(x);
+                        country.setOwner(0);
+                        country.setTroops(1);
+                        game.nextPlayer();
+                        x++;
+                    }
                 }
                 game.getGameState().closeLobby();
                 pushAllChanges(session, game, out);
