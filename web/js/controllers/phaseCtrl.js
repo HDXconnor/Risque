@@ -34,18 +34,21 @@ angular.module('gameApp')
             }
         };
 
-        this.endPhaseVis = function () {
-            if($rootScope.phase === "Attack" || $rootScope.phase === "Move"){
-                if($rootScope.currentPlayer===$rootScope.thisUserNumber){
-                    return $rootScope.isHidden;
-                }else{
-                    return true;
-                }
-            }else{
-                return true;
-            }            
-        };
-            
+
+
+                this.endPhaseVis = function () {
+                    if ($rootScope.phase === "Attack" || $rootScope.phase === "Move") {
+                        if ($rootScope.CurrentPlayer === $rootScope.thisUserNumber) {
+                            return $rootScope.isHidden;
+                        }
+                        else {
+                            return true;
+                        }
+                    } else {
+                        return true;
+                    }
+                };
+
             
 
         this.endPhase = function () {
