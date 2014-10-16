@@ -23,7 +23,6 @@ import game.objects.exceptions.TroopsException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,7 +96,6 @@ public class Commands {
                 if (gamePassword.equals(game.getPassword())) {
                     game.getPlayerList().joinGame(new Player(name, session));
                     session.setAttribute("Game", game);
-                    game.getMessages().addGameMessage(new GameMessage("Setup", name + " has joined the game"));
                     pushAllChanges(session, game, out);
                 } else {
                     throw new CommandException("Command: JOIN. Invalid password.");

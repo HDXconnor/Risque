@@ -86,10 +86,14 @@ angular.module('gameApp')
                     }
                 };
                 this.sendChat = function() {
-                    var chatString = document.getElementById("game-chatbox").value;
-                    var chatData = JSON.stringify({Data : {Username: $rootScope.userName, Message: chatString}});
+                    var chatString = document.getElementById("game-chatbox").value.trim();
+                    if (chatString) {
+                        var chatData = JSON.stringify({Data: {Username: $rootScope.userName, Message: chatString}});
                     $rootScope.chatMessages.push({Username: $rootScope.userName,Message: chatString});
-                    $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success();
+                        $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success(function () {
+                            document.getElementById("game-chatbox").value = "";
+                        });
+                    }
                 };
 
                 function postData(data) {

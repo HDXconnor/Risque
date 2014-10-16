@@ -20,15 +20,15 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpSession;
 
 public class PlayerList {
-    private final HashMap<Integer, Player> players;
+    private final ConcurrentHashMap<Integer, Player> players;
     
     public PlayerList() {
-        players = new HashMap<>();
+        players = new ConcurrentHashMap<>();
     }
     
     public void joinGame(Player newPlayer) throws PlayerException {
@@ -63,7 +63,7 @@ public class PlayerList {
         return -1;
     }
     
-    public HashMap getPlayerHashMap() {
+    public ConcurrentHashMap getPlayerHashMap() {
         return players;
     }
 
@@ -100,6 +100,7 @@ public class PlayerList {
      * Removes a specified player from the game.
      *
      * @param playerName    player name.
+     * @throws game.objects.exceptions.PlayerException
      */
     public void removePlayer(String playerName) throws PlayerException {
         for (int i = 0; i < players.size(); i++) {

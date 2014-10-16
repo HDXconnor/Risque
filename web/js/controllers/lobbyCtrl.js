@@ -84,11 +84,15 @@ angular.module('gameApp')
                     postData(quitData);
                 };
 
-                this.sendChat = function() {
-                    var chatString = document.getElementById("chatbox").value;
-                    var chatData = JSON.stringify({Data : {Username: $rootScope.userName, Message: chatString}});
+                this.sendChat = function () {
+                    var chatString = document.getElementById("chatbox").value.trim();
+                    if (chatString) {
+                        var chatData = JSON.stringify({Data: {Username: $rootScope.userName, Message: chatString}});
                     $rootScope.chatMessages.push({"Username": $rootScope.userName,"Message": chatString});
-                    $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success();
+                        $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success(function () {
+                            document.getElementById("chatbox").value = "";
+                        });
+                    }
                 };
 
                 this.quickStartButton = function () {
