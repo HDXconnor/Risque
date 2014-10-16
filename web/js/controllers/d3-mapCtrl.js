@@ -4,6 +4,7 @@ angular.module('gameApp')
     .controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
         $rootScope.mapList = {};
         $rootScope.joinList = {};
+        $rootScope.numberList = {};
         $rootScope.scale = String(window.innerHeight/1130);
         var canvas = String((window.innerHeight/1130)*900);
         $rootScope.moveFrom = null;
@@ -40,6 +41,15 @@ angular.module('gameApp')
                         .attr("fill", index.fill)
                         .attr("class", "countryShape")
                         .attr("transform", "scale(" + $rootScope.scale + ")");
+
+                    $rootScope.numberList[index.id] = $rootScope.svgMap.append("text")
+                        .attr("id",index.id + "Number")
+                        .attr("fill", "white")
+                        .attr("x", index.x)
+                        .attr("y", index.y)
+                        .attr("font-size", "20pt")
+                        .text("0")
+                        .attr("transform", "scale(" + $rootScope.scale + ")");
                 }
             });
 
@@ -48,52 +58,58 @@ angular.module('gameApp')
                 angular.forEach($rootScope.board, function (country) {
                     if (country.Owner === -1) {
                         $rootScope.mapList[country.CountryID].attr("fill", "black");
+                        $rootScope.numberList[country.CountryID].text("0")
+                            .attr("fill", "white");
                     }
                     else if (country.Owner === 0) {
                         $rootScope.mapList[country.CountryID].attr("fill", "#FF3B30");
+                        $rootScope.numberList[country.CountryID].text(country.Troops)
+                            .attr("fill", "black");
                     }
                     else if (country.Owner === 1) {
                         $rootScope.mapList[country.CountryID].attr("fill", "#00ff1b");
+                        $rootScope.numberList[country.CountryID].text(country.Troops)
+                            .attr("fill", "black");
                     }
                     else if (country.Owner === 2) {
                         $rootScope.mapList[country.CountryID].attr("fill", "#66FFE7");
+                        $rootScope.numberList[country.CountryID].text(country.Troops)
+                            .attr("fill", "black");
                     }
                     else if (country.Owner === 3) {
                         $rootScope.mapList[country.CountryID].attr("fill", "#4A4A4A");
+                        $rootScope.numberList[country.CountryID].text(country.Troops)
+                            .attr("fill", "black");
                     }
                     else if (country.Owner === 4) {
                         $rootScope.mapList[country.CountryID].attr("fill", "#6f3ed6");
+                        $rootScope.numberList[country.CountryID].text(country.Troops)
+                            .attr("fill", "black");
                     }
                     else if (country.Owner === 5) {
                         $rootScope.mapList[country.CountryID].attr("fill", "#007AFF");
+                        $rootScope.numberList[country.CountryID].text(country.Troops)
+                            .attr("fill", "black");
                     }
                 });
             }
 
-            function troopCounters($rootScope) {
-                angular.forEach($rootScope.board, function (country) {
-                    var countryID = country.CountryID;
-                    var element = document.getElementById(countryID);
-                    var bbox = element.getBBox();
-                    var x = bbox.x;
-                    var y = bbox.y;
-                    var h = bbox.height;
-                    var w = bbox.width;
-                    var centerX = x + (w/2);
-                    var centerY = y + (h/2);
-                    console.log(bbox);
-                    $rootScope.svgMap.append("text")
-                        .attr("id",countryID + "Number")
-                        .attr("fill", "black")
-                        .attr("x", centerX)
-                        .attr("y", centerY)
-                        .attr("font-size", "20pt")
-                        .text(country.Troops)
-                        .attr("transform", "scale(" + $rootScope.scale + ")");
-
-
-                });
-            }
+//            function troopCounters($rootScope) {
+//                angular.forEach($rootScope.board, function (country) {
+//                    var countryID = country.CountryID;
+//                    var element = document.getElementById(countryID);
+//                    var bbox = element.getBBox();
+//                    var x = bbox.x;
+//                    var y = bbox.y;
+//                    var h = bbox.height;
+//                    var w = bbox.width;
+//                    var centerX = x + (w/2);
+//                    var centerY = y + (h/2);
+//                    console.log(bbox);
+//
+//
+//                });
+//            }
 
                 angular.forEach($rootScope.mapList, function (index) {
 

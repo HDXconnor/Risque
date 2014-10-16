@@ -15,7 +15,7 @@
                 <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.logOut()"> Log Out </button>
             </div>
         </div>
-        <div id="pre-game" ng-show="obj==null">
+        <div id="pre-game" ng-show="obj==null && gameStarted==false">
             <div id="games-list">
                 <h2 class="headings"> Games List </h2>
                 <div id="lobby-display">
