@@ -4,7 +4,7 @@ angular.module('gameApp')
     .controller("MapController", ["$rootScope", '$http', function ($rootScope, $http) {
         $rootScope.mapList = {};
         $rootScope.joinList = {};
-        var scale = String(window.innerHeight/1130);
+        $rootScope.scale = String(window.innerHeight/1130);
         var canvas = String((window.innerHeight/1130)*900);
         $rootScope.moveFrom = null;
         $rootScope.moveTo = null;
@@ -28,7 +28,7 @@ angular.module('gameApp')
                         .attr("fill", "none")
                         .attr("stroke-width", 1)
                         .attr("stroke-linejoin", "round")
-                        .attr("transform", "scale(" + scale + ")");
+                        .attr("transform", "scale(" + $rootScope.scale + ")");
                 } else {
                     $rootScope.mapList[index.id] = $rootScope.svgMap.append("path")
                         .attr("id", index.id)
@@ -39,10 +39,11 @@ angular.module('gameApp')
                         .attr("cursor", "pointer")
                         .attr("fill", index.fill)
                         .attr("class", "countryShape")
-                        .attr("transform", "scale(" + scale + ")");
+                        .attr("transform", "scale(" + $rootScope.scale + ")");
                 }
             });
-            
+
+
             function color($rootScope) {
                 angular.forEach($rootScope.board, function (country) {
                     if (country.Owner === -1) {
@@ -68,7 +69,7 @@ angular.module('gameApp')
                     }
                 });
             }
-            
+
             function troopCounters($rootScope) {
                 angular.forEach($rootScope.board, function (country) {
                     var countryID = country.CountryID;
@@ -88,9 +89,9 @@ angular.module('gameApp')
                         .attr("y", centerY)
                         .attr("font-size", "20pt")
                         .text(country.Troops)
-                        .attr("transform", "scale(" + scale + ")");
+                        .attr("transform", "scale(" + $rootScope.scale + ")");
 
-                    
+
                 });
             }
 
@@ -142,7 +143,6 @@ angular.module('gameApp')
 
                 index[0][0].addEventListener("mouseout", function () {
                     color($rootScope);
-                    troopCounters($rootScope);
                 }, true);
 
                 index[0][0].addEventListener("click", function () {

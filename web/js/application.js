@@ -108,22 +108,6 @@
                     postData(endPhaseData);
                     $rootScope.phase = "Attack";
                 }
-                //sends out end phase when the last player has finished deploying
-//            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.players.length - 1].TroopsToDeploy === 0) {
-//                var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
-//                postData(endPhaseData);
-//            }
-                //if current players trooptodeploy has diminished, switch player
-//            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].TroopsToDeploy === 0 ) {
-//                var endTroopDeployData = JSON.stringify({Command: "EndTurn", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
-//                postData(endTroopDeployData);
-//                if($rootScope.CurrentPlayer == $rootScope.players.length-1){
-//                    var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
-//                    postData(endPhaseData);
-//                }
-//                
-//            }
-                
 
                 function postData(data) {
                     $http({
@@ -135,11 +119,43 @@
                         $rootScope.obj = output;                        
                     });
                 };
+
                 color($rootScope);
+
                 $rootScope.$apply();
             }, false);
         }]);
+    function troopCountersFirst($rootScope) {
+        angular.forEach($rootScope.board, function (country) {
+            var countryID = country.CountryID;
+            var element = document.getElementById(countryID);
+            var bbox = element.getBBox();
+            var x = bbox.x;
+            var y = bbox.y;
+            var h = bbox.height;
+            var w = bbox.width;
+            var centerX = x + (w/2);
+            var centerY = y + (h/2);
+            console.log(bbox);
+            $rootScope.svgMap.append("text")
+                .attr("id",countryID + "Number")
+                .attr("fill", "black")
+                .attr("x", centerX)
+                .attr("y", centerY)
+                .attr("font-size", "20pt")
+                .text(country.Troops)
+                .attr("transform", "scale(" + $rootScope.scale + ")");
 
+
+        });
+    }
+
+    function troopCounters($rootScope) {
+        angular.forEach($rootScope.board, function (country) {
+            var current = d3.select(country.CountryID);
+            current.attr("text", country.Troops);
+        });
+    }
     function color($rootScope) {
         angular.forEach($rootScope.board, function (country) {
             if (country.Owner === -1) {
@@ -163,6 +179,7 @@
             else if (country.Owner === 5) {
                 $rootScope.mapList[country.CountryID].attr("fill", "#007AFF");
             }
+            troopCounters($rootScope);
         });
 
     }

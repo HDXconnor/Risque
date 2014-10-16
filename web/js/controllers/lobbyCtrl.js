@@ -39,6 +39,7 @@ angular.module('gameApp')
                 this.quickStart = function(){
                     var quickStartData = JSON.stringify({Command: "QuickStart", Data: {}});
                     postData(quickStartData);
+                    $rootScope.troopCountersFirst($rootScope);
                 };
                    
                 this.setGameName= function () {
