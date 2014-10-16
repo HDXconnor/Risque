@@ -165,8 +165,8 @@ public class Commands {
                 if (!session.equals(game.getCurrentPlayerObject().getSession())) {
                     throw new CommandException("Command: ENDPHASE. Not your turn. (session mismatch)");
                 }
-                if (game.getCurrentPlayerObject().getTroopsToDeploy() > 0 && game.getGameState().getPhase().getPhase().equals(Phase.DEPLOY)) {
-                    throw new CommandException("Command: ENDPHASE. Cannot use endphase when you still have more troops to deploy");
+                if ((game.getCurrentPlayerObject().getTroopsToDeploy() > 0 && game.getGameState().getPhase().getPhase().equals(Phase.DEPLOY)) || game.getBoard().getUnassigned() > 0) {
+                    throw new CommandException("Command: ENDPHASE. Cannot use endphase when you still have more troops to deploy or if there are unassigned countries.");
                 }
                 game.endPhase();
                 pushAllChanges(session, game, out);
@@ -293,11 +293,13 @@ public class Commands {
 
                 // roll the dice
                 AttackOutcome outcome = Dice.Roll(attackingDice, defendingDice);
+                int troopsLostByAttacker = outcome.getTroopsLostByAttacker();
+                int troopsLostByDefender = outcome.getTroopsLostByDefender();
                 System.out.println(outcome);
 
                 // country loses troops
-                attackingCountry.removeTroops(outcome.getTroopsLostByAttacker());
-                defendingCountry.removeTroops(outcome.getTroopsLostByDefender());
+                attackingCountry.removeTroops(troopsLostByAttacker);
+                defendingCountry.removeTroops(troopsLostByDefender);
                 
                 // check if takeover occurred
                 boolean takeoverOccured = false;
@@ -314,26 +316,42 @@ public class Commands {
                 }
                 
                 StringBuilder message = new StringBuilder();
-                message.append(player.getName());
-                message.append(" vs ");
-                message.append(defendingPlayer.getName());
-                message.append(";");
-                message.append(player.getName());
-                message.append(" lost ");
-                message.append(outcome.getTroopsLostByAttacker());
-                message.append(" troops;");
-                message.append(defendingPlayer.getName());
-                message.append(" lost ");
-                message.append(outcome.getTroopsLostByDefender());
-                message.append(" troops");
+                
+                message.append(attackingCountry.getName());
+                message.append(" has attacked ");
+                message.append(defendingCountry.getName());
+                
+                if (troopsLostByAttacker > 0) {
+                    message.append(";");
+                    message.append(attackingCountry.getName());
+                    message.append(" lost ");
+                    message.append(troopsLostByAttacker);
+                    message.append(" troop");
+                    if (troopsLostByAttacker > 1) {
+                        message.append("s");
+                    }
+                }
+                
+                if (troopsLostByDefender > 0) {
+                    message.append(";");
+                    message.append(defendingPlayer.getName());
+                    message.append(" lost ");
+                    message.append(troopsLostByDefender);
+                    message.append(" troop");
+                    if (troopsLostByDefender > 1) {
+                        message.append("s");
+                    }
+                }
+                
                 if (takeoverOccured) {
                     message.append(";");
                     message.append(player.getName());
                     message.append(" has taken over ");
                     message.append(defendingPlayer.getName());
-                    message.append("'s country.");
+                    message.append("'s country, ");
+                    message.append(defendingCountry.getName());
+                    message.append(".");
                 }
-                
                 
                 game.getMessages().addGameMessage(new GameMessage("Attack", message.toString()));
                 pushAllChanges(session, game, out);
@@ -395,6 +413,7 @@ public class Commands {
                         game.nextPlayer();
                 }
                 game.getGameState().closeLobby();
+                game.endPhase();
                 pushAllChanges(session, game, out);
                 break;
             }
