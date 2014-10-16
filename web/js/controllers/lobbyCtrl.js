@@ -2,6 +2,13 @@
 
 angular.module('gameApp')
         .controller('LobbyController', ['$rootScope', '$http', function ($rootScope, $http) {
+                this.isGamesListLoading = function(){
+                    if ($rootScope.lobbyList == null) {
+                            return true;}
+                         else {
+                            return false;
+                        }
+                    };
                 this.isHost = function() {
                     if ($rootScope.obj != null) {
                         if ($rootScope.userName == $rootScope.players[0].DisplayName) {
@@ -80,6 +87,7 @@ angular.module('gameApp')
                 this.sendChat = function() {
                     var chatString = document.getElementById("chatbox").value;
                     var chatData = JSON.stringify({Data : {Username: $rootScope.userName, Message: chatString}});
+                    $rootScope.chatMessages.push({"Username": $rootScope.userName,"Message": chatString});
                     $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success();
                 };
 

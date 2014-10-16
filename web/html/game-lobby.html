@@ -27,6 +27,9 @@
                         <button class="join-button" type="button" ng-click="lobby.joinGame(game.GameID)"> Join </button>
                     </div>
                 </div>
+                <div id="empty-list" ng-show="lobby.isGamesListLoading()">
+                    <p class="center"> Fetching game(s), please be patient.. </p>
+                </div>
                 <div id="empty-list" ng-show="lobby.isGamesListEmpty()">
                     <p class="center"> There are currently no games available; please feel free to create one below. </p>
                 </div>

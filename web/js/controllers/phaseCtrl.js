@@ -6,7 +6,7 @@ angular.module('gameApp')
 
                 this.increment = function(){
                     $rootScope.amountTroopsToMove++;
-                }
+                };
                 this.decrement= function(){
                     if($rootScope.amountTroopsToMove !=0) {
                         $rootScope.amountTroopsToMove--;
@@ -45,6 +45,11 @@ angular.module('gameApp')
                 this.endPhase = function () {
                     var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                     postData(endPhaseData);
+                    if($rootScope.phase=="Attack"){
+                        $rootScope.phase="Move";
+                    }else if($rootScope.phase="Move"){
+                        $rootScope.phase="Deploy";
+                    }
                 }
 
                 this.reinfBoxes = function () {
@@ -83,6 +88,7 @@ angular.module('gameApp')
                 this.sendChat = function() {
                     var chatString = document.getElementById("game-chatbox").value;
                     var chatData = JSON.stringify({Data : {Username: $rootScope.userName, Message: chatString}});
+                    $rootScope.chatMessages.push({Username: $rootScope.userName,Message: chatString});
                     $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success();
                 };
 

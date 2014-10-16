@@ -98,6 +98,7 @@
                     if ($rootScope.phase === "Setup" && $rootScope.countryCount === 0) {
                         var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                         postData(endPhaseData);
+                        $rootScope.phase = "Deploy";
                     }
                 }
 
@@ -105,6 +106,7 @@
                 if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].TroopsToDeploy === 0) {
                     var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
                     postData(endPhaseData);
+                    $rootScope.phase = "Attack";
                 }
                 //sends out end phase when the last player has finished deploying
 //            if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.players.length - 1].TroopsToDeploy === 0) {
