@@ -100,6 +100,7 @@ public class PlayerList {
      * Removes a specified player from the game.
      *
      * @param playerName    player name.
+     * @throws game.objects.exceptions.PlayerException
      */
     public void removePlayer(String playerName) throws PlayerException {
         for (int i = 0; i < players.size(); i++) {

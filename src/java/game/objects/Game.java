@@ -86,13 +86,16 @@ public class Game {
         int countryBonus = (int) (Math.floor(countriesOwned / 4));
         playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(Math.max(3, countryBonus));
 
+        boolean loser = true;
         HashMap<String, Country> countries = board.getAllCountries();
         for (Country country : countries.values()) {
-            if (country.getOwner() == gameState.getCurrentPlayer()  && !phase.getPhase().equals(Phase.SETUP)) {
-                return;
+            if (country.getOwner() == gameState.getCurrentPlayer() && !phase.getPhase().equals(Phase.SETUP)) {
+                loser = false;
             }
         }
-        nextPlayer();
+        if (loser) {
+            this.nextPlayer();
+        }
     }
 
     public Player getCurrentPlayerObject() {
