@@ -259,6 +259,9 @@ public class Commands {
                     throw new CommandException("Command: ATTACK. Not in attack phase.");
                 }
                 // Get data from the sent JSON
+                if (data.getString("AttackingCountry").equals(null) || data.getString("DefendingCountry").equals(null)) {
+                    throw new CommandException("Command: ATTACK. Null data.");
+                }
                 String attacker = data.getString("AttackingCountry");
                 String defender = data.getString("DefendingCountry");
                 Country attackingCountry = board.getCountry(attacker);
@@ -378,6 +381,9 @@ public class Commands {
                 }
 
                 // Get data from the sent JSON
+                if (data.getString("AttackingCountry").equals(null) || data.getString("DefendingCountry").equals(null)) {
+                    throw new CommandException("Command: ATTACK. Null data.");
+                }
                 String to = data.getString("CountryClicked");
                 String from = data.getString("SourceCountry");
 
