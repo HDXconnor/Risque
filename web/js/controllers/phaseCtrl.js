@@ -13,7 +13,7 @@ angular.module('gameApp')
             }
         }
         this.atkBoxes = function () {
-            if ($rootScope.phase === "Attack") {
+            if ($rootScope.phase === "Attack" && $rootScope.CurrentPlayer === $rootScope.thisUserNumber) {
                 return $rootScope.isHidden;
             } else {
                 return true;
@@ -27,7 +27,7 @@ angular.module('gameApp')
             }
         }
         this.deployBoxes = function () {
-            if ($rootScope.phase === "Deploy") {
+            if ($rootScope.phase === "Deploy" && $rootScope.CurrentPlayer === $rootScope.thisUserNumber) {
                 return $rootScope.isHidden;
             } else {
                 return true;
@@ -53,7 +53,7 @@ angular.module('gameApp')
         }
 
         this.reinfBoxes = function () {
-            if ($rootScope.phase === "Move") {
+            if ($rootScope.phase === "Move" && $rootScope.CurrentPlayer === $rootScope.thisUserNumber) {
                 return $rootScope.isHidden;
             } else {
                 return true;

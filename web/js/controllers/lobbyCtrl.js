@@ -60,8 +60,8 @@ angular.module('gameApp')
                 };
 
                 this.quitGame = function () {
-                    var startGameData = JSON.stringify({Command: "Quit", Data: {}});
-                    postData(startGameData);
+                    var quitGame = JSON.stringify({Command: "Quit", Data: {}});
+                    postData(quitGame);
                     $rootScope.obj = null;
                 };
 
@@ -75,9 +75,13 @@ angular.module('gameApp')
                     if ($rootScope.obj!=null) {
                         this.quitGame();
                     }
-                    var startGameData = JSON.stringify({Command:"Logout",Data:{}});
+                    var logoutData = JSON.stringify({Command:"Logout",Data:{}});
+                    postData(logoutData);
+                    $rootScope.obj = null;
+                    $rootScope.nameObj = null;
+                    $rootScope.lobbyObj = null;
+                    $rootScope.chatObj = null;
                     $rootScope.userName = null;
-                    postData(startGameData);
                 };
 
                 this.delCookie = function () {

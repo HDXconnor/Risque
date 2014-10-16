@@ -79,10 +79,6 @@
                 $rootScope.lobbySize = 6;
                 $rootScope.playerString = "player";
 
-                //sets first player to host
-//                if ($rootScope.players.length !== 0) {
-//                    $rootScope.host = $rootScope.players[0].DisplayName;
-//                }
                 
                 for (var i = 0; i < $rootScope.players.length ; i++) {
                     if ($rootScope.players[i].DisplayName === $rootScope.userName) {
