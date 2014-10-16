@@ -1,5 +1,16 @@
 <div id="right-bar" class="side-bars" ng-controller="PhaseController as phase">
     <div id="phase-areas">
+        <div ng-hide="CurrentPlayer == thisUserNumber">
+            <h3> Current Phase</h3>
+            <p>{{phase}} Phase</p>
+        </div>
+        <div>
+            <h3> Current Country </h3>
+            <p>Country: {{countryName}}</p>
+            <p>Owner: {{playerName}}</p>
+            <p>Troops: {{troops}}</p>
+        </div>
+
         <div ng-hide="phase.setupBoxes()">
             <div id="game-state" class="game-box">
                 <h3>Setup</h3>
@@ -42,21 +53,10 @@
         </div>
     </div>
     <div id="game-chat" class="game-box">
-        <div>
-            <div id="game-message-area">
-                <p ng-repeat="message in chatMessages">
-                    <em>{{message.Username}}: </em> {{message.Message}}
-                </p>
-            </div>
-            <div id="game-chat-bar" class="create-game" >
-                <form>
-                    <input id="game-chatbox" type="text" class="input-type create-input" name="chat" placeholder="Chat">
-                    <button id="game-chat-button" class="pretty-button create-button" type="button" ng-click="phase.sendChat()"> Send </button>
-                </form>
-            </div>
-        </div>
-        <div ng-hide="phase.endPhaseVis()">
-            <button id="endphase" class="pretty-button fat" type="button" ng-click="phase.endPhase()" > End Phase</button>
+
+        <div >
+            <button id="endphase" class="pretty-button fat" type="button" ng-click="phase.endPhase()" ng-hide="phase.endPhaseVis()"> End Phase</button>
+            <button class="quit-button fat" type="button" ng-click="phase.quitGame()"> Quit </button>
         </div>
     </div>
 

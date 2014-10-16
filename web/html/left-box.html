@@ -12,19 +12,21 @@
     </div>
 
     <div id="current-country" class="game-box">
-        <div ng-hide="CurrentPlayer == thisUserNumber">
-            <h3> Current Phase</h3>
-            <p>{{phase}} Phase</p>
-        </div>
         <div>
-            <h3> Current Country </h3>
-            <p>Country: {{countryName}}</p>
-            <p>Owner: {{playerName}}</p>
-            <p>Troops: {{troops}}</p>
+            <div id="game-message-area">
+                <p ng-repeat="message in chatMessages">
+                    <em>{{message.Username}}: </em> {{message.Message}}
+                </p>
+            </div>
+            <div id="game-chat-bar" class="create-game" >
+                <form>
+                    <input id="game-chatbox" type="text" class="input-type create-input" name="chat" placeholder="Chat">
+                    <button id="game-chat-button" class="pretty-button create-button" type="button" ng-click="game.sendChat()"> Send </button>
+                </form>
+            </div>
         </div>
-        <div>
-            <button class="quit-button fat" type="button" ng-click="game.magic()"> magic </button>
-            <button class="quit-button fat" type="button" ng-click="game.quitGame()"> Quit </button>
-        </div>
+        <!--<div>-->
+            <!--<button class="quit-button fat" type="button" ng-click="game.magic()"> magic </button>-->
+        <!--</div>-->
     </div>
 </div>
