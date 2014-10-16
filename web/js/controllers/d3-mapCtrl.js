@@ -20,7 +20,7 @@ angular.module('gameApp')
 
             //Add Countries to SVG Container
             angular.forEach(mapData.Map, function (index) {
-                if (index.id.indexOf("Join") != -1) {
+                if (index.id.indexOf("Join") !== -1) {
                     $rootScope.joinList[index.id] = $rootScope.svgMap.append("path")
                         .attr("id", index.id)
                         .attr("d", index.d)
@@ -42,8 +42,7 @@ angular.module('gameApp')
                         .attr("transform", "scale(" + scale + ")");
                 }
             });
-
-
+            
             function color($rootScope) {
                 angular.forEach($rootScope.board, function (country) {
                     if (country.Owner === -1) {
@@ -67,6 +66,20 @@ angular.module('gameApp')
                     else if (country.Owner === 5) {
                         $rootScope.mapList[country.CountryID].attr("fill", "#007AFF");
                     }
+                });
+            }
+            
+            function troopCounters($rootScope) {
+                angular.forEach($rootScope.board, function (country) {
+                    var countryID = country.CountryID;
+                    var element = document.getElementById(countryID);
+                    var bbox = element.getBBox();
+                    var x = bbox.x;
+                    var y = bbox.y;
+                    var h = bbox.h;
+                    var w = bbox.w;
+                    
+                    
                 });
             }
 
@@ -161,12 +174,12 @@ angular.module('gameApp')
                             angular.forEach($rootScope.board, function (index) {
                                 if ($rootScope.thisCountryID === index.CountryID){
                                     if ($rootScope.CurrentPlayer === index.Owner) {
-                            if($rootScope.moveFrom==null){
+                            if($rootScope.moveFrom===null){
                                 $rootScope.moveFrom=$rootScope.thisCountryID;
                                 $rootScope.moveFromCountryName= index.CountryName;
                                 $rootScope.moveFromTroops=index.Troops;
                                 $rootScope.moveFromOwner = index.Owner;
-                            }else if($rootScope.moveTo==null){
+                            }else if($rootScope.moveTo===null){
                                 $rootScope.moveTo=$rootScope.thisCountryID;
                                 $rootScope.moveToCountryName=index.CountryName;
                                 $rootScope.moveToTroops=index.Troops;
