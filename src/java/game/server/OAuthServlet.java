@@ -30,10 +30,6 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.scribe.builder.api.Google2Api;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Verb;
-import org.scribe.model.Verifier;
 
 public class OAuthServlet extends HttpServlet {
 
@@ -51,9 +47,6 @@ public class OAuthServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/event-stream");
-        response.setCharacterEncoding("UTF-8");
-        response.addHeader("Connection", "keep-alive");
         response.addHeader("Cache-Control", "no-cache");
         HttpSession session = request.getSession();
         if (session.getAttribute("state").equals(request.getParameter("state"))) {
