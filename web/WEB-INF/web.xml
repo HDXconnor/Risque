@@ -5,10 +5,6 @@
         <servlet-class>game.server.GameServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>LobbyServlet</servlet-name>
-        <servlet-class>game.server.LobbyServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>OAuthServlet</servlet-name>
         <servlet-class>game.server.OAuthServlet</servlet-class>
     </servlet>
@@ -19,10 +15,6 @@
     <servlet-mapping>
         <servlet-name>GameServlet</servlet-name>
         <url-pattern>/GameServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LobbyServlet</servlet-name>
-        <url-pattern>/LobbyServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>OAuthServlet</servlet-name>
