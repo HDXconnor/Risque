@@ -94,15 +94,6 @@
                         $rootScope.host = $rootScope.players[i].DisplayName;
                     }
                 }
-
-                if ($rootScope.host === $rootScope.userName) {
-                    if ($rootScope.phase === "Setup" && $rootScope.countryCount === 0) {
-                        var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});
-                        postData(endPhaseData);
-                        $rootScope.phase = "Deploy";
-                    }
-                }
-
                 //end phase when last troop deployed
                 if ($rootScope.phase === "Deploy" && $rootScope.players[$rootScope.CurrentPlayer].TroopsToDeploy === 0) {
                     var endPhaseData = JSON.stringify({Command: "EndPhase", Data: {CurrentPlayer: $rootScope.CurrentPlayer}});

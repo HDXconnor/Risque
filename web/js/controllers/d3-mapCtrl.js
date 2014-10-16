@@ -151,7 +151,6 @@ angular.module('gameApp')
 
                 index[0][0].addEventListener("click", function () {
                     $rootScope.thisCountryID = index[0][0].id;
-
                     if ($rootScope.CurrentPlayer === $rootScope.thisUserNumber) {
                         if ($rootScope.phase === "Setup") {
                             var send = JSON.stringify({Command: "Setup", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.CurrentPlayer}});

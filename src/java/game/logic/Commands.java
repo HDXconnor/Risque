@@ -207,6 +207,9 @@ public class Commands {
                     selectedCountry.setTroops(1);
                     game.getMessages().addGameMessage(new GameMessage("Setup", player.getName() + " claims " + selectedCountry.getName()));
                     game.endTurn();
+                    if (board.getUnassigned() == 0) {
+                        game.endPhase();
+                    }
                 } else {
                     throw new CommandException("Command: SETUP. Country already has an owner!");
                 }
