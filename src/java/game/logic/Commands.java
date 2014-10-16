@@ -263,6 +263,8 @@ public class Commands {
                 String defender = data.getString("DefendingCountry");
                 Country attackingCountry = board.getCountry(attacker);
                 Country defendingCountry = board.getCountry(defender);
+                
+                Player defendingPlayer = game.getPlayerList().getPlayer(defendingCountry.getOwner());
 
                 // the two countries must be neighbours
                 if (!BoardLogic.isNeighbour(attacker, defender)) {
@@ -296,9 +298,11 @@ public class Commands {
                 // country loses troops
                 attackingCountry.removeTroops(outcome.getTroopsLostByAttacker());
                 defendingCountry.removeTroops(outcome.getTroopsLostByDefender());
-
+                
                 // check if takeover occurred
+                boolean takeoverOccured = false;
                 if (defendingCountry.getTroops() == 0) {
+                    takeoverOccured = true;
                     defendingCountry.setOwner(player.getPlayerNum());
                     defendingCountry.setTroops(attackingCountry.getTroops() - 1);
                     attackingCountry.setTroops(1);
@@ -308,7 +312,30 @@ public class Commands {
                 if (BoardLogic.checkWinner(player, board)) {
                     game.getGameState().setWinner(player);
                 }
-                game.getMessages().addGameMessage(new GameMessage("Attack", outcome.toString()));
+                
+                StringBuilder message = new StringBuilder();
+                message.append(player.getName());
+                message.append(" vs ");
+                message.append(defendingPlayer.getName());
+                message.append(";");
+                message.append(player.getName());
+                message.append(" lost ");
+                message.append(outcome.getTroopsLostByAttacker());
+                message.append(" troops;");
+                message.append(defendingPlayer.getName());
+                message.append(" lost ");
+                message.append(outcome.getTroopsLostByDefender());
+                message.append(" troops");
+                if (takeoverOccured) {
+                    message.append(";");
+                    message.append(player.getName());
+                    message.append(" has taken over ");
+                    message.append(defendingPlayer.getName());
+                    message.append("'s country.");
+                }
+                
+                
+                game.getMessages().addGameMessage(new GameMessage("Attack", message.toString()));
                 pushAllChanges(session, game, out);
                 break;
             }
