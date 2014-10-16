@@ -77,12 +77,6 @@ angular.module('gameApp')
             if ($rootScope.attackCountryID !== null && $rootScope.defendCountryID !== null) {
                 var send = JSON.stringify({Command: "Attack", Data: {AttackingCountry: $rootScope.attackCountryID, DefendingCountry: $rootScope.defendCountryID, CurrentPlayer: $rootScope.obj.Game.GameState.CurrentPlayer}});
                 postData(send);
-                $rootScope.attackCountryName = null;
-                $rootScope.attackTroops = null;
-                $rootScope.defendCountryName = null;
-                $rootScope.defendTroops = null;
-                $rootScope.defendCountryID = null;
-                $rootScope.attackCountryID = null;
             }
         };
         this.move = function () {

@@ -41,8 +41,8 @@
             <div class="create-game" >
                 <h3> Create Game </h3>
                 <form>
-                    <input id="create-text" type="text" class="input-type create-input" name="gamename" placeholder="Lobby Name">
-                    <input id="password-text" type="text" class="input-type create-input" name="password" placeholder="Password">
+                    <input id="create-text" type="text" class="input-type create-input create-actual" name="gamename" placeholder="Lobby Name">
+                    <input id="password-text" type="text" class="input-type create-input create-actual" name="password" placeholder="Password">
                     <button class="pretty-button create-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
                 </form>
             </div>
@@ -66,11 +66,11 @@
                     </div>
                 </div>
             </div>
-            <div id="chat-area" class="lobby-area right align-right" >
+            <div id="chat-area" class="lobby-area right" >
                 <button class="quit-button" type="button" ng-click="lobby.quitGame()"> Quit </button>
                 <div id="message-area">
                     <p ng-repeat="message in chatMessages">
-                        <em>{{message.Username}}</em> {{message.Message}}
+                        <b>{{message.Username}}:</b> {{message.Message}}
                     </p>
                 </div>
                 <div id="chat-bar" class="create-game" >
