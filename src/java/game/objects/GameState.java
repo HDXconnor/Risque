@@ -93,7 +93,7 @@ public class GameState {
         }
         json.put("Unassigned", board.getUnassigned());
         json.put("LobbyClosed", lobbyClosed());
-        if (winner != null) {
+        if (winner == null) {
             json.put("Winner", -1);
         } else {
             json.put("Winner", winner.getPlayerNum());
