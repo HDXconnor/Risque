@@ -396,6 +396,9 @@ public class Commands {
                 if (BoardLogic.isNeighbour(to, from)) {
                     // move troops
                     int troops = data.getInt("Troops");
+                    if (troops >= board.getCountry(from).getTroops()) {
+                        throw new CommandException("Command: MOVE. Source country does not have enough troops to move.");
+                    }
                     board.getCountry(to).setTroops(board.getCountry(to).getTroops() + troops);
                     board.getCountry(from).setTroops(board.getCountry(from).getTroops() - troops);
                     game.getMessages().addGameMessage(new GameMessage("Move", player.getName() + " moves " + troops + " from " + board.getCountry(from).getName() + " to " + board.getCountry(to).getName()));
