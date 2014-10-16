@@ -158,6 +158,8 @@ angular.module('gameApp')
                             postData(send);
                             if($rootScope.troopsToDeploy!=1){
                                 $rootScope.troopsToDeploy--;
+                            }if($rootScope.troopsToDeploy==0){
+                                $rootScope.phase="Attack";
                             }
                         }
                         if ($rootScope.phase === "Attack") {
