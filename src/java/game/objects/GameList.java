@@ -23,12 +23,11 @@ package game.objects;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GameList {
 
-    private static final Map<Integer, Game> games = new HashMap<>();
+    private static final ConcurrentHashMap<Integer, Game> games = new ConcurrentHashMap<>();
     private static long lastModified = System.currentTimeMillis();
     
     public static void add(Game game) {

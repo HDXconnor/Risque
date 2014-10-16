@@ -89,7 +89,7 @@ public class Game {
         boolean loser = true;
         HashMap<String, Country> countries = board.getAllCountries();
         for (Country country : countries.values()) {
-            if (country.getOwner() == gameState.getCurrentPlayer() && !phase.getPhase().equals(Phase.SETUP)) {
+            if (country.getOwner() == gameState.getCurrentPlayer() || phase.getPhase().equals(Phase.SETUP)) {
                 loser = false;
             }
         }
