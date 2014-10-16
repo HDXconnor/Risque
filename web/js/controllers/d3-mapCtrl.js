@@ -76,9 +76,20 @@ angular.module('gameApp')
                     var bbox = element.getBBox();
                     var x = bbox.x;
                     var y = bbox.y;
-                    var h = bbox.h;
-                    var w = bbox.w;
-                    
+                    var h = bbox.height;
+                    var w = bbox.width;
+                    var centerX = x + (w/2);
+                    var centerY = y + (h/2);
+                    console.log(bbox);
+                    $rootScope.svgMap.append("text")
+                        .attr("id",countryID + "Number")
+                        .attr("fill", "black")
+                        .attr("x", centerX)
+                        .attr("y", centerY)
+                        .attr("font-size", "20pt")
+                        .text(country.Troops)
+                        .attr("transform", "scale(" + scale + ")");
+
                     
                 });
             }
@@ -131,6 +142,7 @@ angular.module('gameApp')
 
                 index[0][0].addEventListener("mouseout", function () {
                     color($rootScope);
+                    troopCounters($rootScope);
                 }, true);
 
                 index[0][0].addEventListener("click", function () {
