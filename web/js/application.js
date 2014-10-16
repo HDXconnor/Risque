@@ -80,9 +80,9 @@
                 $rootScope.playerString = "player";
 
                 //sets first player to host
-                if ($rootScope.players.length !== 0) {
-                    $rootScope.host = $rootScope.players[0].DisplayName;
-                }
+//                if ($rootScope.players.length !== 0) {
+//                    $rootScope.host = $rootScope.players[0].DisplayName;
+//                }
                 
                 for (var i = 0; i < $rootScope.players.length ; i++) {
                     if ($rootScope.players[i].DisplayName === $rootScope.userName) {
@@ -92,6 +92,10 @@
                     if ($rootScope.CurrentPlayer === $rootScope.players[i].PlayerOrder) {
                         $rootScope.currentUserName = $rootScope.players[i].DisplayName;
                         $rootScope.troopsToDeploy = $rootScope.players[i].TroopsToDeploy;
+                        
+                    }
+                    if($rootScope.players[i].PlayerOrder==="0"){
+                        $rootScope.host = $rootScope.players[i].DisplayName;
                     }
                 }
 
