@@ -36,7 +36,6 @@ public class Game {
     private final int gameID;
     private final String password;
     private final MessageList messages;
-    private Player winner;
 
     public Game(String gameName, String password) {
         this.gameName = gameName;
@@ -87,16 +86,13 @@ public class Game {
         int countryBonus = (int) (Math.floor(countriesOwned / 4));
         playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(Math.max(3, countryBonus));
 
-        boolean loser = true;
         HashMap<String, Country> countries = board.getAllCountries();
-        for (String key : countries.keySet()) {
-            if (countries.get(key).getOwner() == gameState.getCurrentPlayer() && !phase.equals(Phase.SETUP)) {
-                loser = false;
+        for (Country country : countries.values()) {
+            if (country.getOwner() == gameState.getCurrentPlayer()  && !phase.getPhase().equals(Phase.SETUP)) {
+                return;
             }
         }
-        if (loser) {
-            this.nextPlayer();
-        }
+        nextPlayer();
     }
 
     public Player getCurrentPlayerObject() {
