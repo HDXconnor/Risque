@@ -301,6 +301,7 @@ public class Commands {
                 System.out.println(outcome);
 
                 // country loses troops
+                if (troopsLostByAttacker == attackingCountry.getTroops()) troopsLostByAttacker--;
                 attackingCountry.removeTroops(troopsLostByAttacker);
                 defendingCountry.removeTroops(troopsLostByDefender);
                 
