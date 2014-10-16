@@ -48,7 +48,9 @@
                 <h3> Players </h3>
                 <div>
                     <div class="player-box" ng-repeat="player in players">
-                        <canvas id={{playerString}}{{player.PlayerOrder}} class="player-color"> </canvas>
+                        <img id={{playerString}}{{player.PlayerOrder}} src="images/player-placeholder.jpg"  class="player-image lobby-player" ng-show="nameObj.PlayerImage == null"/>
+                        <img id={{playerString}}{{player.PlayerOrder}} src="{{nameObj.PlayerImage}}" class="player-image lobby-player" ng-hide="nameObj.PlayerImage == null"/>
+
                         <p class="player-name"> {{player.DisplayName}} </p>
                         <!--<img src="images/remove-button.jpg" class="remove-button"/>-->
                     </div>

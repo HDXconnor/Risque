@@ -440,30 +440,38 @@ h3
 }
 
 #player0 {
-    background-color: #FF3B30;
+    border-style: solid;
+    border-color: #FF3B30;
+    border-width: 5px;
 }
 
 #player1 {
-    background-color: #00ff1b;
+    border-color: #00ff1b;
+    border-width: 5px;
 }
 
 #player2 {
-    background-color: #66ffe7;
+    border-color: #66ffe7;
+    border-width: 5px;
 }
 
 #player3 {
-    background-color: #4A4A4A;
+    border-color: #4A4A4A;
+    border-width: 5px;
 }
 
 #player4 {
-    background-color: #6f3edb  ;
+    border-color: #6f3edb;
+    border-width: 5px;
 }
 
 #player5 {
-    background-color: #007AFF;
+    border-color: #007AFF;
+    border-width: 5px;
 }
 
 #grey-color
 {
     background-color: #999999;
+    border-width: 5px;
 }
