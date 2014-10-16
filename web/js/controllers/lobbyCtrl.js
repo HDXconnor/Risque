@@ -29,7 +29,7 @@ angular.module('gameApp')
                 };
 
                 this.gameType = function(password) {
-                    if (password == null) {
+                    if (password == false) {
                         return "Public";
                     } else {
                         return "Private";
@@ -44,7 +44,8 @@ angular.module('gameApp')
                    
                 this.setGameName= function () {
                     var gameName = document.getElementById("create-text").value;
-                    var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName, GamePassword: ""}});
+                    var password = document.getElementById("password-text").value;
+                    var startGameData = JSON.stringify({Command: "Create", Data: {GameName: gameName, GamePassword: password}});
                     postData(startGameData);
                     
                 };
@@ -65,7 +66,8 @@ angular.module('gameApp')
                 };
 
                 this.joinGame = function (gameID) {
-                    var startGameData = JSON.stringify({Command: "Join", Data: {GameID: gameID, GamePassword: ""}});
+                    var password = document.getElementById("private-text").value;
+                    var startGameData = JSON.stringify({Command: "Join", Data: {GameID: gameID, GamePassword: password}});
                     postData(startGameData);
                 };
 

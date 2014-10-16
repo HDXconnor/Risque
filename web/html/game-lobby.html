@@ -23,7 +23,11 @@
                         <img src="images/game-placeholder.jpg" id="lobby-game" class="player-image"/>
                         <h4 class="game-data"> {{game.GameName}} </h4>
                         <p class="game-data"> {{game.Players}}/6 </p>
-                        <p class="game-data"> {{lobby.gameType(game.Password)}} </p>
+                        <p class="game-data"> {{lobby.gameType(game.PasswordProtected)}} </p>
+                        <div ng-show="game.PasswordProtected">
+                            <input id="private-text" type="text" class="input-type create-input" name="password" placeholder="Password">
+                        </div>
+                        
                         <button class="join-button" type="button" ng-click="lobby.joinGame(game.GameID)"> Join </button>
                     </div>
                 </div>
@@ -38,6 +42,7 @@
                 <h3> Create Game </h3>
                 <form>
                     <input id="create-text" type="text" class="input-type create-input" name="gamename" placeholder="Lobby Name">
+                    <input id="password-text" type="text" class="input-type create-input" name="password" placeholder="Password">
                     <button class="pretty-button create-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
                 </form>
             </div>
