@@ -78,7 +78,7 @@ public class CountriesData {
         neighboursMap.put("AS08", new ArrayList(Arrays.asList("AS02", "AS03", "AS04", "AS05", "AS07", "EU01")));
         neighboursMap.put("AS09", new ArrayList(Arrays.asList("AS05", "AS10", "EU01")));
         neighboursMap.put("AS10", new ArrayList(Arrays.asList("AS09", "AS11", "EU06", "AF01", "AF03")));
-        neighboursMap.put("AS11", new ArrayList(Arrays.asList("AS10", "AF03", "AN01", "OC03")));
+        neighboursMap.put("AS11", new ArrayList(Arrays.asList("AS10", "AF03", "AN01", "OC03", "OC02")));
 
         // EUROPE
         countriesMap.put("EU01", "Ukraine");
@@ -112,7 +112,7 @@ public class CountriesData {
         countriesMap.put("OC03", "West Australia");
         neighboursMap.put("OC01", new ArrayList(Arrays.asList("OC03", "AS06")));
         neighboursMap.put("OC02", new ArrayList(Arrays.asList("OC03", "AN01", "AN03", "AS11")));
-        neighboursMap.put("OC03", new ArrayList(Arrays.asList("OC01", "OC02", "AN03")));
+        neighboursMap.put("OC03", new ArrayList(Arrays.asList("OC01", "OC02", "AN03", "AS11")));
         
         // ANTARCTICA 
         countriesMap.put("AN01", "Queen Maud Land");

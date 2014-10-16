@@ -12,7 +12,6 @@
     <img src="images/raptor-risk.png" id="top-logo" ng-show="userName==null"/>
     <login-box></login-box>
     <game-lobby></game-lobby>
-    
     <div id="game-frame" ng-show="gameStarted==true" >
         <left-box></left-box>
         <div id="svgMap"  ng-controller="MapController as map" ng-click="map.setupCountries()" ng-mouseover="map.setPlayerAttacker()" ></div>

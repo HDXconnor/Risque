@@ -36,7 +36,11 @@ angular.module('gameApp')
 
         this.endPhaseVis = function () {
             if ($rootScope.phase === "Attack" || $rootScope.phase === "Move") {
-                return $rootScope.isHidden;
+                if($rootScope.CurrentPlayer === $rootScope.thisUserNumber){
+                return $rootScope.isHidden;}
+            else{
+                return true;
+            }
             } else {
                 return true;
             }
@@ -47,6 +51,14 @@ angular.module('gameApp')
             postData(endPhaseData);
             if($rootScope.phase=="Attack"){
                 $rootScope.phase="Move";
+                $rootScope.defendCountryName = null;
+                $rootScope.defendOwner = null;
+                $rootScope.defendTroops = null;
+                $rootScope.defendCountryID = null;
+                $rootScope.attackCountryName = null;
+                $rootScope.attackOwner = null;
+                $rootScope.attackTroops = null;
+                $rootScope.attackCountryID = null;
             }else if($rootScope.phase="Move"){
                 $rootScope.phase="Deploy";
             }

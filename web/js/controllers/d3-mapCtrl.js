@@ -130,18 +130,6 @@ angular.module('gameApp')
                     });
 
                     angular.forEach($rootScope.board, function (index) {
-                        if ($rootScope.thisCountryID === index.CountryID) {
-//                            if ($rootScope.CurrentPlayer !== index.Owner) {
-//                                $rootScope.defendCountryName = index.CountryName;
-//                                $rootScope.defendOwner = index.Owner;
-//                                $rootScope.defendTroops = index.Troops;
-//                            } else {
-//                                $rootScope.attackCountryName = index.CountryName;
-//                                $rootScope.attackOwner = index.Owner;
-//                                $rootScope.attackTroops = index.Troops;
-//                            }
-                        }
-
                         angular.forEach($rootScope.players, function (player) {
                             if ($rootScope.attackOwner === player.PlayerOrder) {
                                 $rootScope.attackOwner = player.DisplayName;
@@ -172,13 +160,16 @@ angular.module('gameApp')
                         if ($rootScope.phase === "Deploy") {
                             var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.CurrentPlayer}});
                             postData(send);
-                            if($rootScope.troopsToDeploy!=1){
+                            angular.forEach($rootScope.board, function (index) {
+                            if ($rootScope.thisCountryID === index.CountryID){
+                            if(index.Owner===$rootScope.thisUserNumber){
+                            if($rootScope.troopsToDeploy!=0){
                                 $rootScope.troopsToDeploy--;
-                            }if($rootScope.troopsToDeploy==0){
-                                $rootScope.phase="Attack";
-                                $rootScope.$apply();
                             }
-                        }
+                            if($rootScope.troopsToDeploy==0){
+                                $rootScope.phase="Attack";
+                            }
+                        }}});};
                         if ($rootScope.phase === "Attack") {
                             angular.forEach($rootScope.board, function (index) {
                                 if ($rootScope.thisCountryID === index.CountryID) {
@@ -192,15 +183,7 @@ angular.module('gameApp')
                                 $rootScope.attackOwner = index.Owner;
                                 $rootScope.attackTroops = index.Troops;
                                 $rootScope.attackCountryID = $rootScope.thisCountryID;
-                            } 
-//                                    if ($rootScope.CurrentPlayer === index.Owner) {
-//                                        $rootScope.attackCountryID = $rootScope.thisCountryID;
-//                                        console.log("attack");
-//                                    }
-//                                    if ($rootScope.CurrentPlayer !== index.Owner) {
-//                                        $rootScope.defendCountryID = $rootScope.thisCountryID;
-//                                        console.log("defend");
-//                                    }
+                            }
                                 }
                             });
                         }
