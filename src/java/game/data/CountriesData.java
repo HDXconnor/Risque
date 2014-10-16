@@ -103,8 +103,8 @@ public class CountriesData {
         neighboursMap.put("AF01", new ArrayList(Arrays.asList("EU06", "AS10", "AF03", "AF02")));
         neighboursMap.put("AF02", new ArrayList(Arrays.asList("NA08", "NA04", "EU05", "EU06", "AF01", "AF03", "AF04", "SA02")));
         neighboursMap.put("AF03", new ArrayList(Arrays.asList("AF01", "AF02", "AF04", "AF05", "AN01", "AS11", "AS10")));
-        neighboursMap.put("AF04", new ArrayList(Arrays.asList("AF03", "AF02", "SA02")));
-        neighboursMap.put("AF05", new ArrayList(Arrays.asList("AF03", "AN01", "SA02", "SA04")));
+        neighboursMap.put("AF04", new ArrayList(Arrays.asList("AF05", "AF03", "AF02", "SA02")));
+        neighboursMap.put("AF05", new ArrayList(Arrays.asList("AF03", "AN01", "SA02", "SA04", "AF04")));
 
         // OCEANIA
         countriesMap.put("OC01", "Indonesia");
