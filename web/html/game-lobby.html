@@ -15,7 +15,7 @@
                 <button id="logout-button" class="pretty-button" type="button" ng-click="lobby.logOut()"> Log Out </button>
             </div>
         </div>
-        <div id="pre-game" ng-show="obj==null">
+        <div id="pre-game" ng-show="obj==null && gameStarted==false">
             <div id="games-list">
                 <h2 class="headings"> Games List </h2>
                 <div id="lobby-display">
@@ -23,7 +23,11 @@
                         <img src="images/game-placeholder.jpg" id="lobby-game" class="player-image"/>
                         <h4 class="game-data"> {{game.GameName}} </h4>
                         <p class="game-data"> {{game.Players}}/6 </p>
-                        <p class="game-data"> {{lobby.gameType(game.Password)}} </p>
+                        <p class="game-data"> {{lobby.gameType(game.PasswordProtected)}} </p>
+                        <div ng-show="game.PasswordProtected">
+                            <input id="private-text" type="text" class="input-type create-input" name="password" placeholder="Password">
+                        </div>
+                        
                         <button class="join-button" type="button" ng-click="lobby.joinGame(game.GameID)"> Join </button>
                     </div>
                 </div>
@@ -38,6 +42,7 @@
                 <h3> Create Game </h3>
                 <form>
                     <input id="create-text" type="text" class="input-type create-input" name="gamename" placeholder="Lobby Name">
+                    <input id="password-text" type="text" class="input-type create-input" name="password" placeholder="Password">
                     <button class="pretty-button create-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
                 </form>
             </div>
@@ -49,7 +54,7 @@
                 <div>
                     <div class="player-box" ng-repeat="player in players">
                         <img id={{playerString}}{{player.PlayerOrder}} src="images/player-placeholder.jpg"  class="player-image lobby-player" ng-show="nameObj.PlayerImage == null"/>
-                        <img id={{playerString}}{{player.PlayerOrder}} src="{{nameObj.PlayerImage}}" class="player-image lobby-player" ng-hide="nameObj.PlayerImage == null"/>
+                        <img id={{playerString}}{{player.PlayerOrder}} src="{{player.PlayerImage}}" class="player-image lobby-player" ng-hide="nameObj.PlayerImage == null"/>
 
                         <p class="player-name"> {{player.DisplayName}} </p>
                         <!--<img src="images/remove-button.jpg" class="remove-button"/>-->

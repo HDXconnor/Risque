@@ -5,7 +5,7 @@
         <div>
             <div class="player-box" ng-repeat="player in players">
                 <img id={{playerString}}{{player.PlayerOrder}} src="images/player-placeholder.jpg"  class="player-image lobby-player" ng-show="nameObj.PlayerImage == null"/>
-                <img id={{playerString}}{{player.PlayerOrder}} src="{{nameObj.PlayerImage}}" class="player-image lobby-player" ng-hide="nameObj.PlayerImage == null"/>
+                <img id={{playerString}}{{player.PlayerOrder}} src="{{player.PlayerImage}}" class="player-image lobby-player" ng-hide="nameObj.PlayerImage == null"/>
 
                 <p class="player-name">{{player.DisplayName}}</p>
                 <img src="images/current-player.png" class="current-marker" ng-show="CurrentPlayer==player.PlayerOrder"/>

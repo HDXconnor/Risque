@@ -446,26 +446,31 @@ h3
 }
 
 #player1 {
+    border-style: solid;
     border-color: #00ff1b;
     border-width: 5px;
 }
 
 #player2 {
+    border-style: solid;
     border-color: #66ffe7;
     border-width: 5px;
 }
 
 #player3 {
+    border-style: solid;
     border-color: #4A4A4A;
     border-width: 5px;
 }
 
 #player4 {
+    border-style: solid;
     border-color: #6f3edb;
     border-width: 5px;
 }
 
 #player5 {
+    border-style: solid;
     border-color: #007AFF;
     border-width: 5px;
 }
