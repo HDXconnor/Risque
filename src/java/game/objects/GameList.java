@@ -43,7 +43,7 @@ public class GameList {
     }
     
     public static JSONObject getGameListJSON() throws JSONException {
-        cullList();
+        cullEmptyGames();
         JSONArray arr = new JSONArray();
         for (int gameID:games.keySet()) {
             Game game = games.get(gameID);
@@ -59,7 +59,7 @@ public class GameList {
         return new JSONObject().put("GameList", arr);
     }
     
-    private static void cullList() {
+    private static void cullEmptyGames() {
         for (int gameID : games.keySet()) {
             if (games.get(gameID).getPlayerList().getNumberOfPlayers() == 0) {
                 games.remove(gameID);
