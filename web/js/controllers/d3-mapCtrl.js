@@ -144,6 +144,9 @@ angular.module('gameApp')
                         if ($rootScope.phase === "Deploy") {
                             var send = JSON.stringify({Command: "Deploy", Data: {CountryClicked: $rootScope.thisCountryID, CurrentPlayer: $rootScope.CurrentPlayer}});
                             postData(send);
+                            if($rootScope.troopsToDeploy!=1){
+                                $rootScope.troopsToDeploy--;
+                            }
                         }
                         if ($rootScope.phase === "Attack") {
                             angular.forEach($rootScope.board, function (index) {

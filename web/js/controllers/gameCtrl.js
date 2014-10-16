@@ -9,15 +9,19 @@ angular.module('gameApp')
             postData(endTurnData);
         };
 
-        this.quitGame = function () {
-            var quitGameData = JSON.stringify({Command: "Quit", Data: {}});
-            postData(quitGameData);
-            $rootScope.obj = null;
-            $rootScope.gameStarted = false;
-        };
+
         this.magic = function(){
-            console.log($rootScope.gameMessages[0].Message);
-            console.log($rootScope.chatObj);
+            console.log($rootScope.chatMessages);
+        };
+        this.sendChat = function() {
+            var chatString = document.getElementById("game-chatbox").value.trim();
+            if (chatString) {
+                var chatData = JSON.stringify({Data: {Username: $rootScope.userName, Message: chatString}});
+                $rootScope.chatMessages.push({Username: $rootScope.userName,Message: chatString});
+                $http({method: 'POST', url: 'ChatServlet', headers: {'Content-Type': 'application/json'}, data: chatData}).success(function () {
+                    document.getElementById("game-chatbox").value = "";
+                });
+            }
         };
 
         function postData(data) {
