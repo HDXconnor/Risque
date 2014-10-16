@@ -381,7 +381,7 @@ public class Commands {
                 }
 
                 // Get data from the sent JSON
-                if (data.getString("AttackingCountry").equals(null) || data.getString("DefendingCountry").equals(null)) {
+                if (data.getString("CountryClicked").equals(null) || data.getString("SourceCountry").equals(null)) {
                     throw new CommandException("Command: ATTACK. Null data.");
                 }
                 String to = data.getString("CountryClicked");
