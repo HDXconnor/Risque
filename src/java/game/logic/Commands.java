@@ -23,6 +23,7 @@ import game.objects.exceptions.TroopsException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -262,14 +263,17 @@ public class Commands {
                     throw new CommandException("Command: ATTACK. Not in attack phase.");
                 }
                 // Get data from the sent JSON
-                if (data.getString("AttackingCountry") == null || data.getString("DefendingCountry") == null ) {
+                if (data.getString("AttackingCountry") == null || data.getString("DefendingCountry") == null) {
                     throw new CommandException("Command: ATTACK. Null data.");
                 }
                 String attacker = data.getString("AttackingCountry");
                 String defender = data.getString("DefendingCountry");
                 Country attackingCountry = board.getCountry(attacker);
                 Country defendingCountry = board.getCountry(defender);
-                
+                if (attackingCountry.getOwner() == defendingCountry.getOwner()) {
+                    throw new CommandException("Command: ATTACK. Player owns both countries.");
+                }
+
                 Player defendingPlayer = game.getPlayerList().getPlayer(defendingCountry.getOwner());
 
                 // the two countries must be neighbours
@@ -304,10 +308,12 @@ public class Commands {
                 System.out.println(outcome);
 
                 // country loses troops
-                if (troopsLostByAttacker == attackingCountry.getTroops()) troopsLostByAttacker--;
+                if (troopsLostByAttacker == attackingCountry.getTroops()) {
+                    troopsLostByAttacker--;
+                }
                 attackingCountry.removeTroops(troopsLostByAttacker);
                 defendingCountry.removeTroops(troopsLostByDefender);
-                
+
                 // check if takeover occurred
                 boolean takeoverOccured = false;
                 if (defendingCountry.getTroops() == 0) {
@@ -316,18 +322,18 @@ public class Commands {
                     defendingCountry.setTroops(attackingCountry.getTroops() - 1);
                     attackingCountry.setTroops(1);
                 }
-                
+
                 // Win condition - if all countries owned by player, win.
                 if (BoardLogic.checkWinner(player, board)) {
                     game.getGameState().setWinner(player);
                 }
-                
+
                 StringBuilder message = new StringBuilder();
-                
+
                 message.append(attackingCountry.getName());
                 message.append(" has attacked ");
                 message.append(defendingCountry.getName());
-                
+
                 if (troopsLostByAttacker > 0) {
                     message.append(";");
                     message.append(attackingCountry.getName());
@@ -338,7 +344,7 @@ public class Commands {
                         message.append("s");
                     }
                 }
-                
+
                 if (troopsLostByDefender > 0) {
                     message.append(";");
                     message.append(defendingPlayer.getName());
@@ -349,7 +355,7 @@ public class Commands {
                         message.append("s");
                     }
                 }
-                
+
                 if (takeoverOccured) {
                     message.append(";");
                     message.append(player.getName());
@@ -359,7 +365,7 @@ public class Commands {
                     message.append(defendingCountry.getName());
                     message.append(".");
                 }
-                
+
                 game.getMessages().addGameMessage(new GameMessage("Attack", message.toString()));
                 pushAllChanges(session, game, out);
                 break;
@@ -421,9 +427,9 @@ public class Commands {
                 countries.addAll(board.getAllCountries().values());
                 Collections.shuffle(countries);
                 for (Country country : countries) {
-                        country.setOwner(game.getGameState().getCurrentPlayer());
-                        country.setTroops(1);
-                        game.nextPlayer();
+                    country.setOwner(game.getGameState().getCurrentPlayer());
+                    country.setTroops(1);
+                    game.nextPlayer();
                 }
                 game.getGameState().closeLobby();
                 game.endPhase();
