@@ -150,7 +150,7 @@ body
 .quit-button
 {
     width: 26.5%;
-    /* float: right; */
+    /*float: right;*/
     margin-right: 9%;
     /*display: inline;*/
     background: rgba(153, 153, 153, 0.64);
@@ -161,6 +161,14 @@ body
     border: none;
 }
 
+.percent9
+{
+    width: 91%;
+}
+.percent3
+{
+    width: 30%;
+}
 .chat-form {
     margin-right: 7%;
     margin-top: 4%;
@@ -215,13 +223,13 @@ body
 {
     display: inline-block;
     margin-left: 10px;
-    width: 22.5%;
+    width: 17%;
 }
 
 .lobby-list
 {
     min-height: 55px;
-    margin: 5px 15%;
+    margin: 5px 5%;
 }
 .lobby-player
 {
@@ -330,7 +338,7 @@ h3
 }
 .pretty-button
 {
-    width: 30%;
+    /*width: 30%;*/
     display: inline-block;
     background-color:  rgba(153, 153, 153, 0.64);
     color: #ffffff;

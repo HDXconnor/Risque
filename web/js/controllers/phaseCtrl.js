@@ -65,7 +65,7 @@ angular.module('gameApp')
                 $rootScope.attackTroops = null;
                 $rootScope.attackCountryID = null;
             }else if($rootScope.phase="Move"){
-                $rootScope.phase="Deploy";
+//                $rootScope.phase="Deploy";
             }
         }
 
