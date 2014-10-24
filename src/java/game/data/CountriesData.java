@@ -90,7 +90,7 @@ public class CountriesData {
         neighboursMap.put("EU01", new ArrayList(Arrays.asList("EU02", "EU03", "AS05", "AS07", "AS08", "AS09")));
         neighboursMap.put("EU02", new ArrayList(Arrays.asList("EU01", "EU03", "EU04", "EU05")));
         neighboursMap.put("EU03", new ArrayList(Arrays.asList("EU01", "EU02", "EU04", "NA03")));
-        neighboursMap.put("EU04", new ArrayList(Arrays.asList("EU03", "EU05", "NA03")));
+        neighboursMap.put("EU04", new ArrayList(Arrays.asList("EU02" , "EU03", "EU05", "NA03")));
         neighboursMap.put("EU05", new ArrayList(Arrays.asList("EU02", "EU04", "EU06", "NA03", "NA04", "AF02")));
         neighboursMap.put("EU06", new ArrayList(Arrays.asList("EU05", "AS10", "AF01", "AF02")));
         
@@ -129,7 +129,7 @@ public class CountriesData {
         countriesMap.put("SA02", "Brazil");
         countriesMap.put("SA03", "Peru");
         countriesMap.put("SA04", "Argentina");
-        neighboursMap.put("SA01", new ArrayList(Arrays.asList("SA02", "SA03")));
+        neighboursMap.put("SA01", new ArrayList(Arrays.asList("NA08", "SA02", "SA03")));
         neighboursMap.put("SA02", new ArrayList(Arrays.asList("SA01", "SA03", "SA04", "AF02", "AF05", "AF04")));
         neighboursMap.put("SA03", new ArrayList(Arrays.asList("SA01", "SA02", "SA04", "NA09")));
         neighboursMap.put("SA04", new ArrayList(Arrays.asList("SA03", "SA02", "AF05")));
