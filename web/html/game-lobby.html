@@ -24,7 +24,7 @@
                         <h4 class="game-data"> {{game.GameName}} </h4>
                         <p class="game-data"> {{game.Players}}/6 </p>
                         <p class="game-data"> {{lobby.gameType(game.PasswordProtected)}} </p>
-                        <div ng-show="game.PasswordProtected">
+                        <div ng-show="game.PasswordProtected" class="game-data">
                             <input id="private-text" type="text" class="input-type create-input" name="password" placeholder="Password">
                         </div>
                         
@@ -41,8 +41,8 @@
             <div class="create-game" >
                 <h3> Create Game </h3>
                 <form>
-                    <input id="create-text" type="text" class="input-type create-input" name="gamename" placeholder="Lobby Name">
-                    <input id="password-text" type="text" class="input-type create-input" name="password" placeholder="Password">
+                    <input id="create-text" type="text" class="input-type create-input create-actual" name="gamename" placeholder="Lobby Name">
+                    <input id="password-text" type="text" class="input-type create-input create-actual" name="password" placeholder="Password">
                     <button class="pretty-button create-button" type="button"  ng-click="lobby.setGameName()"> Create </button>
                 </form>
             </div>
@@ -66,11 +66,11 @@
                     </div>
                 </div>
             </div>
-            <div id="chat-area" class="lobby-area right align-right" >
-                <button class="quit-button" type="button" ng-click="lobby.quitGame()"> Quit </button>
+            <div id="chat-area" class="lobby-area right" >
+                <button class="quit-button right" type="button" ng-click="lobby.quitGame()"> Quit </button>
                 <div id="message-area">
                     <p ng-repeat="message in chatMessages">
-                        <em>{{message.Username}}</em> {{message.Message}}
+                        <b>{{message.Username}}: </b> {{message.Message}}
                     </p>
                 </div>
                 <div id="chat-bar" class="create-game" >
@@ -81,8 +81,8 @@
                 </div>
             </div>
             <div id="start-area">
-                <button id="start-button" class="pretty-button start-buttons" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
-                <button id="quickstart-button" class="pretty-button start-buttons" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.quickStart()"> Quick Start </button>
+                <button id="start-button" class="pretty-button start-buttons percent3" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.closeLobby()"> Start Game </button>
+                <button id="quickstart-button" class="pretty-button start-buttons percent3" type="button"  ng-show = "lobby.isHost()" ng-click="lobby.quickStart()"> Quick Start </button>
                 <p id="bottom-margin" class="center" ng-hide = "lobby.isHost()" > Host will start the game shortly </p>
             </div>
         </div>

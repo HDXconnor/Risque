@@ -20,13 +20,11 @@
             <div id="attack-box" class="game-box">
                 <h3>Attacking Country</h3>
                 <p>Country: {{attackCountryName}}</p>
-                <p>Troops: {{attackTroops}}</p>
 
                 <h3>Defending Country</h3>
                 <p>Country: {{defendCountryName}}</p>
-                <p>Troops: {{defendTroops}}</p>
 
-                <button id="attack1" class="pretty-button" type="button" ng-click="phaseC.attack()"><strong>Attack</strong></button>
+                <button id="attack1" class="percent9 pretty-button" type="button" ng-click="phaseC.attack()"><strong>Attack</strong></button>
             </div>
         </div>
         <div ng-hide="phaseC.deployBoxes()">
@@ -47,13 +45,13 @@
                 <img src="images/current-player.png" class="notification-nav left" ng-click="phaseC.decrement()"/>
                 <p id="game-notification">{{amountTroopsToMove}}</p>
                 <img src="images/current-player-reverse.png" class="notification-nav right" ng-click="phaseC.increment()"/>
-                <button id="reinf" class="pretty-button" type="button" ng-click="phaseC.move()"><strong>Move Troops</strong></button>
+                <button id="reinf" class="percent9 pretty-button" type="button" ng-click="phaseC.move()"><strong>Move Troops</strong></button>
             </div>
         </div>
     </div>
     <div id="game-chat" class="game-box">
         <div >
-            <button id="endphase" class="pretty-button fat" type="button" ng-click="phaseC.endPhase()" ng-hide="phaseC.endPhaseVis()"> End Phase</button>
+            <button id="endphase" class="percent9 pretty-button" type="button" ng-click="phaseC.endPhase()" ng-hide="phaseC.endPhaseVis()"> End Phase</button>
             <button class="quit-button fat" type="button" ng-click="phaseC.quitGame()"> Quit </button>
         </div>
     </div>
