@@ -17,7 +17,6 @@ package game.objects;
 
 import game.objects.exceptions.PlayerException;
 import java.util.ArrayList;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.List;
@@ -122,8 +121,8 @@ public class PlayerList {
         throw new PlayerException("Player not found");
     }
     
-    public JSONArray getPlayersJSON() throws JSONException {
-        JSONArray arr = new JSONArray();
+    public JSONObject getPlayersJSON() throws JSONException {
+        JSONObject obj = new JSONObject();
         for (int key:players.keySet()) {
             JSONObject json = new JSONObject();
             Player player = players.get(key);
@@ -134,9 +133,9 @@ public class PlayerList {
                 json.put("PlayerImage", player.getPlayerImage());
             }
             json.put("TroopsToDeploy", player.getTroopsToDeploy());
-            arr.put(json);
+            obj.put(Integer.toString(key), json);
         }
-        return arr;
+        return obj;
     }
 
     /**
@@ -154,6 +153,14 @@ public class PlayerList {
             sessions.add(player.getSession());
         }
         return sessions;
+    }
+    
+    public int getNextPlayer(int currentPlayer) throws PlayerException {
+        for (int i = 0; i < 6; i++) {
+            currentPlayer = (currentPlayer + i) % 6;
+            if (players.containsKey(currentPlayer)) return currentPlayer;
+        }
+        throw new PlayerException("getNextPlayer() broke.");
     }
     
 }

@@ -15,6 +15,7 @@
  */
 package game.objects;
 
+import game.objects.exceptions.PlayerException;
 import game.objects.exceptions.TroopsException;
 import java.util.HashMap;
 import org.json.JSONException;
@@ -61,7 +62,7 @@ public class Game {
         return board;
     }
 
-    public void endPhase() throws TroopsException {
+    public void endPhase() throws TroopsException, PlayerException {
         switch (phase.getPhase()) {
             case Phase.SETUP:
                 gameState.startGame();
@@ -75,13 +76,14 @@ public class Game {
         phase.nextPhase();
     }
 
-    public void endTurn() throws TroopsException {
+    public void endTurn() throws TroopsException, PlayerException {
         nextPlayer();
         gameState.nextTurn();
     }
 
-    public void nextPlayer() throws TroopsException {
-        gameState.setCurrentPlayer((gameState.getCurrentPlayer() + 1) % playerList.getNumberOfPlayers());
+    public void nextPlayer() throws TroopsException, PlayerException {
+        gameState.setCurrentPlayer(playerList.getNextPlayer(gameState.getCurrentPlayer()));
+        System.out.println(gameState.getCurrentPlayer());
         int countriesOwned = board.getNumberOfCountriesOwned(playerList.getPlayer(gameState.getCurrentPlayer()));
         int countryBonus = (int) (Math.floor(countriesOwned / 4));
         playerList.getPlayer(gameState.getCurrentPlayer()).setNumberOfTroopsToDeploy(Math.max(3, countryBonus));
