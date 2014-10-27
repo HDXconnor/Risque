@@ -128,7 +128,7 @@ public class PlayerList {
             Player player = players.get(key);
             json.put("PlayerID", "TEMP_ID_00"+(key+1));
             json.put("DisplayName", player.getName());
-            json.put("PlayerOrder", key);
+            //json.put("PlayerOrder", key);
             if (player.getPlayerImage() != null) {
                 json.put("PlayerImage", player.getPlayerImage());
             }
