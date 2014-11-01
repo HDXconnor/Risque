@@ -5,6 +5,9 @@
  */
 package game.tests;
 
+import game.objects.Game;
+import game.objects.exceptions.PlayerException;
+import org.json.JSONException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,6 +20,7 @@ import static org.junit.Assert.*;
  * @author Simeon
  */
 public class PlayerListTest {
+    Game game;
     
     public PlayerListTest() {
     }
@@ -31,14 +35,26 @@ public class PlayerListTest {
     
     @Before
     public void setUp() {
+        game = new Game("name", "pw");
     }
     
     @After
     public void tearDown() {
+        game = null;
     }
 
     @Test
-    public void donothing() {
-        
+    public void testNextAvailableSpot() throws JSONException {
+        game.getPlayerList().getPlayersJSON();
+    }
+    
+    @Test(expected=PlayerException.class)
+    public void testPlayerExceptionWithGet() throws PlayerException {
+        game.getPlayerList().getPlayer("doesn't exist");
+    }
+    
+    @Test(expected=PlayerException.class)
+    public void testPlayerExceptionWithRemove() throws PlayerException {
+        game.getPlayerList().removePlayer("doesn't exist");
     }
 }
