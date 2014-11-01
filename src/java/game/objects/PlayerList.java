@@ -128,7 +128,7 @@ public class PlayerList {
             Player player = players.get(key);
             json.put("PlayerID", "TEMP_ID_00"+(key+1));
             json.put("DisplayName", player.getName());
-            //json.put("PlayerOrder", key);
+            json.put("PlayerOrder", key);
             if (player.getPlayerImage() != null) {
                 json.put("PlayerImage", player.getPlayerImage());
             }
@@ -157,7 +157,7 @@ public class PlayerList {
     
     public int getNextPlayer(int currentPlayer) throws PlayerException {
         for (int i = 0; i < 6; i++) {
-            currentPlayer = (currentPlayer + i) % 6;
+            currentPlayer = (currentPlayer + 1) % 6;
             if (players.containsKey(currentPlayer)) return currentPlayer;
         }
         throw new PlayerException("getNextPlayer() broke.");

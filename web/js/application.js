@@ -80,7 +80,7 @@
                 $rootScope.playerString = "player";
 
                 
-                for (var i = 0; i < $rootScope.players.length ; i++) {
+                for (var i = 0; i < Object.keys($rootScope.players).length ; i++) {
                     if ($rootScope.players[i].DisplayName === $rootScope.userName) {
                         $rootScope.thisUserNumber = i;
                     }                  
